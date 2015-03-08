@@ -26,25 +26,61 @@
 package com.prt2121.amu.ui;
 
 import com.prt2121.amu.R;
+import com.prt2121.amu.util.FirstRunChecker;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 public class SplashActivity extends ActionBarActivity {
+
+    private static final String TAG = SplashActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        int splashScreenTimeout = 4000;
-        new Handler().postDelayed(() -> {
-            Class<?> clazz = OnboardingActivity.class;
-            Intent intent = new Intent(SplashActivity.this, clazz);
-            SplashActivity.this.startActivity(intent);
-            SplashActivity.this.finish();
-        }, splashScreenTimeout);
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.container, new SplashFragment())
+                    .commit();
+        }
+    }
+
+    public static class SplashFragment extends Fragment {
+
+        public SplashFragment() {
+        }
+
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setRetainInstance(true);
+            Activity activity = getActivity();
+            boolean firstTime = FirstRunChecker.isFirstRun(activity, TAG);
+            int splashScreenTimeout = firstTime ? 3000 : 1500;
+            Class<?> clazz = firstTime ? OnboardingActivity.class : MapsActivity.class;
+            if (firstTime) {
+                FirstRunChecker.setFirstRun(activity, TAG);
+            }
+            new Handler().postDelayed(() -> {
+                Intent intent = new Intent(activity, clazz);
+                activity.startActivity(intent);
+                activity.finish();
+            }, splashScreenTimeout);
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                Bundle savedInstanceState) {
+            return inflater.inflate(R.layout.fragment_splash, container, false);
+        }
     }
 
 }

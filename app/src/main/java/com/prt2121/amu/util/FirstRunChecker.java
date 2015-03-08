@@ -23,36 +23,28 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-apply plugin: 'com.android.application'
-apply plugin: 'me.tatarka.retrolambda'
+package com.prt2121.amu.util;
 
-android {
-    compileSdkVersion 21
-    buildToolsVersion "21.1.2"
+import android.content.Context;
+import android.content.SharedPreferences;
 
-    defaultConfig {
-        applicationId "com.prt2121.amu"
-        minSdkVersion 17
-        targetSdkVersion 21
-        versionCode 1
-        versionName "1.0"
-    }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-}
+/**
+ * Created by pt2121 on 3/8/15.
+ */
+public class FirstRunChecker {
 
-dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:21.0.3'
-    compile 'uk.co.chrisjenx:calligraphy:2.0.0'
-    compile 'io.reactivex:rxandroid:0.24.0'
-    compile 'com.google.android.gms:play-services:6.5.87'
+    public static final String FIRST_RUN = "firstRun";
+
+    public static boolean isFirstRun(Context context, String activityName) {
+        SharedPreferences preferences = context.getSharedPreferences(FIRST_RUN, Context.MODE_PRIVATE);
+        return (!preferences.contains(activityName) || preferences.getBoolean(activityName, false));
+    }
+
+    public static void setFirstRun(Context context, String activityName) {
+        SharedPreferences preferences = context.getSharedPreferences(FIRST_RUN, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean(activityName, false);
+        editor.apply();
+    }
+
 }
