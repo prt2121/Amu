@@ -1,4 +1,4 @@
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2015 Prat Tanapaisankit and Intellibins authors
   ~
   ~ Redistribution and use in source and binary forms, with or without
@@ -23,10 +23,8 @@
   ~ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   -->
 
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/map"
-    tools:context="com.prt2121.amu.ui.MapActivity"
-    android:name="com.google.android.gms.maps.SupportMapFragment" />
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/lets_start_button_hover" android:state_pressed="true" android:textColor="@android:color/black" />
+    <item android:drawable="@drawable/lets_start_button_hover" android:state_focused="true" android:textColor="@android:color/black" />
+    <item android:drawable="@drawable/lets_start_button" android:textColor="@android:color/white" />
+</selector>

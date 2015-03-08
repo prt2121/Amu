@@ -26,40 +26,96 @@
 package com.prt2121.amu.ui;
 
 import com.prt2121.amu.R;
+import com.prt2121.amu.view.CirclePageIndicator;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
-public class OnboardingActivity extends ActionBarActivity {
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
+public class OnboardingActivity extends ActionBarActivity
+        implements ViewPager.OnPageChangeListener {
+
+    private static final int NUM_PAGES = 3;
+
+    private ViewPager mPager;
+
+    private Button mSkipButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_onboarding);
+
+        mPager = (ViewPager) findViewById(R.id.onboardingViewPager);
+        PagerAdapter pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+        mPager.setAdapter(pagerAdapter);
+
+        CirclePageIndicator circlePageIndicator =
+                (CirclePageIndicator) findViewById(R.id.indicator);
+        circlePageIndicator.setViewPager(mPager);
+        circlePageIndicator.setOnPageChangeListener(this);
+
+        mSkipButton = (Button) findViewById(R.id.skipButton);
+        mSkipButton.setOnClickListener(skipButtonOnClickListener);
     }
 
+    View.OnClickListener skipButtonOnClickListener = v -> {
+        Intent intent = new Intent(OnboardingActivity.this, MapActivity.class);
+        OnboardingActivity.this.startActivity(intent);
+        OnboardingActivity.this.finish();
+    };
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_onboarding, menu);
-        return true;
+    public void onBackPressed() {
+        if (mPager.getCurrentItem() == 0) {
+            super.onBackPressed();
+        } else {
+            mPager.setCurrentItem(mPager.getCurrentItem() - 1);
+        }
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+    }
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+    @Override
+    public void onPageSelected(int position) {
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+    }
+
+    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
+
+        public ScreenSlidePagerAdapter(FragmentManager fm) {
+            super(fm);
         }
 
-        return super.onOptionsItemSelected(item);
+        @Override
+        public Fragment getItem(int position) {
+            return OnboardingFragment.newInstance(position);
+        }
+
+        @Override
+        public int getCount() {
+            return NUM_PAGES;
+        }
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }
+

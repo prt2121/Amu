@@ -28,8 +28,7 @@
     <string name="intellibins">Intellibins</string>
     <string name="slogan">Recycling made easy.</string>
 
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
     <string name="title_activity_onboarding">OnboardingActivity</string>
     <string name="title_activity_maps">Map</string>
+    <string name="lets_get_started">Let\'s get started</string>
 </resources>

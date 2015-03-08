@@ -26,60 +26,63 @@
 package com.prt2121.amu.ui;
 
 import com.prt2121.amu.R;
-import com.prt2121.amu.util.FirstRunChecker;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
-public class SplashActivity extends ActionBarActivity {
+/**
+ * Created by pt2121 on 3/8/15.
+ */
+public class OnboardingFragment extends Fragment {
 
-    private static final String TAG = SplashActivity.class.getSimpleName();
+    public static final String ARG_POSITION = "position";
+
+    public static OnboardingFragment newInstance(int position) {
+        OnboardingFragment f = new OnboardingFragment();
+        Bundle args = new Bundle();
+        args.putInt(ARG_POSITION, position);
+        f.setArguments(args);
+        return f;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new SplashFragment())
-                    .commit();
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.view_onboarding, container, false);
+        final int position = getArguments().getInt(ARG_POSITION);
+        ((TextView) rootView.findViewById(R.id.onboardingTextView)).setText(
+                getOnboardingText(position));
+        rootView.findViewById(R.id.content).setBackgroundResource(getBackgroundId(position));
+        return rootView;
+    }
+
+    private String getOnboardingText(int position) {
+        switch (position) {
+            case 0:
+                return "Find the nearest recycling bins within walking distance.";
+            case 1:
+                return "Learn about which stores take stuff back.";
+            case 2:
+                return "Start making a difference one can at a time.";
+            default:
+                return "";
         }
     }
 
-    public static class SplashFragment extends Fragment {
-
-        public SplashFragment() {
-        }
-
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setRetainInstance(true);
-            Activity activity = getActivity();
-            boolean firstTime = FirstRunChecker.isFirstRun(activity, TAG);
-            int splashScreenTimeout = firstTime ? 3000 : 1500;
-            Class<?> clazz = firstTime ? OnboardingActivity.class : MapActivity.class;
-            if (firstTime) {
-                FirstRunChecker.setFirstRun(activity, TAG);
-            }
-            new Handler().postDelayed(() -> {
-                Intent intent = new Intent(activity, clazz);
-                activity.startActivity(intent);
-                activity.finish();
-            }, splashScreenTimeout);
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            return inflater.inflate(R.layout.fragment_splash, container, false);
+    private int getBackgroundId(int position) {
+        switch (position) {
+            case 0:
+                return R.drawable.onboarding_1;
+            case 1:
+                return R.drawable.onboarding_2;
+            case 2:
+                return R.drawable.onboarding_3;
+            default:
+                return R.drawable.onboarding_1;
         }
     }
 

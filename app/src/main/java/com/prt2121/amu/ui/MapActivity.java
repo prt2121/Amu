@@ -35,7 +35,7 @@ import com.prt2121.amu.R;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
-public class MapsActivity extends FragmentActivity {
+public class MapActivity extends FragmentActivity {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
 
