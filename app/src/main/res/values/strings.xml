@@ -27,8 +27,10 @@
     <string name="app_name">Intellibins</string>
     <string name="intellibins">Intellibins</string>
     <string name="slogan">Recycling made easy.</string>
-
     <string name="title_activity_onboarding">OnboardingActivity</string>
     <string name="title_activity_maps">Map</string>
     <string name="lets_get_started">Let\'s get started</string>
+    <string name="preference_first_run">firstRunPreference</string>
+    <string name="preference_user_location">userLocationPreference</string>
+    <string name="user_location">userLocation</string>
 </resources>

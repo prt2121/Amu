@@ -25,28 +25,35 @@
 
 package com.prt2121.amu.util;
 
+import com.google.gson.Gson;
+
 import com.prt2121.amu.R;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.location.Location;
 
 /**
  * Created by pt2121 on 3/8/15.
  */
-public class FirstRunChecker {
+public class UserLocationUtil {
 
-    public static boolean isFirstRun(Context context, String activityName) {
-        String firstRun = context.getString(R.string.preference_first_run);
-        SharedPreferences preferences = context.getSharedPreferences(firstRun, Context.MODE_PRIVATE);
-        return (!preferences.contains(activityName) || preferences.getBoolean(activityName, false));
+    public static void saveUserLocationToPreference(Context context, Location location) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_user_location), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(location);
+        editor.putString(context.getString(R.string.user_location), json);
+        editor.apply();
     }
 
-    public static void setFirstRun(Context context, String activityName) {
-        String firstRun = context.getString(R.string.preference_first_run);
-        SharedPreferences preferences = context.getSharedPreferences(firstRun, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean(activityName, false);
-        editor.apply();
+    public static Location getUserLocationFromPreference(Context context) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_user_location), Context.MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPref.getString(context.getString(R.string.user_location), null);
+        return gson.fromJson(json, Location.class);
     }
 
 }
