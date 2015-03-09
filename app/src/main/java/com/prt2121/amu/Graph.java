@@ -25,43 +25,23 @@
 
 package com.prt2121.amu;
 
+import com.prt2121.amu.ui.MapActivity;
+import com.prt2121.amu.userlocation.IUserLocation;
 import com.prt2121.amu.userlocation.UserLocationModule;
 
-import android.app.Application;
+import javax.inject.Singleton;
 
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import dagger.Component;
 
 /**
- * Created by pt2121 on 3/7/15.
+ * Created by pt2121 on 3/8/15.
  */
-public class AmuApp extends Application {
+@Singleton
+@Component(modules = UserLocationModule.class)
+public interface Graph {
 
-    private static AmuApp mInstace;
+    IUserLocation locateUser();
 
-    private Graph mGraph;
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        mInstace = this;
-        mGraph = Dagger_Graph.builder()
-                .userLocationModule(new UserLocationModule(getApplicationContext()))
-                .build();
-
-        // custom font
-        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                        .setDefaultFontPath("fonts/Lato-Regular.ttf")
-                        .setFontAttrId(R.attr.fontPath)
-                        .build()
-        );
-    }
-
-    public static AmuApp getInstance() {
-        return mInstace;
-    }
-
-    public Graph getGraph() {
-        return mGraph;
-    }
+    void inject(MapActivity activity);
 
 }

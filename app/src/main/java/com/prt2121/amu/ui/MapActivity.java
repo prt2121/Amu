@@ -30,20 +30,54 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import com.prt2121.amu.AmuApp;
 import com.prt2121.amu.R;
+import com.prt2121.amu.userlocation.IUserLocation;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
+
+import javax.inject.Inject;
+
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class MapActivity extends FragmentActivity {
 
+    private static final String TAG = MapActivity.class.getSimpleName();
+
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+
+    @Inject
+    IUserLocation mUserLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         setUpMapIfNeeded();
+
+        AmuApp.getInstance().getGraph().inject(this);
+
+        findUserLocation();
+        //mUserLocation.stop()
+    }
+
+    private void findUserLocation() {
+        mUserLocation.locate()
+                .filter(location -> location != null)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(location -> {
+                    if (location == null) {
+                        Log.d(TAG, "location is null");
+                    } else {
+                        Log.d(TAG, "lat " + location.getLatitude() + " lng " + location.getLongitude());
+                    }
+                }, t -> {
+                    Log.d(TAG, t.getLocalizedMessage());
+                });
     }
 
     @Override

@@ -23,45 +23,33 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.prt2121.amu;
+package com.prt2121.amu.userlocation;
 
-import com.prt2121.amu.userlocation.UserLocationModule;
+import android.content.Context;
 
-import android.app.Application;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import dagger.Module;
+import dagger.Provides;
 
 /**
- * Created by pt2121 on 3/7/15.
+ * Created by prt2121 on 9/30/14.
  */
-public class AmuApp extends Application {
+@Module
+public class UserLocationModule {
 
-    private static AmuApp mInstace;
+    private final Context mContext;
 
-    private Graph mGraph;
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        mInstace = this;
-        mGraph = Dagger_Graph.builder()
-                .userLocationModule(new UserLocationModule(getApplicationContext()))
-                .build();
-
-        // custom font
-        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                        .setDefaultFontPath("fonts/Lato-Regular.ttf")
-                        .setFontAttrId(R.attr.fontPath)
-                        .build()
-        );
+    @Inject
+    public UserLocationModule(Context context) {
+        this.mContext = context;
     }
 
-    public static AmuApp getInstance() {
-        return mInstace;
-    }
-
-    public Graph getGraph() {
-        return mGraph;
+    @Provides
+    @Singleton
+    public IUserLocation provideUserLocation() {
+        return new UserLocation(mContext);
     }
 
 }
