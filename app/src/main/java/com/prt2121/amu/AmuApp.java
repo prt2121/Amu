@@ -25,6 +25,7 @@
 
 package com.prt2121.amu;
 
+import com.prt2121.amu.loctype.LocTypeModule;
 import com.prt2121.amu.userlocation.UserLocationModule;
 
 import android.app.Application;
@@ -36,16 +37,18 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
  */
 public class AmuApp extends Application {
 
-    private static AmuApp mInstace;
+    private static AmuApp mInstance;
 
     private Graph mGraph;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        mInstace = this;
+        mInstance = this;
         mGraph = Dagger_Graph.builder()
                 .userLocationModule(new UserLocationModule(getApplicationContext()))
+                .tinyDbModule(new TinyDbModule(getApplicationContext()))
+                .locTypeModule(new LocTypeModule())
                 .build();
 
         // custom font
@@ -57,7 +60,7 @@ public class AmuApp extends Application {
     }
 
     public static AmuApp getInstance() {
-        return mInstace;
+        return mInstance;
     }
 
     public Graph getGraph() {

@@ -23,46 +23,21 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.prt2121.amu;
+package com.prt2121.amu.ui;
 
-import com.google.gson.Gson;
+import com.prt2121.amu.R;
 
-import com.prt2121.amu.loctype.LocType;
-import com.prt2121.amu.loctype.LocTypeAdapter;
-import com.prt2121.amu.loctype.LocTypeModule;
-import com.prt2121.amu.ui.LocTypeFragment;
-import com.prt2121.amu.ui.MapActivity;
-import com.prt2121.amu.userlocation.IUserLocation;
-import com.prt2121.amu.userlocation.UserLocationModule;
+import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 
-import android.content.SharedPreferences;
+public class FilterActivity extends ActionBarActivity {
 
-import javax.inject.Singleton;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_filter);
+    }
 
-import dagger.Component;
-
-/**
- * Created by pt2121 on 3/8/15.
- */
-@Singleton
-@Component(modules = {
-        UserLocationModule.class,
-        LocTypeModule.class,
-        TinyDbModule.class
-})
-public interface Graph {
-
-    IUserLocation locateUser();
-
-    LocType[] locTypes();
-
-    Gson gson();
-
-    SharedPreferences sharedPreferences();
-
-    void inject(MapActivity activity);
-
-    void inject(LocTypeFragment fragment);
-
-    void inject(LocTypeAdapter adapter);
 }

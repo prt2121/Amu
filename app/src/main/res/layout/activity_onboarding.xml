@@ -55,9 +55,9 @@
         android:layout_height="77dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/lets_start_background"
+        android:background="@drawable/button_background"
         android:text="@string/lets_get_started"
-        android:textColor="@drawable/lets_start_text_color" />
+        android:textColor="@drawable/button_text_color" />
 
 </RelativeLayout>
 

@@ -24,7 +24,7 @@
   -->
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/lets_start_button_hover" android:state_pressed="true" android:textColor="@android:color/black" />
-    <item android:drawable="@drawable/lets_start_button_hover" android:state_focused="true" android:textColor="@android:color/black" />
-    <item android:drawable="@drawable/lets_start_button" android:textColor="@android:color/white" />
+    <item android:drawable="@drawable/button_hover" android:state_pressed="true" android:textColor="@android:color/black" />
+    <item android:drawable="@drawable/button_hover" android:state_focused="true" android:textColor="@android:color/black" />
+    <item android:drawable="@drawable/button" android:textColor="@android:color/white" />
 </selector>

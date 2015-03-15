@@ -26,43 +26,41 @@
 package com.prt2121.amu;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
-import com.prt2121.amu.loctype.LocType;
-import com.prt2121.amu.loctype.LocTypeAdapter;
-import com.prt2121.amu.loctype.LocTypeModule;
-import com.prt2121.amu.ui.LocTypeFragment;
-import com.prt2121.amu.ui.MapActivity;
-import com.prt2121.amu.userlocation.IUserLocation;
-import com.prt2121.amu.userlocation.UserLocationModule;
-
+import android.content.Context;
 import android.content.SharedPreferences;
 
 import javax.inject.Singleton;
 
-import dagger.Component;
+import dagger.Module;
+import dagger.Provides;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
- * Created by pt2121 on 3/8/15.
+ * Created by pt2121 on 3/14/15.
  */
-@Singleton
-@Component(modules = {
-        UserLocationModule.class,
-        LocTypeModule.class,
-        TinyDbModule.class
-})
-public interface Graph {
+@Module
+public class TinyDbModule {
 
-    IUserLocation locateUser();
+    private Context mContext;
 
-    LocType[] locTypes();
+    public TinyDbModule(Context context) {
+        mContext = context;
+    }
 
-    Gson gson();
+    @Provides
+    @Singleton
+    public Gson provideGson() {
+        GsonBuilder b = new GsonBuilder();
+        return b.create();
+    }
 
-    SharedPreferences sharedPreferences();
-
-    void inject(MapActivity activity);
-
-    void inject(LocTypeFragment fragment);
-
-    void inject(LocTypeAdapter adapter);
+    @Provides
+    @Singleton
+    SharedPreferences provideSharedPreferences() {
+        String name = mContext.getString(R.string.preference_name);
+        return mContext.getSharedPreferences(name, MODE_PRIVATE);
+    }
 }

@@ -30,7 +30,11 @@
     <string name="title_activity_onboarding">OnboardingActivity</string>
     <string name="title_activity_maps">Map</string>
     <string name="lets_get_started">Let\'s get started</string>
-    <string name="preference_first_run">firstRunPreference</string>
+    <string name="preference_name">intellibinsPreference</string>
     <string name="preference_user_location">userLocationPreference</string>
     <string name="user_location">userLocation</string>
+    <string name="title_activity_filter">FilterActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 </resources>

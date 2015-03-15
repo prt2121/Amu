@@ -23,46 +23,27 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.prt2121.amu;
-
-import com.google.gson.Gson;
-
-import com.prt2121.amu.loctype.LocType;
-import com.prt2121.amu.loctype.LocTypeAdapter;
-import com.prt2121.amu.loctype.LocTypeModule;
-import com.prt2121.amu.ui.LocTypeFragment;
-import com.prt2121.amu.ui.MapActivity;
-import com.prt2121.amu.userlocation.IUserLocation;
-import com.prt2121.amu.userlocation.UserLocationModule;
-
-import android.content.SharedPreferences;
-
-import javax.inject.Singleton;
-
-import dagger.Component;
+package com.prt2121.amu.loctype;
 
 /**
- * Created by pt2121 on 3/8/15.
+ * Created by pt2121 on 3/13/15.
  */
-@Singleton
-@Component(modules = {
-        UserLocationModule.class,
-        LocTypeModule.class,
-        TinyDbModule.class
-})
-public interface Graph {
+final public class LocType {
 
-    IUserLocation locateUser();
+    public final String name;
 
-    LocType[] locTypes();
+    private boolean checked;
 
-    Gson gson();
+    public LocType(String name, boolean checked) {
+        this.name = name;
+        this.checked = checked;
+    }
 
-    SharedPreferences sharedPreferences();
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+    }
 
-    void inject(MapActivity activity);
-
-    void inject(LocTypeFragment fragment);
-
-    void inject(LocTypeAdapter adapter);
+    public boolean isChecked() {
+        return checked;
+    }
 }

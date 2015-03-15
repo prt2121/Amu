@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<!--
   ~ Copyright (c) 2015 Prat Tanapaisankit and Intellibins authors
   ~
   ~ Redistribution and use in source and binary forms, with or without
@@ -23,9 +23,10 @@
   ~ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   -->
 
-<resources>
-    <item name="primary" type="color">#00AD9F</item>
-    <item name="primary_dark" type="color">#007A70</item>
-    <!--<item name="accent" type="color">#00AD9F</item>-->
-    <item name="accent" type="color">#FA6900</item>
-</resources>
+<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment"
+    android:name="com.prt2121.amu.ui.LocTypeFragment"
+    tools:layout="@layout/fragment_filter"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />

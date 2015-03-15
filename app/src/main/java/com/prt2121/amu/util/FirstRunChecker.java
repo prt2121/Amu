@@ -36,14 +36,14 @@ import android.content.SharedPreferences;
 public class FirstRunChecker {
 
     public static boolean isFirstRun(Context context, String activityName) {
-        String firstRun = context.getString(R.string.preference_first_run);
-        SharedPreferences preferences = context.getSharedPreferences(firstRun, Context.MODE_PRIVATE);
+        String name = context.getString(R.string.preference_name);
+        SharedPreferences preferences = context.getSharedPreferences(name, Context.MODE_PRIVATE);
         return (!preferences.contains(activityName) || preferences.getBoolean(activityName, false));
     }
 
     public static void setFirstRun(Context context, String activityName) {
-        String firstRun = context.getString(R.string.preference_first_run);
-        SharedPreferences preferences = context.getSharedPreferences(firstRun, Context.MODE_PRIVATE);
+        String name = context.getString(R.string.preference_name);
+        SharedPreferences preferences = context.getSharedPreferences(name, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean(activityName, false);
         editor.apply();

@@ -23,46 +23,49 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.prt2121.amu;
+package com.prt2121.amu.loctype;
 
 import com.google.gson.Gson;
-
-import com.prt2121.amu.loctype.LocType;
-import com.prt2121.amu.loctype.LocTypeAdapter;
-import com.prt2121.amu.loctype.LocTypeModule;
-import com.prt2121.amu.ui.LocTypeFragment;
-import com.prt2121.amu.ui.MapActivity;
-import com.prt2121.amu.userlocation.IUserLocation;
-import com.prt2121.amu.userlocation.UserLocationModule;
 
 import android.content.SharedPreferences;
 
 import javax.inject.Singleton;
 
-import dagger.Component;
+import dagger.Module;
+import dagger.Provides;
 
 /**
- * Created by pt2121 on 3/8/15.
+ * Created by pt2121 on 3/13/15.
+ *
+ * LocTypeModule provides user's selected location types.
  */
-@Singleton
-@Component(modules = {
-        UserLocationModule.class,
-        LocTypeModule.class,
-        TinyDbModule.class
-})
-public interface Graph {
+@Module
+public class LocTypeModule {
 
-    IUserLocation locateUser();
+    @Provides
+    @Singleton
+    public LocType[] provideLocTypes(SharedPreferences preferences, Gson gson) {
+        String s = preferences.getString("locType", null);
+        LocType[] types = gson.fromJson(s, LocType[].class);
+        if (types == null) {
+            types = new LocType[3];
+            types[0] = new LocType("Bin", true);
+            types[1] = new LocType("Supermarket/Grocery", true);
+            types[2] = new LocType("Drop-Off", true);
+            SharedPreferences.Editor e = preferences.edit();
+            e.putString("locType", gson.toJson(types));
+            e.apply();
+        }
+        return types;
+    }
 
-    LocType[] locTypes();
+    public static void updateLocType(SharedPreferences preferences, Gson gson, int position, boolean checked) {
+        String s = preferences.getString("locType", null);
+        LocType[] types = gson.fromJson(s, LocType[].class);
+        types[position].setChecked(checked);
+        SharedPreferences.Editor e = preferences.edit();
+        e.putString("locType", gson.toJson(types));
+        e.apply();
+    }
 
-    Gson gson();
-
-    SharedPreferences sharedPreferences();
-
-    void inject(MapActivity activity);
-
-    void inject(LocTypeFragment fragment);
-
-    void inject(LocTypeAdapter adapter);
 }

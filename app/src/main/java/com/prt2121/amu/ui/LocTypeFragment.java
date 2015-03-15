@@ -23,46 +23,55 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.prt2121.amu;
+package com.prt2121.amu.ui;
 
-import com.google.gson.Gson;
-
+import com.prt2121.amu.AmuApp;
+import com.prt2121.amu.R;
 import com.prt2121.amu.loctype.LocType;
 import com.prt2121.amu.loctype.LocTypeAdapter;
-import com.prt2121.amu.loctype.LocTypeModule;
-import com.prt2121.amu.ui.LocTypeFragment;
-import com.prt2121.amu.ui.MapActivity;
-import com.prt2121.amu.userlocation.IUserLocation;
-import com.prt2121.amu.userlocation.UserLocationModule;
 
-import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
-import javax.inject.Singleton;
-
-import dagger.Component;
+import javax.inject.Inject;
 
 /**
- * Created by pt2121 on 3/8/15.
+ * A placeholder fragment containing a simple view.
  */
-@Singleton
-@Component(modules = {
-        UserLocationModule.class,
-        LocTypeModule.class,
-        TinyDbModule.class
-})
-public interface Graph {
+public class LocTypeFragment extends Fragment {
 
-    IUserLocation locateUser();
+    private RecyclerView mRecyclerView;
 
-    LocType[] locTypes();
+    private LocTypeAdapter mAdapter;
 
-    Gson gson();
+    private RecyclerView.LayoutManager mLayoutManager;
 
-    SharedPreferences sharedPreferences();
+    @Inject
+    LocType[] mTypes;
 
-    void inject(MapActivity activity);
+    public LocTypeFragment() {
+    }
 
-    void inject(LocTypeFragment fragment);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        AmuApp.getInstance().getGraph().inject(this);
+    }
 
-    void inject(LocTypeAdapter adapter);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_filter, container, false);
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mAdapter = new LocTypeAdapter(mTypes);
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        return rootView;
+    }
 }
