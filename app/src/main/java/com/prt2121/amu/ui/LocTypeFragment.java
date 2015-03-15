@@ -68,7 +68,7 @@ public class LocTypeFragment extends Fragment {
             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_filter, container, false);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
-        mLayoutManager = new LinearLayoutManager(getActivity());
+        mLayoutManager = new MyLinearLayoutManager(getActivity());
         mAdapter = new LocTypeAdapter(mTypes);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(mLayoutManager);

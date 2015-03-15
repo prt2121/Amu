@@ -33,7 +33,8 @@
     <string name="preference_name">intellibinsPreference</string>
     <string name="preference_user_location">userLocationPreference</string>
     <string name="user_location">userLocation</string>
-    <string name="title_activity_filter">FilterActivity</string>
+    <string name="title_activity_filter">Filter</string>
+    <string name="apply">Apply</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
