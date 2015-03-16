@@ -23,24 +23,23 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.prt2121.amu.ui;
+package com.prt2121.amu.model.nyc;
 
-import com.prt2121.amu.R;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+public class DatasetInformation {
 
-public class FilterActivity extends ActionBarActivity {
+    @SerializedName("Agency")
+    @Expose
+    private String agency;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_filter);
-        findViewById(R.id.applyButton).setOnClickListener(v -> {
-            Intent intent = new Intent(FilterActivity.this, MapActivity.class);
-            FilterActivity.this.startActivity(intent);
-        });
+    public String getAgency() {
+        return agency;
+    }
+
+    public void setAgency(String agency) {
+        this.agency = agency;
     }
 
 }

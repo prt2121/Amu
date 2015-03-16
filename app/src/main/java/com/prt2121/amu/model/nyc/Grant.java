@@ -23,24 +23,46 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.prt2121.amu.ui;
+package com.prt2121.amu.model.nyc;
 
-import com.prt2121.amu.R;
+import com.google.gson.annotations.Expose;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import java.util.ArrayList;
+import java.util.List;
 
-public class FilterActivity extends ActionBarActivity {
+public class Grant {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_filter);
-        findViewById(R.id.applyButton).setOnClickListener(v -> {
-            Intent intent = new Intent(FilterActivity.this, MapActivity.class);
-            FilterActivity.this.startActivity(intent);
-        });
+    @Expose
+    private Boolean inherited;
+
+    @Expose
+    private String type;
+
+    @Expose
+    private List<String> flags = new ArrayList<String>();
+
+    public Boolean getInherited() {
+        return inherited;
+    }
+
+    public void setInherited(Boolean inherited) {
+        this.inherited = inherited;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public List<String> getFlags() {
+        return flags;
+    }
+
+    public void setFlags(List<String> flags) {
+        this.flags = flags;
     }
 
 }

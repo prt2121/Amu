@@ -23,24 +23,35 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.prt2121.amu.ui;
+package com.prt2121.amu.model.nyc;
 
-import com.prt2121.amu.R;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+public class CustomFields {
 
-public class FilterActivity extends ActionBarActivity {
+    @SerializedName("Update")
+    @Expose
+    private Update update;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_filter);
-        findViewById(R.id.applyButton).setOnClickListener(v -> {
-            Intent intent = new Intent(FilterActivity.this, MapActivity.class);
-            FilterActivity.this.startActivity(intent);
-        });
+    @SerializedName("Dataset Information")
+    @Expose
+    private DatasetInformation datasetInformation;
+
+    public Update getUpdate() {
+        return update;
+    }
+
+    public void setUpdate(Update update) {
+        this.update = update;
+    }
+
+    public DatasetInformation getDatasetInformation() {
+        return datasetInformation;
+    }
+
+    public void setDatasetInformation(DatasetInformation datasetInformation) {
+        this.datasetInformation = datasetInformation;
     }
 
 }

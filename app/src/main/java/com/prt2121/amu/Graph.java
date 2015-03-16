@@ -31,7 +31,7 @@ import com.prt2121.amu.loctype.LocType;
 import com.prt2121.amu.loctype.LocTypeAdapter;
 import com.prt2121.amu.loctype.LocTypeModule;
 import com.prt2121.amu.ui.LocTypeFragment;
-import com.prt2121.amu.ui.MapActivity;
+import com.prt2121.amu.ui.MapFragment;
 import com.prt2121.amu.userlocation.IUserLocation;
 import com.prt2121.amu.userlocation.UserLocationModule;
 
@@ -60,7 +60,7 @@ public interface Graph {
 
     SharedPreferences sharedPreferences();
 
-    void inject(MapActivity activity);
+    void inject(MapFragment fragment);
 
     void inject(LocTypeFragment fragment);
 

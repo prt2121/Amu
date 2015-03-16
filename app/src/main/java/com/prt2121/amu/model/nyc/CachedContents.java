@@ -23,30 +23,93 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.prt2121.amu.loctype;
+package com.prt2121.amu.model.nyc;
 
-/**
- * Created by pt2121 on 3/13/15.
- */
-final public class LocType {
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-    public final int id;
+import java.util.ArrayList;
+import java.util.List;
 
-    public final String name;
+public class CachedContents {
 
-    private boolean checked;
+    @SerializedName("non_null")
+    @Expose
+    private Integer nonNull;
 
-    public LocType(int id, String name, boolean checked) {
-        this.id = id;
-        this.name = name;
-        this.checked = checked;
+    @Expose
+    private String smallest;
+
+    @Expose
+    private String sum;
+
+    @SerializedName("null")
+    @Expose
+    private Integer _null;
+
+    @Expose
+    private String average;
+
+    @Expose
+    private String largest;
+
+    @Expose
+    private List<Top> top = new ArrayList<Top>();
+
+    public Integer getNonNull() {
+        return nonNull;
     }
 
-    public void setChecked(boolean checked) {
-        this.checked = checked;
+    public void setNonNull(Integer nonNull) {
+        this.nonNull = nonNull;
     }
 
-    public boolean isChecked() {
-        return checked;
+    public String getSmallest() {
+        return smallest;
     }
+
+    public void setSmallest(String smallest) {
+        this.smallest = smallest;
+    }
+
+    public String getSum() {
+        return sum;
+    }
+
+    public void setSum(String sum) {
+        this.sum = sum;
+    }
+
+    public Integer getNull() {
+        return _null;
+    }
+
+    public void setNull(Integer _null) {
+        this._null = _null;
+    }
+
+    public String getAverage() {
+        return average;
+    }
+
+    public void setAverage(String average) {
+        this.average = average;
+    }
+
+    public String getLargest() {
+        return largest;
+    }
+
+    public void setLargest(String largest) {
+        this.largest = largest;
+    }
+
+    public List<Top> getTop() {
+        return top;
+    }
+
+    public void setTop(List<Top> top) {
+        this.top = top;
+    }
+
 }

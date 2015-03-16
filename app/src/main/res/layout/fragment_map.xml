@@ -23,27 +23,18 @@
   ~ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   -->
 
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/map"
-    tools:context="com.prt2121.amu.ui.MapActivity"
-    android:name="com.google.android.gms.maps.SupportMapFragment" />
+    tools:context="com.prt2121.amu.ui.MapFragment">
 
-<!--
-<com.getbase.floatingactionbutton.FloatingActionButton
-android:id="@+id/refreshButton"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-fab:fab_icon="@drawable/ic_done_white_48dp"
-fab:fab_title="@string/apply_normal"
-fab:fab_colorNormal="@color/primary"
-fab:fab_colorPressed="@color/primary_dark"
-android:layout_below="@+id/recyclerView"
-android:layout_alignParentRight="true"
-android:layout_alignParentEnd="true"
-android:layout_marginTop="@dimen/activity_vertical_margin"
-android:layout_marginBottom="@dimen/activity_vertical_margin"
-android:layout_marginRight="@dimen/activity_horizontal_margin"
-android:layout_marginEnd="@dimen/activity_horizontal_margin" />-->
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</FrameLayout>

@@ -49,9 +49,9 @@ public class LocTypeModule {
         LocType[] types = gson.fromJson(s, LocType[].class);
         if (types == null) {
             types = new LocType[3];
-            types[0] = new LocType("Bin", true);
-            types[1] = new LocType("Supermarket/Grocery", true);
-            types[2] = new LocType("Drop-Off", true);
+            types[0] = new LocType(0, "Bin", true);
+            types[1] = new LocType(1, "Supermarket/Grocery", true);
+            types[2] = new LocType(2, "Drop-Off", true);
             SharedPreferences.Editor e = preferences.edit();
             e.putString("locType", gson.toJson(types));
             e.apply();

@@ -23,24 +23,38 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.prt2121.amu.ui;
+package com.prt2121.amu.model.nyc;
 
-import com.prt2121.amu.R;
+import com.google.gson.annotations.Expose;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import java.util.ArrayList;
+import java.util.List;
 
-public class FilterActivity extends ActionBarActivity {
+/**
+ * Created by prt2121 on 9/27/14.
+ */
+public class BinData {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_filter);
-        findViewById(R.id.applyButton).setOnClickListener(v -> {
-            Intent intent = new Intent(FilterActivity.this, MapActivity.class);
-            FilterActivity.this.startActivity(intent);
-        });
+    @Expose
+    private Meta meta;
+
+    @Expose
+    private List<List<String>> data = new ArrayList<List<String>>();
+
+    public Meta getMeta() {
+        return meta;
+    }
+
+    public void setMeta(Meta meta) {
+        this.meta = meta;
+    }
+
+    public List<List<String>> getData() {
+        return data;
+    }
+
+    public void setData(List<List<String>> data) {
+        this.data = data;
     }
 
 }
