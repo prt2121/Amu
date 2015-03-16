@@ -27,10 +27,12 @@ package com.prt2121.amu.ui;
 
 import com.prt2121.amu.R;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 public class FilterActivity extends ActionBarActivity {
 
@@ -38,6 +40,10 @@ public class FilterActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filter);
+        findViewById(R.id.applyButton).setOnClickListener(v -> {
+            Intent intent = new Intent(FilterActivity.this, MapActivity.class);
+            FilterActivity.this.startActivity(intent);
+        });
     }
 
 }
