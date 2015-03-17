@@ -33,11 +33,13 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import com.prt2121.amu.AmuApp;
+import com.prt2121.amu.MapUtils;
 import com.prt2121.amu.R;
 import com.prt2121.amu.model.Loc;
 import com.prt2121.amu.userlocation.IUserLocation;
 
 import android.app.Activity;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -48,6 +50,7 @@ import android.view.ViewGroup;
 
 import javax.inject.Inject;
 
+import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -78,7 +81,7 @@ public class MapFragment extends Fragment {
 
     private static final int MAX_LOCATION = Integer.MAX_VALUE;
 
-    private Subscription mSubscription;
+    private Subscription mUserLocationSubscription, mMarkerSubscription;
 
     //Test Location : New York City Department of Health and Mental Hygiene
     private final Loc mUserLoc = new Loc.Builder("Your Location")
@@ -113,7 +116,7 @@ public class MapFragment extends Fragment {
     }
 
     private void findUserLocation() {
-        mSubscription = mUserLocation.locate()
+        mUserLocationSubscription = mUserLocation.locate()
                 .filter(location -> location != null)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -138,8 +141,11 @@ public class MapFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mSubscription.isUnsubscribed()) {
-            mSubscription.unsubscribe();
+        if (!mUserLocationSubscription.isUnsubscribed()) {
+            mUserLocationSubscription.unsubscribe();
+        }
+        if (!mMarkerSubscription.isUnsubscribed()) {
+            mMarkerSubscription.unsubscribe();
         }
     }
 
@@ -207,12 +213,41 @@ public class MapFragment extends Fragment {
     /**
      * Init map
      *
-     * @param centerLoc user's location
+     * @param userLoc user's location
      */
-    private void setUpMap(Loc centerLoc) {
-        LatLng latLng = new LatLng(centerLoc.latitude, centerLoc.longitude);
+    private void setUpMap(Loc userLoc) {
+        mMarkerSubscription = updateMarkers(userLoc);
+    }
+
+    private Subscription updateMarkers(Loc userLoc) {
+        LatLng latLng = new LatLng(userLoc.latitude, userLoc.longitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, ZOOM));
-        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+        mMap.addMarker(new MarkerOptions().position(latLng).title(userLoc.name));
+
+        Location userLocation = new Location(userLoc.name);
+        userLocation.setLatitude(userLoc.latitude);
+        userLocation.setLongitude(userLoc.longitude);
+        Observable<Location> mockObservable = Observable.just(userLocation);
+
+//        RecycleMachine recycleMachine = RecycleApp.getRecycleMachine(MapFragment.this.getActivity());
+//
+//        Observable<Loc> bin = ((flag & LocType.BIN) == LocType.BIN) ?
+//                recycleMachine
+//                        .findBin()
+//                        .getLocs() : Observable.<Loc>empty();
+//
+//        Observable<Loc> dropOff = ((flag & LocType.DROPOFF) == LocType.DROPOFF) ?
+//                recycleMachine
+//                        .findDropOff()
+//                        .getLocs() : Observable.<Loc>empty();
+//
+//        Observable<Loc> wholeFoods = ((flag & LocType.WHOLE_FOODS) == LocType.WHOLE_FOODS) ?
+//                recycleMachine
+//                        .findWholeFoods()
+//                        .getLocs() : Observable.<Loc>empty();
+        // TODO: remove Observable.empty()
+        return MapUtils.showPins(getActivity(), mockObservable,
+                Observable.empty(), mMap, MAX_LOCATION);
     }
 
 }

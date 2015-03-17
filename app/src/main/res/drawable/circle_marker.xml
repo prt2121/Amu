@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright (c) 2015 Prat Tanapaisankit and Intellibins authors
   ~
@@ -23,12 +24,12 @@
   ~ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   -->
 
-<resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
 
-    <dimen name="margin_medium">16dp</dimen>
-    <dimen name="list_item_height">72dp</dimen>
-    <dimen name="map_circle_marker_size">12dp</dimen>
-</resources>
+    <solid android:color="#FFFFFF" />
+
+    <size
+        android:width="30dp"
+        android:height="30dp" />
+</shape>

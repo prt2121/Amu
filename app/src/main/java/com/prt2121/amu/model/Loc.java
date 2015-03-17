@@ -108,6 +108,10 @@ public class Loc implements Parcelable {
 
         private String image;
 
+        /**
+         * LocType id.
+         * eg. {@link com.prt2121.amu.loctype.LocType#USER} for user's location.
+         */
         private int type;
 
         public Builder(String name) {

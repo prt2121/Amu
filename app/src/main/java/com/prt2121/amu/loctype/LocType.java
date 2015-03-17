@@ -28,7 +28,15 @@ package com.prt2121.amu.loctype;
 /**
  * Created by pt2121 on 3/13/15.
  */
-final public class LocType {
+public final class LocType {
+
+    public static final int USER = -1;
+
+    public static final int BIN = 0;
+
+    public static final int DROP_OFF = 1;
+
+    public static final int GROCERY = 2;
 
     public final int id;
 
