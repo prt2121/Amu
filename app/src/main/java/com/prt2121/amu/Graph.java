@@ -28,9 +28,9 @@ package com.prt2121.amu;
 import com.google.gson.Gson;
 
 import com.prt2121.amu.location.FindLoc;
-import com.prt2121.amu.loctype.LocType;
 import com.prt2121.amu.loctype.LocTypeAdapter;
-import com.prt2121.amu.loctype.LocTypeModule;
+import com.prt2121.amu.loctype.LocTypeService;
+import com.prt2121.amu.loctype.LocTypeServiceModule;
 import com.prt2121.amu.ui.LocTypeFragment;
 import com.prt2121.amu.ui.MapFragment;
 import com.prt2121.amu.userlocation.IUserLocation;
@@ -48,14 +48,14 @@ import dagger.Component;
 @Singleton
 @Component(modules = {
         UserLocationModule.class,
-        LocTypeModule.class,
+        LocTypeServiceModule.class,
         TinyDbModule.class
 })
 public interface Graph {
 
     IUserLocation locateUser();
 
-    LocType[] locTypes();
+    LocTypeService locTypeService();
 
     Gson gson();
 
@@ -68,4 +68,6 @@ public interface Graph {
     void inject(LocTypeAdapter adapter);
 
     void inject(FindLoc findLoc);
+
+    void inject(LocTypeService locTypeService);
 }

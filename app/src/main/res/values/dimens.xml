@@ -30,5 +30,5 @@
 
     <dimen name="margin_medium">16dp</dimen>
     <dimen name="list_item_height">72dp</dimen>
-    <dimen name="map_circle_marker_size">12dp</dimen>
+    <dimen name="map_circle_marker_size">14dp</dimen>
 </resources>

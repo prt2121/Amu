@@ -23,64 +23,23 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.prt2121.amu.location;
+package com.prt2121.amu.loctype;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import javax.inject.Singleton;
 
-import com.prt2121.amu.AmuApp;
-import com.prt2121.amu.R;
-import com.prt2121.amu.model.Loc;
-
-import android.content.Context;
-import android.content.res.Resources;
-
-import java.io.InputStream;
-import java.lang.reflect.Type;
-import java.util.Collection;
-
-import javax.inject.Inject;
-
-import rx.Observable;
-import rx.observables.StringObservable;
+import dagger.Module;
+import dagger.Provides;
 
 /**
- * Created by pt2121 on 3/16/15.
+ * Created by pt2121 on 3/13/15.
  */
-public class FindLoc implements IFindLoc {
+@Module
+public class LocTypeServiceModule {
 
-    private Context mContext;
-
-    @Inject
-    Gson mGson;
-
-    public FindLoc(Context context) {
-        // TODO: make it a module and remove this
-        AmuApp.getInstance().getGraph().inject(this);
-        mContext = context;
+    @Provides
+    @Singleton
+    public LocTypeService provideLocTypes() {
+        return new LocTypeService();
     }
 
-    @Override
-    public Observable<Loc> getLocs() {
-        return getJsonText(mContext).flatMap(this::parseJson);
-    }
-
-    private Observable<Loc> parseJson(String jsonText) {
-        Type type = new TypeToken<Collection<Loc>>() {
-        }.getType();
-        Collection<Loc> ls = mGson.fromJson(jsonText, type);
-        return Observable.from(ls);
-    }
-
-    private Observable<String> getJsonText(Context context) {
-        try {
-            Resources res = context.getResources();
-            InputStream inputStream = res.openRawResource(R.raw.location);
-            return StringObservable.stringConcat(
-                    StringObservable.from(inputStream)
-                            .map(String::new));
-        } catch (Exception e) {
-            return Observable.empty();
-        }
-    }
 }

@@ -30,7 +30,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import com.prt2121.amu.loctype.LocType;
 import com.prt2121.amu.model.Loc;
 
 import android.content.Context;
@@ -113,13 +112,10 @@ public class MapUtils {
 
                     @Override
                     public void onNext(Loc loc) {
-//                        Log.d(TAG, "lat " + loc.getLatitude() + " lng " + loc.getLongitude());
-                        //markerDrawable.setColorFilter(getColor(loc.getType()), PorterDuff.Mode.MULTIPLY);
                         if (markerDrawable != null) {
-                            markerDrawable.setColorFilter(0xFF00AD9F, PorterDuff.Mode.MULTIPLY);
+                            markerDrawable.setColorFilter(getColor(loc.getType()), PorterDuff.Mode.MULTIPLY);
                             markerDrawable.draw(canvas);
                         }
-
                         map.addMarker(new MarkerOptions()
                                 .position(new LatLng(loc.getLatitude(), loc.getLongitude()))
                                 .title(loc.getShortName())
@@ -128,19 +124,22 @@ public class MapUtils {
                 });
     }
 
-//    private static int getColor(int type) {
-//        switch (type) {
-//            case LocType.USER:
-//                return 0xFF000000;
-//            case LocType.BIN:
-//                return 0xFF00AD9F;
-//            case LocType.DROP_OFF:
-//                return 0xFFFFFF00;
-//            case LocType.GROCERY:
-//                return 0xFF00FF00;
-//            default:
-//                return 0xFF000000;
-//        }
-//    }
+    private static int getColor(String type) {
+        if (type.equalsIgnoreCase("Bin")) {
+            return 0xFF00AD9F;
+        } else if (type.equalsIgnoreCase("Front-of-Store")) {
+            return 0xFF00AD9F;
+        } else if (type.equalsIgnoreCase("Drop Off Counter")) {
+            return 0xFFFFFF00;
+        } else if (type.equalsIgnoreCase("Container Deposit Return, Plastic Bag Return")) {
+            return 0xFF00AD9F;
+        } else if (type.equalsIgnoreCase("Supermarket/Convenience Store")) {
+            return 0xFF00FF00;
+        } else if (type.equalsIgnoreCase("Container Deposit Return")) {
+            return 0xFF00AD9F;
+        } else {
+            return 0xFFFFFFFF;
+        }
+    }
 
 }

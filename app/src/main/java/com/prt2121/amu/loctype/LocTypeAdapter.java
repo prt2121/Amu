@@ -25,12 +25,9 @@
 
 package com.prt2121.amu.loctype;
 
-import com.google.gson.Gson;
-
 import com.prt2121.amu.AmuApp;
 import com.prt2121.amu.R;
 
-import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
@@ -46,10 +43,7 @@ import javax.inject.Inject;
 public class LocTypeAdapter extends RecyclerView.Adapter<LocTypeAdapter.ViewHolder> {
 
     @Inject
-    SharedPreferences mPreferences;
-
-    @Inject
-    Gson mGson;
+    LocTypeService mLocTypeService;
 
     private static final String TAG = LocTypeAdapter.class.getSimpleName();
 
@@ -72,7 +66,7 @@ public class LocTypeAdapter extends RecyclerView.Adapter<LocTypeAdapter.ViewHold
         holder.mTextView.setText(mTypes[position].name);
         holder.mSwitchCompat.setChecked(mTypes[position].isChecked());
         holder.mSwitchCompat.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            LocTypeModule.updateLocType(mPreferences, mGson, position, isChecked);
+            mLocTypeService.updateLocType(position, isChecked);
         });
     }
 

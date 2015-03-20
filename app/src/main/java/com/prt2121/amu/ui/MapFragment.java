@@ -36,6 +36,8 @@ import com.prt2121.amu.AmuApp;
 import com.prt2121.amu.MapUtils;
 import com.prt2121.amu.R;
 import com.prt2121.amu.location.FindLoc;
+import com.prt2121.amu.loctype.LocType;
+import com.prt2121.amu.loctype.LocTypeService;
 import com.prt2121.amu.model.Loc;
 import com.prt2121.amu.userlocation.IUserLocation;
 
@@ -48,6 +50,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -69,6 +74,11 @@ public class MapFragment extends Fragment {
 
     @Inject
     IUserLocation mUserLocation;
+
+    @Inject
+    LocTypeService mLocTypeService;
+
+    Set<String> mTypeSet = new HashSet<>();
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
 
@@ -110,6 +120,11 @@ public class MapFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AmuApp.getInstance().getGraph().inject(this);
+        for (LocType type : mLocTypeService.getLocTypes()) {
+            if (type.isChecked()) {
+                mTypeSet.add(type.name);
+            }
+        }
         // TODO remove this hardcoded user loc
 //        mLoc = mUserLoc;
         mUser = findUserLocation();
@@ -117,7 +132,9 @@ public class MapFragment extends Fragment {
     }
 
     private Observable<Loc> findLocation(Context context) {
-        return new FindLoc(context).getLocs();
+        return new FindLoc(context)
+                .getLocs()
+                .filter(loc -> mTypeSet.contains(loc.getType()));
     }
 
     private Observable<Location> findUserLocation() {
@@ -205,6 +222,15 @@ public class MapFragment extends Fragment {
 
     private Subscription updateMarkers() {
 //        LatLng latLng = new LatLng(userLoc.getLatitude(), userLoc.getLongitude());
+        Observable<Location> mockObservable = mockUserLocation();
+
+        return MapUtils.showPins(getActivity(),
+                mockObservable, //mUser,
+                mLocations, mMap, MAX_LOCATION
+        );
+    }
+
+    private Observable<Location> mockUserLocation() {
         // TODO user real location
         LatLng latLng = new LatLng(40.715522, -74.002452);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, ZOOM));
@@ -213,13 +239,7 @@ public class MapFragment extends Fragment {
         Location userLocation = new Location(mUserLoc.getShortName());
         userLocation.setLatitude(mUserLoc.getLatitude());
         userLocation.setLongitude(mUserLoc.getLongitude());
-        Observable<Location> mockObservable = Observable.just(userLocation);
-
-        return MapUtils.showPins(getActivity(),
-                mockObservable, //mUser,
-                mLocations,
-                mMap, MAX_LOCATION
-        );
+        return Observable.just(userLocation);
     }
 
 }

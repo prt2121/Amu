@@ -27,8 +27,8 @@ package com.prt2121.amu.ui;
 
 import com.prt2121.amu.AmuApp;
 import com.prt2121.amu.R;
-import com.prt2121.amu.loctype.LocType;
 import com.prt2121.amu.loctype.LocTypeAdapter;
+import com.prt2121.amu.loctype.LocTypeService;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -51,7 +51,7 @@ public class LocTypeFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
 
     @Inject
-    LocType[] mTypes;
+    LocTypeService mLocTypeService;
 
     public LocTypeFragment() {
     }
@@ -68,7 +68,7 @@ public class LocTypeFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_filter, container, false);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
         mLayoutManager = new MyLinearLayoutManager(getActivity());
-        mAdapter = new LocTypeAdapter(mTypes);
+        mAdapter = new LocTypeAdapter(mLocTypeService.getLocTypes());
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(mLayoutManager);
         return rootView;

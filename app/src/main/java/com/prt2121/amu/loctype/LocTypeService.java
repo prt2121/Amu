@@ -27,31 +27,40 @@ package com.prt2121.amu.loctype;
 
 import com.google.gson.Gson;
 
+import com.prt2121.amu.AmuApp;
+
 import android.content.SharedPreferences;
 
-import javax.inject.Singleton;
-
-import dagger.Module;
-import dagger.Provides;
+import javax.inject.Inject;
 
 /**
- * Created by pt2121 on 3/13/15.
+ * Created by pt2121 on 3/20/15.
  *
- * LocTypeModule provides user's selected location types.
+ * LocTypeService provides user's selected location types.
  */
-@Module
-public class LocTypeModule {
+public class LocTypeService {
 
-    @Provides
-    @Singleton
-    public LocType[] provideLocTypes(SharedPreferences preferences, Gson gson) {
+    @Inject
+    SharedPreferences preferences;
+
+    @Inject
+    Gson gson;
+
+    public LocTypeService() {
+        AmuApp.getInstance().getGraph().inject(this);
+    }
+
+    public LocType[] getLocTypes() {
         String s = preferences.getString("locType", null);
         LocType[] types = gson.fromJson(s, LocType[].class);
         if (types == null) {
-            types = new LocType[3];
+            types = new LocType[6];
             types[0] = new LocType(0, "Bin", true);
-            types[1] = new LocType(1, "Supermarket/Grocery", true);
-            types[2] = new LocType(2, "Drop-Off", true);
+            types[1] = new LocType(1, "Front-of-Store", true);
+            types[2] = new LocType(2, "Drop Off Counter", true);
+            types[3] = new LocType(3, "Container Deposit Return, Plastic Bag Return", true);
+            types[4] = new LocType(4, "Supermarket/Convenience Store", true);
+            types[5] = new LocType(5, "Container Deposit Return", true);
             SharedPreferences.Editor e = preferences.edit();
             e.putString("locType", gson.toJson(types));
             e.apply();
@@ -59,7 +68,7 @@ public class LocTypeModule {
         return types;
     }
 
-    public static void updateLocType(SharedPreferences preferences, Gson gson, int position, boolean checked) {
+    public void updateLocType(int position, boolean checked) {
         String s = preferences.getString("locType", null);
         LocType[] types = gson.fromJson(s, LocType[].class);
         types[position].setChecked(checked);

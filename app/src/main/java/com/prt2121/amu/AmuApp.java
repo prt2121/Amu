@@ -25,7 +25,7 @@
 
 package com.prt2121.amu;
 
-import com.prt2121.amu.loctype.LocTypeModule;
+import com.prt2121.amu.loctype.LocTypeServiceModule;
 import com.prt2121.amu.userlocation.UserLocationModule;
 
 import android.app.Application;
@@ -48,7 +48,7 @@ public class AmuApp extends Application {
         mGraph = Dagger_Graph.builder()
                 .userLocationModule(new UserLocationModule(getApplicationContext()))
                 .tinyDbModule(new TinyDbModule(getApplicationContext()))
-                .locTypeModule(new LocTypeModule())
+                .locTypeServiceModule(new LocTypeServiceModule())
                 .build();
 
         // custom font
