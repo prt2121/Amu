@@ -36,6 +36,7 @@ import com.prt2121.amu.model.Loc;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.util.Log;
@@ -54,58 +55,6 @@ import rx.subscriptions.Subscriptions;
 public class MapUtils {
 
     private static final String TAG = MapUtils.class.getSimpleName();
-
-    /**
-     * Show the pins on the map.
-     *
-     * @param pivot       user's location or the center location.
-     * @param things      bin locations or things
-     * @param map         the map to be showed
-     * @param maxLocation the number of things
-     * @param hue         the hue of the pin
-     * @return Subscription
-     */
-    public static Subscription showPins(Observable<Location> pivot, Observable<Loc> things,
-            GoogleMap map, int maxLocation, int hue) {
-        if (map == null) {
-            Log.e(TAG, "map is NULL");
-            return Subscriptions.empty();
-        }
-        return Observable.zip(pivot.repeat(), things,
-                (location, loc) -> {
-                    Location l = new Location(loc.getShortName());
-                    l.setLatitude(loc.getLatitude());
-                    l.setLongitude(loc.getLongitude());
-                    return new Pair<>(location.distanceTo(l), loc);
-                }).toSortedList((p1, p2) -> p1.first.compareTo(p2.first))
-                .flatMap(Observable::from)
-                .map(p -> p.second)
-                .take(maxLocation)
-                .onBackpressureBuffer()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Loc>() {
-
-                    @Override
-                    public void onCompleted() {
-                        Log.d(TAG, "onCompleted");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, e.getMessage());
-                    }
-
-                    @Override
-                    public void onNext(Loc loc) {
-                        map.addMarker(new MarkerOptions()
-                                .position(new LatLng(loc.getLatitude(), loc.getLongitude()))
-                                .title(loc.getShortName())
-                                .icon(BitmapDescriptorFactory
-                                        .defaultMarker(hue))); //HSL: 175° 100% 34% //175
-                    }
-                });
-    }
 
     /**
      * Show the pins on the map.
@@ -132,9 +81,12 @@ public class MapUtils {
         final Canvas canvas = new Canvas(markerBitmap);
         final Drawable markerDrawable = context.getResources()
                 .getDrawable(R.drawable.circle_marker);
-        markerDrawable.setBounds(0, 0, markerBitmap.getWidth(), markerBitmap.getHeight());
+        if (markerDrawable != null) {
+            markerDrawable.setBounds(0, 0, markerBitmap.getWidth(), markerBitmap.getHeight());
+        }
 
-        return Observable.zip(pivot.repeat(), things,
+        return Observable.zip(pivot.first().repeat(),
+                things.filter(loc -> loc.getLatitude() != null && loc.getLongitude() != null),
                 (location, loc) -> {
                     Location l = new Location(loc.getShortName());
                     l.setLatitude(loc.getLatitude());
@@ -161,30 +113,34 @@ public class MapUtils {
 
                     @Override
                     public void onNext(Loc loc) {
-                        /*markerDrawable.setColorFilter(getColor(loc.getType()), PorterDuff.Mode.MULTIPLY);
-                        markerDrawable.draw(canvas);
+//                        Log.d(TAG, "lat " + loc.getLatitude() + " lng " + loc.getLongitude());
+                        //markerDrawable.setColorFilter(getColor(loc.getType()), PorterDuff.Mode.MULTIPLY);
+                        if (markerDrawable != null) {
+                            markerDrawable.setColorFilter(0xFF00AD9F, PorterDuff.Mode.MULTIPLY);
+                            markerDrawable.draw(canvas);
+                        }
 
                         map.addMarker(new MarkerOptions()
-                                .position(new LatLng(loc.latitude, loc.longitude))
-                                .title(loc.name)
-                                .icon(BitmapDescriptorFactory.fromBitmap(markerBitmap)));*/
+                                .position(new LatLng(loc.getLatitude(), loc.getLongitude()))
+                                .title(loc.getShortName())
+                                .icon(BitmapDescriptorFactory.fromBitmap(markerBitmap)));
                     }
                 });
     }
 
-    private static int getColor(int type) {
-        switch (type) {
-            case LocType.USER:
-                return 0xFF000000;
-            case LocType.BIN:
-                return 0xFF00AD9F;
-            case LocType.DROP_OFF:
-                return 0xFFFFFF00;
-            case LocType.GROCERY:
-                return 0xFF00FF00;
-            default:
-                return 0xFF000000;
-        }
-    }
+//    private static int getColor(int type) {
+//        switch (type) {
+//            case LocType.USER:
+//                return 0xFF000000;
+//            case LocType.BIN:
+//                return 0xFF00AD9F;
+//            case LocType.DROP_OFF:
+//                return 0xFFFFFF00;
+//            case LocType.GROCERY:
+//                return 0xFF00FF00;
+//            default:
+//                return 0xFF000000;
+//        }
+//    }
 
 }

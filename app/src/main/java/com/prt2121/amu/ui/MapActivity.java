@@ -26,18 +26,13 @@
 package com.prt2121.amu.ui;
 
 import com.prt2121.amu.R;
-import com.prt2121.amu.location.FindLoc;
-import com.prt2121.amu.location.IFindLoc;
 
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MapActivity extends ActionBarActivity
@@ -60,16 +55,6 @@ public class MapActivity extends ActionBarActivity
         fragmentManager.beginTransaction()
                 .replace(R.id.container, mMapFragment)
                 .commit();
-
-        IFindLoc findLoc = new FindLoc(this);
-        findLoc.getLocs()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(loc -> {
-                    Log.d(TAG, loc.getShortName());
-                }, e -> {
-                    Log.e(TAG, e.getLocalizedMessage());
-                });
     }
 
     @Override

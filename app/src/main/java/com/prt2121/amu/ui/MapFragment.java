@@ -35,15 +35,16 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.prt2121.amu.AmuApp;
 import com.prt2121.amu.MapUtils;
 import com.prt2121.amu.R;
+import com.prt2121.amu.location.FindLoc;
 import com.prt2121.amu.model.Loc;
 import com.prt2121.amu.userlocation.IUserLocation;
 
 import android.app.Activity;
+import android.content.Context;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,8 +53,6 @@ import javax.inject.Inject;
 
 import rx.Observable;
 import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 
 /**
@@ -81,15 +80,17 @@ public class MapFragment extends Fragment {
 
     private static final int MAX_LOCATION = Integer.MAX_VALUE;
 
-    private Subscription mUserLocationSubscription, mMarkerSubscription;
+    private Subscription mMarkerSubscription; //mUserLocationSubscription,
+
+    private Observable<Location> mUser;
+
+    private Observable<Loc> mLocations;
 
     //Test Location : New York City Department of Health and Mental Hygiene
-//    private final Loc mUserLoc = new Loc.Builder("Your Location")
-//            .address("")
-//            .latitude(40.715522)
-//            .longitude(-74.002452)
-//            .type(-1)
-//            .build();
+    private final Loc mUserLoc = new Loc.Build("Your location", 40.715522, -74.002452)
+            .address("")
+            .type("User")
+            .build();
 
     /**
      * Use this factory method to create a new instance of
@@ -109,39 +110,25 @@ public class MapFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AmuApp.getInstance().getGraph().inject(this);
-        findUserLocation();
-
         // TODO remove this hardcoded user loc
 //        mLoc = mUserLoc;
+        mUser = findUserLocation();
+        mLocations = findLocation(getActivity());
     }
 
-    private void findUserLocation() {
-        mUserLocationSubscription = mUserLocation.locate()
-                .filter(location -> location != null)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(location -> {
-                    if (location == null) {
-                        Log.d(TAG, "location is null");
-                    } else {
-                        Log.d(TAG, "lat " + location.getLatitude() + " lng " + location.getLongitude());
-                        mLoc = new Loc.Build("Your Location", location.getLatitude(), location.getLongitude())
-                                .type("User Location")
-                                .build();
-                        setUpMapIfNeeded(mLoc);
-                    }
-                }, t -> {
-                    Log.d(TAG, t.getLocalizedMessage());
-                });
+    private Observable<Loc> findLocation(Context context) {
+        return new FindLoc(context).getLocs();
+    }
+
+    private Observable<Location> findUserLocation() {
+        return mUserLocation.locate().filter(location -> location != null);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (!mUserLocationSubscription.isUnsubscribed()) {
-            mUserLocationSubscription.unsubscribe();
-        }
-        if (!mMarkerSubscription.isUnsubscribed()) {
+        if (mMarkerSubscription != null &&
+                !mMarkerSubscription.isUnsubscribed()) {
             mMarkerSubscription.unsubscribe();
         }
     }
@@ -151,7 +138,9 @@ public class MapFragment extends Fragment {
             Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_map, container, false);
+        View view = inflater.inflate(R.layout.fragment_map, container, false);
+        setUpMapIfNeeded();
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -194,7 +183,7 @@ public class MapFragment extends Fragment {
         public void onFragmentInteraction(Uri uri);
     }
 
-    private void setUpMapIfNeeded(Loc loc) {
+    private void setUpMapIfNeeded() {
         // Do a null check to confirm that we have not already instantiated the map.
         if (mMap == null) {
             // Try to obtain the map from the SupportMapFragment.
@@ -202,49 +191,35 @@ public class MapFragment extends Fragment {
                     .getMap();
             // Check if we were successful in obtaining the map.
             if (mMap != null) {
-                setUpMap(loc);
+                setUpMap();
             }
         }
     }
 
     /**
      * Init map
-     *
-     * @param userLoc user's location
      */
-    private void setUpMap(Loc userLoc) {
-        mMarkerSubscription = updateMarkers(userLoc);
+    private void setUpMap() {
+        mMarkerSubscription = updateMarkers();
     }
 
-    private Subscription updateMarkers(Loc userLoc) {
-        LatLng latLng = new LatLng(userLoc.getLatitude(), userLoc.getLongitude());
+    private Subscription updateMarkers() {
+//        LatLng latLng = new LatLng(userLoc.getLatitude(), userLoc.getLongitude());
+        // TODO user real location
+        LatLng latLng = new LatLng(40.715522, -74.002452);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, ZOOM));
-        mMap.addMarker(new MarkerOptions().position(latLng).title(userLoc.getShortName()));
+        mMap.addMarker(new MarkerOptions().position(latLng).title(mUserLoc.getShortName()));
 
-        Location userLocation = new Location(userLoc.getShortName());
-        userLocation.setLatitude(userLoc.getLatitude());
-        userLocation.setLongitude(userLoc.getLongitude());
+        Location userLocation = new Location(mUserLoc.getShortName());
+        userLocation.setLatitude(mUserLoc.getLatitude());
+        userLocation.setLongitude(mUserLoc.getLongitude());
         Observable<Location> mockObservable = Observable.just(userLocation);
 
-//        RecycleMachine recycleMachine = RecycleApp.getRecycleMachine(MapFragment.this.getActivity());
-//
-//        Observable<Loc> bin = ((flag & LocType.BIN) == LocType.BIN) ?
-//                recycleMachine
-//                        .findBin()
-//                        .getLocs() : Observable.<Loc>empty();
-//
-//        Observable<Loc> dropOff = ((flag & LocType.DROPOFF) == LocType.DROPOFF) ?
-//                recycleMachine
-//                        .findDropOff()
-//                        .getLocs() : Observable.<Loc>empty();
-//
-//        Observable<Loc> wholeFoods = ((flag & LocType.WHOLE_FOODS) == LocType.WHOLE_FOODS) ?
-//                recycleMachine
-//                        .findWholeFoods()
-//                        .getLocs() : Observable.<Loc>empty();
-        // TODO: remove Observable.empty()
-        return MapUtils.showPins(getActivity(), mockObservable,
-                Observable.empty(), mMap, MAX_LOCATION);
+        return MapUtils.showPins(getActivity(),
+                mockObservable, //mUser,
+                mLocations,
+                mMap, MAX_LOCATION
+        );
     }
 
 }
