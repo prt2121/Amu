@@ -53,8 +53,9 @@ public class TinyDbModule {
     @Provides
     @Singleton
     public Gson provideGson() {
-        GsonBuilder b = new GsonBuilder();
-        return b.create();
+        return new GsonBuilder()
+                .setPrettyPrinting()
+                .create();
     }
 
     @Provides

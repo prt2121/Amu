@@ -84,12 +84,12 @@ public class MapFragment extends Fragment {
     private Subscription mUserLocationSubscription, mMarkerSubscription;
 
     //Test Location : New York City Department of Health and Mental Hygiene
-    private final Loc mUserLoc = new Loc.Builder("Your Location")
-            .address("")
-            .latitude(40.715522)
-            .longitude(-74.002452)
-            .type(-1)
-            .build();
+//    private final Loc mUserLoc = new Loc.Builder("Your Location")
+//            .address("")
+//            .latitude(40.715522)
+//            .longitude(-74.002452)
+//            .type(-1)
+//            .build();
 
     /**
      * Use this factory method to create a new instance of
@@ -125,11 +125,8 @@ public class MapFragment extends Fragment {
                         Log.d(TAG, "location is null");
                     } else {
                         Log.d(TAG, "lat " + location.getLatitude() + " lng " + location.getLongitude());
-                        mLoc = new Loc.Builder("Your Location")
-                                .address("")
-                                .latitude(location.getLatitude())
-                                .longitude(location.getLongitude())
-                                .type(-1)
+                        mLoc = new Loc.Build("Your Location", location.getLatitude(), location.getLongitude())
+                                .type("User Location")
                                 .build();
                         setUpMapIfNeeded(mLoc);
                     }
@@ -220,13 +217,13 @@ public class MapFragment extends Fragment {
     }
 
     private Subscription updateMarkers(Loc userLoc) {
-        LatLng latLng = new LatLng(userLoc.latitude, userLoc.longitude);
+        LatLng latLng = new LatLng(userLoc.getLatitude(), userLoc.getLongitude());
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, ZOOM));
-        mMap.addMarker(new MarkerOptions().position(latLng).title(userLoc.name));
+        mMap.addMarker(new MarkerOptions().position(latLng).title(userLoc.getShortName()));
 
-        Location userLocation = new Location(userLoc.name);
-        userLocation.setLatitude(userLoc.latitude);
-        userLocation.setLongitude(userLoc.longitude);
+        Location userLocation = new Location(userLoc.getShortName());
+        userLocation.setLatitude(userLoc.getLatitude());
+        userLocation.setLongitude(userLoc.getLongitude());
         Observable<Location> mockObservable = Observable.just(userLocation);
 
 //        RecycleMachine recycleMachine = RecycleApp.getRecycleMachine(MapFragment.this.getActivity());

@@ -23,38 +23,17 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.prt2121.amu.model.nyc;
+package com.prt2121.amu.location;
 
-import com.google.gson.annotations.Expose;
+import com.prt2121.amu.model.Loc;
 
-import java.util.ArrayList;
-import java.util.List;
+import rx.Observable;
 
 /**
- * Created by prt2121 on 9/27/14.
+ * Created by pt2121 on 3/16/15.
  */
-public class BinData {
+public interface IFindLoc {
 
-    @Expose
-    private Meta meta;
-
-    @Expose
-    private List<List<String>> data = new ArrayList<List<String>>();
-
-    public Meta getMeta() {
-        return meta;
-    }
-
-    public void setMeta(Meta meta) {
-        this.meta = meta;
-    }
-
-    public List<List<String>> getData() {
-        return data;
-    }
-
-    public void setData(List<List<String>> data) {
-        this.data = data;
-    }
+    Observable<Loc> getLocs();
 
 }

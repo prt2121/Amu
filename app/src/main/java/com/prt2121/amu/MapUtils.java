@@ -36,7 +36,6 @@ import com.prt2121.amu.model.Loc;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.util.Log;
@@ -74,9 +73,9 @@ public class MapUtils {
         }
         return Observable.zip(pivot.repeat(), things,
                 (location, loc) -> {
-                    Location l = new Location(loc.name);
-                    l.setLatitude(loc.latitude);
-                    l.setLongitude(loc.longitude);
+                    Location l = new Location(loc.getShortName());
+                    l.setLatitude(loc.getLatitude());
+                    l.setLongitude(loc.getLongitude());
                     return new Pair<>(location.distanceTo(l), loc);
                 }).toSortedList((p1, p2) -> p1.first.compareTo(p2.first))
                 .flatMap(Observable::from)
@@ -100,8 +99,8 @@ public class MapUtils {
                     @Override
                     public void onNext(Loc loc) {
                         map.addMarker(new MarkerOptions()
-                                .position(new LatLng(loc.latitude, loc.longitude))
-                                .title(loc.name)
+                                .position(new LatLng(loc.getLatitude(), loc.getLongitude()))
+                                .title(loc.getShortName())
                                 .icon(BitmapDescriptorFactory
                                         .defaultMarker(hue))); //HSL: 175° 100% 34% //175
                     }
@@ -137,9 +136,9 @@ public class MapUtils {
 
         return Observable.zip(pivot.repeat(), things,
                 (location, loc) -> {
-                    Location l = new Location(loc.name);
-                    l.setLatitude(loc.latitude);
-                    l.setLongitude(loc.longitude);
+                    Location l = new Location(loc.getShortName());
+                    l.setLatitude(loc.getLatitude());
+                    l.setLongitude(loc.getLongitude());
                     return new Pair<>(location.distanceTo(l), loc);
                 }).toSortedList((p1, p2) -> p1.first.compareTo(p2.first))
                 .flatMap(Observable::from)
@@ -162,13 +161,13 @@ public class MapUtils {
 
                     @Override
                     public void onNext(Loc loc) {
-                        markerDrawable.setColorFilter(getColor(loc.type), PorterDuff.Mode.MULTIPLY);
+                        /*markerDrawable.setColorFilter(getColor(loc.getType()), PorterDuff.Mode.MULTIPLY);
                         markerDrawable.draw(canvas);
 
                         map.addMarker(new MarkerOptions()
                                 .position(new LatLng(loc.latitude, loc.longitude))
                                 .title(loc.name)
-                                .icon(BitmapDescriptorFactory.fromBitmap(markerBitmap)));
+                                .icon(BitmapDescriptorFactory.fromBitmap(markerBitmap)));*/
                     }
                 });
     }

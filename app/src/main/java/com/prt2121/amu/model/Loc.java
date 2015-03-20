@@ -25,141 +25,226 @@
 
 package com.prt2121.amu.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by prt2121 on 9/27/14.
- */
-public class Loc implements Parcelable {
+public class Loc {
 
-    public final String name;
+    public Loc(String shortName, String borough, String parkSiteName, String address, Double latitude,
+            Double longitude, String type, String materialType) {
+        ShortName = shortName;
+        Borough = borough;
+        ParkSiteName = parkSiteName;
+        Address = address;
+        Latitude = latitude;
+        Longitude = longitude;
+        Type = type;
+        MaterialType = materialType;
+    }
 
-    public final String address;
+    @SerializedName("Short Name")
+    @Expose
+    private String ShortName;
 
-    public final double latitude;
+    @Expose
+    private String Borough;
 
-    public final double longitude;
+    @SerializedName("Park/Site Name")
+    @Expose
+    private String ParkSiteName;
+
+    @Expose
+    private String Address;
+
+    @Expose
+    private Double Latitude;
+
+    @Expose
+    private Double Longitude;
+
+    @Expose
+    private String Type;
+
+    @SerializedName("Material Type")
+    @Expose
+    private String MaterialType;
 
     /**
-     * @see com.prt2121.amu.loctype.LocType
+     * @return The ShortName
      */
-    public final int type;
-
-    public String image;
-
-    public Loc(String name, String address, double latitude, double longitude, int type) {
-        this(name, address, latitude, longitude, type, null);
+    public String getShortName() {
+        return ShortName;
     }
 
-    public Loc(String name, String address, double latitude, double longitude, int type,
-            String image) {
-        this.name = name;
-        this.address = address;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.type = type;
-        this.image = image;
+    /**
+     * @param ShortName The Short Name
+     */
+    public void setShortName(String ShortName) {
+        this.ShortName = ShortName;
     }
 
-    private Loc(Parcel in) {
-        name = in.readString();
-        address = in.readString();
-        latitude = in.readDouble();
-        longitude = in.readDouble();
-        type = in.readInt();
-        image = in.readString();
+    /**
+     * @return The Borough
+     */
+    public String getBorough() {
+        return Borough;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    /**
+     * @param Borough The Borough
+     */
+    public void setBorough(String Borough) {
+        this.Borough = Borough;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(name);
-        dest.writeString(address);
-        dest.writeDouble(latitude);
-        dest.writeDouble(longitude);
-        dest.writeInt(type);
-        dest.writeString(image);
+    /**
+     * @return The ParkSiteName
+     */
+    public String getParkSiteName() {
+        return ParkSiteName;
     }
 
-    public static final Creator CREATOR = new Creator() {
-        public Loc createFromParcel(Parcel in) {
-            return new Loc(in);
-        }
+    /**
+     * @param ParkSiteName The Park/Site Name
+     */
+    public void setParkSiteName(String ParkSiteName) {
+        this.ParkSiteName = ParkSiteName;
+    }
 
-        public Loc[] newArray(int size) {
-            return new Loc[size];
-        }
-    };
+    /**
+     * @return The Address
+     */
+    public String getAddress() {
+        return Address;
+    }
 
-    public static class Builder {
+    /**
+     * @param Address The Address
+     */
+    public void setAddress(String Address) {
+        this.Address = Address;
+    }
 
-        private String name;
+    /**
+     * @return The Latitude
+     */
+    public Double getLatitude() {
+        return Latitude;
+    }
+
+    /**
+     * @param Latitude The Latitude
+     */
+    public void setLatitude(Double Latitude) {
+        this.Latitude = Latitude;
+    }
+
+    /**
+     * @return The Longitude
+     */
+    public Double getLongitude() {
+        return Longitude;
+    }
+
+    /**
+     * @param Longitude The Longitude
+     */
+    public void setLongitude(Double Longitude) {
+        this.Longitude = Longitude;
+    }
+
+    /**
+     * @return The Type
+     */
+    public String getType() {
+        return Type;
+    }
+
+    /**
+     * @param Type The Type
+     */
+    public void setType(String Type) {
+        this.Type = Type;
+    }
+
+    /**
+     * @return The MaterialType
+     */
+    public String getMaterialType() {
+        return MaterialType;
+    }
+
+    /**
+     * @param MaterialType The Material Type
+     */
+    public void setMaterialType(String MaterialType) {
+        this.MaterialType = MaterialType;
+    }
+
+    public static class Build {
+
+        private String shortName;
+
+        private String borough;
+
+        private String parkSiteName;
 
         private String address;
 
-        private double latitude;
+        private Double latitude;
 
-        private double longitude;
+        private Double longitude;
 
-        private String image;
+        private String type;
 
-        /**
-         * LocType id.
-         * eg. {@link com.prt2121.amu.loctype.LocType#USER} for user's location.
-         */
-        private int type;
+        private String materialType;
 
-        public Builder(String name) {
-            this.name = name;
+        public Build(String shortName, Double latitude, Double longitude) {
+            this.shortName = shortName;
+            this.latitude = latitude;
+            this.longitude = longitude;
         }
 
-        public Builder address(String address) {
+        public Loc build() {
+            return new Loc(shortName, borough, parkSiteName, address, latitude,
+                    longitude, type, materialType);
+        }
+
+        public Build borough(String borough) {
+            this.borough = borough;
+            return this;
+        }
+
+        public Build parkSiteName(String parkSiteName) {
+            this.parkSiteName = parkSiteName;
+            return this;
+        }
+
+        public Build address(String address) {
             this.address = address;
             return this;
         }
 
-        public Builder latitude(double latitude) {
+        public Build latitude(Double latitude) {
             this.latitude = latitude;
             return this;
         }
 
-        public Builder longitude(double longitude) {
+        public Build longitude(Double longitude) {
             this.longitude = longitude;
             return this;
         }
 
-        public Builder image(String image) {
-            this.image = image;
-            return this;
-        }
-
-        /**
-         * @param type LocType
-         * @return the builder with this {@code LocType}
-         * @see com.prt2121.amu.loctype.LocType
-         */
-        public Builder type(int type) {
+        public Build type(String type) {
             this.type = type;
             return this;
         }
 
-        public Loc build() {
-            Loc l = new Loc(this.name,
-                    this.address,
-                    this.latitude,
-                    this.longitude,
-                    this.type);
-            l.image = this.image;
-            return l;
+        public Build materialType(String materialType) {
+            this.materialType = materialType;
+            return this;
         }
-    }
-}
 
-// NYC
-// Borough	Site type	Park/Site Name	Address	Latitude	Longitude
-// [ 1, "09BA982F-E777-4D8F-BCAB-3A04D56FB719", 1, 1341003073, "392904", 1341003073, "392904", "{\n}", "Bronx", "Subproperty", "227th St. Plgd", "E 227 St/Bronx River Pkway", "40.890848989", "-73.864223918" ]
+    }
+
+}

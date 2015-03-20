@@ -27,6 +27,7 @@ package com.prt2121.amu;
 
 import com.google.gson.Gson;
 
+import com.prt2121.amu.location.FindLoc;
 import com.prt2121.amu.loctype.LocType;
 import com.prt2121.amu.loctype.LocTypeAdapter;
 import com.prt2121.amu.loctype.LocTypeModule;
@@ -65,4 +66,6 @@ public interface Graph {
     void inject(LocTypeFragment fragment);
 
     void inject(LocTypeAdapter adapter);
+
+    void inject(FindLoc findLoc);
 }
