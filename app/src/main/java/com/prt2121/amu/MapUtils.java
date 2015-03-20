@@ -28,6 +28,7 @@ package com.prt2121.amu;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import com.prt2121.amu.model.Loc;
@@ -59,17 +60,18 @@ public class MapUtils {
      * Show the pins on the map.
      *
      * @param context     Android context used for get resources
-     * @param pivot       user's location or the center location.
+     * @param pivot       user's location or the center location
      * @param things      bin locations or things
      * @param map         the map to be showed
      * @param maxLocation the number of things
+     * @param bounds      map visible area (LatLngBounds)
      * @return Subscription
      */
     public static Subscription showPins(
             Context context,
             Observable<Location> pivot,
             Observable<Loc> things,
-            GoogleMap map, int maxLocation) {
+            GoogleMap map, int maxLocation, LatLngBounds bounds) {
         if (map == null) {
             Log.e(TAG, "map is NULL");
             return Subscriptions.empty();
@@ -85,7 +87,8 @@ public class MapUtils {
         }
 
         return Observable.zip(pivot.first().repeat(),
-                things.filter(loc -> loc.getLatitude() != null && loc.getLongitude() != null),
+                things.filter(loc -> loc.getLatitude() != null && loc.getLongitude() != null)
+                        .filter(l -> bounds.contains(new LatLng(l.getLatitude(), l.getLongitude()))),
                 (location, loc) -> {
                     Location l = new Location(loc.getShortName());
                     l.setLatitude(loc.getLatitude());

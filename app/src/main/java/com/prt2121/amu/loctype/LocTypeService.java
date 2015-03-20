@@ -60,7 +60,7 @@ public class LocTypeService {
         Type type = new TypeToken<Collection<LocType>>() {
         }.getType();
         Collection<LocType> ts = gson.fromJson(s, type);
-        if(ts == null) {
+        if (ts == null) {
             types = new LocType[6];
             types[0] = new LocType(0, "Bin", true);
             types[1] = new LocType(1, "Front-of-Store", true);

@@ -30,6 +30,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import com.prt2121.amu.AmuApp;
@@ -217,29 +218,30 @@ public class MapFragment extends Fragment {
      * Init map
      */
     private void setUpMap() {
-        mMarkerSubscription = updateMarkers();
-    }
-
-    private Subscription updateMarkers() {
-//        LatLng latLng = new LatLng(userLoc.getLatitude(), userLoc.getLongitude());
-        Observable<Location> mockObservable = mockUserLocation();
-
-        return MapUtils.showPins(getActivity(),
-                mockObservable, //mUser,
-                mLocations, mMap, MAX_LOCATION
-        );
-    }
-
-    private Observable<Location> mockUserLocation() {
         // TODO user real location
         LatLng latLng = new LatLng(40.715522, -74.002452);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, ZOOM));
         mMap.addMarker(new MarkerOptions().position(latLng).title(mUserLoc.getShortName()));
 
-        Location userLocation = new Location(mUserLoc.getShortName());
-        userLocation.setLatitude(mUserLoc.getLatitude());
-        userLocation.setLongitude(mUserLoc.getLongitude());
-        return Observable.just(userLocation);
+        mMap.setOnMapLoadedCallback(() -> {
+            LatLngBounds latLngBounds = mMap.getProjection().getVisibleRegion().latLngBounds;
+            mMarkerSubscription = updateMarkers(latLng, latLngBounds);
+        });
+    }
+
+    private Subscription updateMarkers(LatLng center, LatLngBounds latLngBounds) {
+        Observable<Location> mockObservable = mockUserLocation(center);
+        return MapUtils.showPins(getActivity(),
+                mockObservable, //mUser,
+                mLocations, mMap, MAX_LOCATION, latLngBounds
+        );
+    }
+
+    private Observable<Location> mockUserLocation(LatLng center) {
+        Location location = new Location("Center");
+        location.setLatitude(center.latitude);
+        location.setLongitude(center.longitude);
+        return Observable.just(location);
     }
 
 }

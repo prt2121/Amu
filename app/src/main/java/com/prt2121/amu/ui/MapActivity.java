@@ -43,9 +43,6 @@ public class MapActivity extends ActionBarActivity
 
     private static final String TAG = MapActivity.class.getSimpleName();
 
-    // TODO: http://stackoverflow.com/questions/13904505/how-to-get-center-of-map-for-v2-android-maps
-    // getCameraPosition().target;
-
     private MapFragment mMapFragment;
 
     @Override
