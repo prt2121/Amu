@@ -30,9 +30,11 @@ import com.prt2121.amu.R;
 
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import javax.inject.Inject;
@@ -66,7 +68,9 @@ public class LocTypeAdapter extends RecyclerView.Adapter<LocTypeAdapter.ViewHold
         holder.mTextView.setText(mTypes[position].name);
         holder.mSwitchCompat.setChecked(mTypes[position].isChecked());
         holder.mSwitchCompat.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            mLocTypeService.updateLocType(position, isChecked);
+            if (buttonView.isShown()) {
+                mLocTypeService.updateLocType(position, isChecked);
+            }
         });
     }
 

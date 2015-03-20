@@ -26,10 +26,14 @@
 package com.prt2121.amu.loctype;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import com.prt2121.amu.AmuApp;
 
 import android.content.SharedPreferences;
+
+import java.lang.reflect.Type;
+import java.util.Collection;
 
 import javax.inject.Inject;
 
@@ -40,20 +44,23 @@ import javax.inject.Inject;
  */
 public class LocTypeService {
 
+    public static final String LOC_TYPE = "locType";
+
     @Inject
     SharedPreferences preferences;
 
     @Inject
     Gson gson;
 
+    private LocType[] types;
+
     public LocTypeService() {
         AmuApp.getInstance().getGraph().inject(this);
-    }
-
-    public LocType[] getLocTypes() {
-        String s = preferences.getString("locType", null);
-        LocType[] types = gson.fromJson(s, LocType[].class);
-        if (types == null) {
+        String s = preferences.getString(LOC_TYPE, null);
+        Type type = new TypeToken<Collection<LocType>>() {
+        }.getType();
+        Collection<LocType> ts = gson.fromJson(s, type);
+        if(ts == null) {
             types = new LocType[6];
             types[0] = new LocType(0, "Bin", true);
             types[1] = new LocType(1, "Front-of-Store", true);
@@ -64,16 +71,20 @@ public class LocTypeService {
             SharedPreferences.Editor e = preferences.edit();
             e.putString("locType", gson.toJson(types));
             e.apply();
+        } else {
+            types = new LocType[ts.size()];
+            types = ts.toArray(types);
         }
+    }
+
+    public LocType[] getLocTypes() {
         return types;
     }
 
     public void updateLocType(int position, boolean checked) {
-        String s = preferences.getString("locType", null);
-        LocType[] types = gson.fromJson(s, LocType[].class);
         types[position].setChecked(checked);
         SharedPreferences.Editor e = preferences.edit();
-        e.putString("locType", gson.toJson(types));
+        e.putString(LOC_TYPE, gson.toJson(types));
         e.apply();
     }
 
