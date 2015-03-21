@@ -33,6 +33,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.prt2121.amu.AmuApp;
 import com.prt2121.amu.MapUtils;
 import com.prt2121.amu.R;
@@ -97,6 +98,8 @@ public class MapFragment extends Fragment {
 
     private Observable<Loc> mLocations;
 
+    private FloatingActionButton mRefreshButton;
+
     //Test Location : New York City Department of Health and Mental Hygiene
     private final Loc mUserLoc = new Loc.Build("Your location", 40.715522, -74.002452)
             .address("")
@@ -158,6 +161,16 @@ public class MapFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_map, container, false);
         setUpMapIfNeeded();
+        mRefreshButton = (FloatingActionButton) view.findViewById(R.id.refreshButton);
+        mRefreshButton.setEnabled(false);
+        mRefreshButton.setOnClickListener(v -> {
+            if (mMap != null) {
+                mMap.clear();
+                LatLng latLng = new LatLng(40.715522, -74.002452);
+                mMap.addMarker(new MarkerOptions().position(latLng).title(mUserLoc.getShortName()));
+                updateMarkers(mMap.getCameraPosition().target, mMap.getProjection().getVisibleRegion().latLngBounds);
+            }
+        });
         return view;
     }
 
@@ -226,6 +239,7 @@ public class MapFragment extends Fragment {
         mMap.setOnMapLoadedCallback(() -> {
             LatLngBounds latLngBounds = mMap.getProjection().getVisibleRegion().latLngBounds;
             mMarkerSubscription = updateMarkers(latLng, latLngBounds);
+            mRefreshButton.setEnabled(true);
         });
     }
 
