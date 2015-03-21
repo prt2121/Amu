@@ -23,50 +23,48 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.prt2121.amu;
+package com.prt2121.amu.place.model;
 
-import com.prt2121.amu.loctype.LocTypeServiceModule;
-import com.prt2121.amu.place.PlaceApiModule;
-import com.prt2121.amu.userlocation.UserLocationModule;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-import android.app.Application;
+import java.util.ArrayList;
+import java.util.List;
 
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+public class Place {
 
-/**
- * Created by pt2121 on 3/7/15.
- */
-public class AmuApp extends Application {
+    @SerializedName("html_attributions")
+    @Expose
+    private List<Object> htmlAttributions = new ArrayList<Object>();
 
-    private static AmuApp mInstance;
+    @Expose
+    private List<Result> results = new ArrayList<Result>();
 
-    private Graph mGraph;
+    @Expose
+    private String status;
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        mInstance = this;
-        mGraph = Dagger_Graph.builder()
-                .userLocationModule(new UserLocationModule(getApplicationContext()))
-                .tinyDbModule(new TinyDbModule(getApplicationContext()))
-                .locTypeServiceModule(new LocTypeServiceModule())
-                .placeApiModule(new PlaceApiModule())
-                .build();
-
-        // custom font
-        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                        .setDefaultFontPath("fonts/Lato-Regular.ttf")
-                        .setFontAttrId(R.attr.fontPath)
-                        .build()
-        );
+    public List<Object> getHtmlAttributions() {
+        return htmlAttributions;
     }
 
-    public static AmuApp getInstance() {
-        return mInstance;
+    public void setHtmlAttributions(List<Object> htmlAttributions) {
+        this.htmlAttributions = htmlAttributions;
     }
 
-    public Graph getGraph() {
-        return mGraph;
+    public List<Result> getResults() {
+        return results;
+    }
+
+    public void setResults(List<Result> results) {
+        this.results = results;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
 }

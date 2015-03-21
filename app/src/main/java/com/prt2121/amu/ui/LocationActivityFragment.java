@@ -23,50 +23,27 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.prt2121.amu;
+package com.prt2121.amu.ui;
 
-import com.prt2121.amu.loctype.LocTypeServiceModule;
-import com.prt2121.amu.place.PlaceApiModule;
-import com.prt2121.amu.userlocation.UserLocationModule;
+import com.prt2121.amu.R;
 
-import android.app.Application;
-
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 /**
- * Created by pt2121 on 3/7/15.
+ * A placeholder fragment containing a simple view.
  */
-public class AmuApp extends Application {
+public class LocationActivityFragment extends Fragment {
 
-    private static AmuApp mInstance;
-
-    private Graph mGraph;
+    public LocationActivityFragment() {
+    }
 
     @Override
-    public void onCreate() {
-        super.onCreate();
-        mInstance = this;
-        mGraph = Dagger_Graph.builder()
-                .userLocationModule(new UserLocationModule(getApplicationContext()))
-                .tinyDbModule(new TinyDbModule(getApplicationContext()))
-                .locTypeServiceModule(new LocTypeServiceModule())
-                .placeApiModule(new PlaceApiModule())
-                .build();
-
-        // custom font
-        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                        .setDefaultFontPath("fonts/Lato-Regular.ttf")
-                        .setFontAttrId(R.attr.fontPath)
-                        .build()
-        );
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_location, container, false);
     }
-
-    public static AmuApp getInstance() {
-        return mInstance;
-    }
-
-    public Graph getGraph() {
-        return mGraph;
-    }
-
 }

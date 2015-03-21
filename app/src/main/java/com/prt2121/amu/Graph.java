@@ -31,7 +31,9 @@ import com.prt2121.amu.location.FindLoc;
 import com.prt2121.amu.loctype.LocTypeAdapter;
 import com.prt2121.amu.loctype.LocTypeService;
 import com.prt2121.amu.loctype.LocTypeServiceModule;
+import com.prt2121.amu.place.PlaceApiModule;
 import com.prt2121.amu.ui.LocTypeFragment;
+import com.prt2121.amu.ui.LocationActivity;
 import com.prt2121.amu.ui.MapFragment;
 import com.prt2121.amu.userlocation.IUserLocation;
 import com.prt2121.amu.userlocation.UserLocationModule;
@@ -41,6 +43,7 @@ import android.content.SharedPreferences;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import retrofit.RestAdapter;
 
 /**
  * Created by pt2121 on 3/8/15.
@@ -49,7 +52,8 @@ import dagger.Component;
 @Component(modules = {
         UserLocationModule.class,
         LocTypeServiceModule.class,
-        TinyDbModule.class
+        TinyDbModule.class,
+        PlaceApiModule.class
 })
 public interface Graph {
 
@@ -61,6 +65,8 @@ public interface Graph {
 
     SharedPreferences sharedPreferences();
 
+    RestAdapter placeApi();
+
     void inject(MapFragment fragment);
 
     void inject(LocTypeFragment fragment);
@@ -70,4 +76,6 @@ public interface Graph {
     void inject(FindLoc findLoc);
 
     void inject(LocTypeService locTypeService);
+
+    void inject(LocationActivity activity);
 }

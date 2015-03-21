@@ -23,50 +23,32 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.prt2121.amu;
+package com.prt2121.amu.place.model;
 
-import com.prt2121.amu.loctype.LocTypeServiceModule;
-import com.prt2121.amu.place.PlaceApiModule;
-import com.prt2121.amu.userlocation.UserLocationModule;
+import com.google.gson.annotations.Expose;
 
-import android.app.Application;
+public class Location {
 
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+    @Expose
+    private Double lat;
 
-/**
- * Created by pt2121 on 3/7/15.
- */
-public class AmuApp extends Application {
+    @Expose
+    private Double lng;
 
-    private static AmuApp mInstance;
-
-    private Graph mGraph;
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        mInstance = this;
-        mGraph = Dagger_Graph.builder()
-                .userLocationModule(new UserLocationModule(getApplicationContext()))
-                .tinyDbModule(new TinyDbModule(getApplicationContext()))
-                .locTypeServiceModule(new LocTypeServiceModule())
-                .placeApiModule(new PlaceApiModule())
-                .build();
-
-        // custom font
-        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                        .setDefaultFontPath("fonts/Lato-Regular.ttf")
-                        .setFontAttrId(R.attr.fontPath)
-                        .build()
-        );
+    public Double getLat() {
+        return lat;
     }
 
-    public static AmuApp getInstance() {
-        return mInstance;
+    public void setLat(Double lat) {
+        this.lat = lat;
     }
 
-    public Graph getGraph() {
-        return mGraph;
+    public Double getLng() {
+        return lng;
+    }
+
+    public void setLng(Double lng) {
+        this.lng = lng;
     }
 
 }

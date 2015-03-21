@@ -23,50 +23,34 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.prt2121.amu;
+package com.prt2121.amu.place.model;
 
-import com.prt2121.amu.loctype.LocTypeServiceModule;
-import com.prt2121.amu.place.PlaceApiModule;
-import com.prt2121.amu.userlocation.UserLocationModule;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-import android.app.Application;
+public class AltId {
 
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+    @SerializedName("place_id")
+    @Expose
+    private String placeId;
 
-/**
- * Created by pt2121 on 3/7/15.
- */
-public class AmuApp extends Application {
+    @Expose
+    private String scope;
 
-    private static AmuApp mInstance;
-
-    private Graph mGraph;
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        mInstance = this;
-        mGraph = Dagger_Graph.builder()
-                .userLocationModule(new UserLocationModule(getApplicationContext()))
-                .tinyDbModule(new TinyDbModule(getApplicationContext()))
-                .locTypeServiceModule(new LocTypeServiceModule())
-                .placeApiModule(new PlaceApiModule())
-                .build();
-
-        // custom font
-        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                        .setDefaultFontPath("fonts/Lato-Regular.ttf")
-                        .setFontAttrId(R.attr.fontPath)
-                        .build()
-        );
+    public String getPlaceId() {
+        return placeId;
     }
 
-    public static AmuApp getInstance() {
-        return mInstance;
+    public void setPlaceId(String placeId) {
+        this.placeId = placeId;
     }
 
-    public Graph getGraph() {
-        return mGraph;
+    public String getScope() {
+        return scope;
+    }
+
+    public void setScope(String scope) {
+        this.scope = scope;
     }
 
 }

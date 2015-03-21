@@ -63,7 +63,6 @@ import rx.Subscription;
 
 
 /**
- * A simple {@link android.support.v4.app.Fragment} subclass.
  * Activities that contain this fragment must implement the
  * {@link MapFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
@@ -241,6 +240,8 @@ public class MapFragment extends Fragment {
             mMarkerSubscription = updateMarkers(latLng, latLngBounds);
             mRefreshButton.setEnabled(true);
         });
+
+        mMap.setOnInfoWindowClickListener(new InfoWindowClickListener(getActivity()));
     }
 
     private Subscription updateMarkers(LatLng center, LatLngBounds latLngBounds) {

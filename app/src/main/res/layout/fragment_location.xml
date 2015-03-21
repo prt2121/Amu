@@ -23,24 +23,19 @@
   ~ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   -->
 
-<resources>
-    <string name="app_name">Intellibins</string>
-    <string name="intellibins">Intellibins</string>
-    <string name="slogan">Recycling made easy.</string>
-    <string name="title_activity_onboarding">OnboardingActivity</string>
-    <string name="title_activity_maps">Map</string>
-    <string name="lets_get_started">Let\'s get started</string>
-    <string name="preference_name">intellibinsPreference</string>
-    <string name="preference_user_location">userLocationPreference</string>
-    <string name="user_location">userLocation</string>
-    <string name="title_activity_filter">Filter</string>
-    <string name="apply">Apply</string>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.prt2121.amu.ui.LocationActivityFragment">
 
-    <string name="action_filter">Filter</string>
+    <TextView
+        android:text="@string/hello_world"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_location">LocationActivity</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-</resources>
+</RelativeLayout>

@@ -23,50 +23,60 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.prt2121.amu;
+package com.prt2121.amu.place.model;
 
-import com.prt2121.amu.loctype.LocTypeServiceModule;
-import com.prt2121.amu.place.PlaceApiModule;
-import com.prt2121.amu.userlocation.UserLocationModule;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-import android.app.Application;
+import java.util.ArrayList;
+import java.util.List;
 
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+public class Photo {
 
-/**
- * Created by pt2121 on 3/7/15.
- */
-public class AmuApp extends Application {
+    @Expose
+    private Integer height;
 
-    private static AmuApp mInstance;
+    @SerializedName("html_attributions")
+    @Expose
+    private List<Object> htmlAttributions = new ArrayList<Object>();
 
-    private Graph mGraph;
+    @SerializedName("photo_reference")
+    @Expose
+    private String photoReference;
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        mInstance = this;
-        mGraph = Dagger_Graph.builder()
-                .userLocationModule(new UserLocationModule(getApplicationContext()))
-                .tinyDbModule(new TinyDbModule(getApplicationContext()))
-                .locTypeServiceModule(new LocTypeServiceModule())
-                .placeApiModule(new PlaceApiModule())
-                .build();
+    @Expose
+    private Integer width;
 
-        // custom font
-        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                        .setDefaultFontPath("fonts/Lato-Regular.ttf")
-                        .setFontAttrId(R.attr.fontPath)
-                        .build()
-        );
+    public Integer getHeight() {
+        return height;
     }
 
-    public static AmuApp getInstance() {
-        return mInstance;
+    public void setHeight(Integer height) {
+        this.height = height;
     }
 
-    public Graph getGraph() {
-        return mGraph;
+    public List<Object> getHtmlAttributions() {
+        return htmlAttributions;
+    }
+
+    public void setHtmlAttributions(List<Object> htmlAttributions) {
+        this.htmlAttributions = htmlAttributions;
+    }
+
+    public String getPhotoReference() {
+        return photoReference;
+    }
+
+    public void setPhotoReference(String photoReference) {
+        this.photoReference = photoReference;
+    }
+
+    public Integer getWidth() {
+        return width;
+    }
+
+    public void setWidth(Integer width) {
+        this.width = width;
     }
 
 }

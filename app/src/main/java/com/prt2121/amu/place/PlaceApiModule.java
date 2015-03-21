@@ -23,50 +23,26 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.prt2121.amu;
+package com.prt2121.amu.place;
 
-import com.prt2121.amu.loctype.LocTypeServiceModule;
-import com.prt2121.amu.place.PlaceApiModule;
-import com.prt2121.amu.userlocation.UserLocationModule;
+import javax.inject.Singleton;
 
-import android.app.Application;
-
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import dagger.Module;
+import dagger.Provides;
+import retrofit.RestAdapter;
 
 /**
- * Created by pt2121 on 3/7/15.
+ * Created by prt2121 on 10/5/14.
  */
-public class AmuApp extends Application {
+@Module
+public final class PlaceApiModule {
 
-    private static AmuApp mInstance;
-
-    private Graph mGraph;
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        mInstance = this;
-        mGraph = Dagger_Graph.builder()
-                .userLocationModule(new UserLocationModule(getApplicationContext()))
-                .tinyDbModule(new TinyDbModule(getApplicationContext()))
-                .locTypeServiceModule(new LocTypeServiceModule())
-                .placeApiModule(new PlaceApiModule())
+    @Provides
+    @Singleton
+    RestAdapter provideRestAdapter() {
+        return new RestAdapter.Builder()
+                .setLogLevel(RestAdapter.LogLevel.FULL)
+                .setEndpoint("https://maps.googleapis.com")
                 .build();
-
-        // custom font
-        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                        .setDefaultFontPath("fonts/Lato-Regular.ttf")
-                        .setFontAttrId(R.attr.fontPath)
-                        .build()
-        );
     }
-
-    public static AmuApp getInstance() {
-        return mInstance;
-    }
-
-    public Graph getGraph() {
-        return mGraph;
-    }
-
 }

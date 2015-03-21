@@ -23,50 +23,35 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.prt2121.amu;
+package com.prt2121.amu.ui;
 
-import com.prt2121.amu.loctype.LocTypeServiceModule;
-import com.prt2121.amu.place.PlaceApiModule;
-import com.prt2121.amu.userlocation.UserLocationModule;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 
-import android.app.Application;
-
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import android.app.Activity;
+import android.content.Intent;
+import android.util.Log;
 
 /**
- * Created by pt2121 on 3/7/15.
+ * Created by pt2121 on 3/20/15.
  */
-public class AmuApp extends Application {
+public class InfoWindowClickListener implements GoogleMap.OnInfoWindowClickListener {
 
-    private static AmuApp mInstance;
+    Activity mActivity;
 
-    private Graph mGraph;
+    public InfoWindowClickListener(Activity activity) {
+        mActivity = activity;
+    }
 
     @Override
-    public void onCreate() {
-        super.onCreate();
-        mInstance = this;
-        mGraph = Dagger_Graph.builder()
-                .userLocationModule(new UserLocationModule(getApplicationContext()))
-                .tinyDbModule(new TinyDbModule(getApplicationContext()))
-                .locTypeServiceModule(new LocTypeServiceModule())
-                .placeApiModule(new PlaceApiModule())
-                .build();
-
-        // custom font
-        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                        .setDefaultFontPath("fonts/Lato-Regular.ttf")
-                        .setFontAttrId(R.attr.fontPath)
-                        .build()
-        );
+    public void onInfoWindowClick(Marker marker) {
+        String id = marker.getId();
+        LatLng latLng = marker.getPosition();
+        Log.d(InfoWindowClickListener.class.getSimpleName(), "id " + id + " latLng " + latLng);
+        Intent intent = new Intent(mActivity, LocationActivity.class);
+        intent.putExtra(LocationActivity.LOCATION_EXTRA, latLng.latitude + "," + latLng.longitude);
+        intent.putExtra(LocationActivity.TITLE_EXTRA, marker.getTitle());
+        mActivity.startActivity(intent);
     }
-
-    public static AmuApp getInstance() {
-        return mInstance;
-    }
-
-    public Graph getGraph() {
-        return mGraph;
-    }
-
 }
