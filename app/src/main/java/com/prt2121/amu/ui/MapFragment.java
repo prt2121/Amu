@@ -167,7 +167,7 @@ public class MapFragment extends Fragment {
                 mMap.clear();
                 LatLng latLng = new LatLng(40.715522, -74.002452);
                 mMap.addMarker(new MarkerOptions().position(latLng).title(mUserLoc.getShortName()));
-                updateMarkers(mMap.getCameraPosition().target, mMap.getProjection().getVisibleRegion().latLngBounds);
+                updateMarkers(latLng, mMap.getProjection().getVisibleRegion().latLngBounds);
             }
         });
         return view;

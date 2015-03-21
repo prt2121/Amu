@@ -119,12 +119,29 @@ public class MapUtils {
                             markerDrawable.setColorFilter(getColor(loc.getType()), PorterDuff.Mode.MULTIPLY);
                             markerDrawable.draw(canvas);
                         }
+                        // TODO:
+                        String title = loc.getAddress() != null ?
+                                loc.getShortName() + " " + loc.getAddress():
+                                loc.getShortName();
                         map.addMarker(new MarkerOptions()
                                 .position(new LatLng(loc.getLatitude(), loc.getLongitude()))
-                                .title(loc.getShortName())
+                                .title(title)
                                 .icon(BitmapDescriptorFactory.fromBitmap(markerBitmap)));
                     }
                 });
+
+                /*.subscribe(p -> {
+                    float distance = p.first;
+                    Loc loc = p.second;
+                    if (markerDrawable != null) {
+                        markerDrawable.setColorFilter(getColor(loc.getType()), PorterDuff.Mode.MULTIPLY);
+                        markerDrawable.draw(canvas);
+                    }
+                    map.addMarker(new MarkerOptions()
+                            .position(new LatLng(loc.getLatitude(), loc.getLongitude()))
+                            .title(loc.getShortName() + " (" + distance + " m)")
+                            .icon(BitmapDescriptorFactory.fromBitmap(markerBitmap)));
+                });*/
     }
 
     private static int getColor(String type) {
