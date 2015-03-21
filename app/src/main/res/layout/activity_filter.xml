@@ -25,7 +25,7 @@
 
 <fragment xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragment"
+    android:id="@+id/filterFragment"
     android:name="com.prt2121.amu.ui.LocTypeFragment"
     tools:layout="@layout/fragment_filter"
     android:layout_width="match_parent"

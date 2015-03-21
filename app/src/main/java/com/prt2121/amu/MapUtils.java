@@ -120,7 +120,7 @@ public class MapUtils {
                             markerDrawable.draw(canvas);
                         }
                         // TODO: customize infoWindow
-                        
+
                         String address = beautifyAddress(loc);
                         map.addMarker(new MarkerOptions()
                                 .position(new LatLng(loc.getLatitude(), loc.getLongitude()))

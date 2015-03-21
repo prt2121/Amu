@@ -50,8 +50,9 @@ public class InfoWindowClickListener implements GoogleMap.OnInfoWindowClickListe
         LatLng latLng = marker.getPosition();
         Log.d(InfoWindowClickListener.class.getSimpleName(), "id " + id + " latLng " + latLng);
         Intent intent = new Intent(mActivity, LocationActivity.class);
-        intent.putExtra(LocationActivity.LOCATION_EXTRA, latLng.latitude + "," + latLng.longitude);
-        intent.putExtra(LocationActivity.TITLE_EXTRA, marker.getTitle());
+        intent.putExtra(LocationActivity.EXTRA_LOCATION, latLng.latitude + "," + latLng.longitude);
+        intent.putExtra(LocationActivity.EXTRA_TITLE, marker.getTitle());
+        intent.putExtra(LocationActivity.EXTRA_ADDRESS, marker.getSnippet());
         mActivity.startActivity(intent);
     }
 }

@@ -25,65 +25,41 @@
 
 package com.prt2121.amu.ui;
 
-import com.prt2121.amu.AmuApp;
 import com.prt2121.amu.R;
-import com.prt2121.amu.place.GooglePlaceService;
-import com.prt2121.amu.place.PlaceUtil;
-import com.prt2121.amu.place.model.Photo;
-import com.prt2121.amu.place.model.Result;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.util.List;
-
-import javax.inject.Inject;
-
-import retrofit.RestAdapter;
-import rx.schedulers.Schedulers;
-
 public class LocationActivity extends ActionBarActivity {
 
-    @Inject
-    RestAdapter mRestAdapter;
+    public static final String EXTRA_LOCATION = "location";
 
-    public static final String LOCATION_EXTRA = "location_extra";
+    public static final String EXTRA_TITLE = "title";
 
-    public static final String TITLE_EXTRA = "title_extra";
+    public static final String EXTRA_ADDRESS = "address";
 
     private static final String TAG = LocationActivity.class.getSimpleName();
+
+    private LocationFragment mLocationFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AmuApp.getInstance().getGraph().inject(this);
         setContentView(R.layout.activity_location);
         Intent intent = getIntent();
-        String location = intent.getStringExtra(LOCATION_EXTRA);
-        String title = intent.getStringExtra(TITLE_EXTRA);
-        String apiKey = getResources().getString(R.string.google_place_key);
-        mRestAdapter.create(GooglePlaceService.class)
-                .getPlaces(location, title, apiKey)
-                .subscribeOn(Schedulers.newThread())
-                        //.observeOn(AndroidSchedulers.mainThread())
-                .subscribe(place -> {
-                    List<Result> results = place.getResults();
-                    if (results != null && !results.isEmpty()) {
-                        Result result = results.get(0);
-                        Log.d(TAG, "Name " + result.getName());
-                        Log.d(TAG, "PlaceId " + result.getPlaceId());
-                        Log.d(TAG, "Vicinity " + result.getVicinity());
-                        List<Photo> photos = result.getPhotos();
-                        if (photos != null && !photos.isEmpty()) {
-                            PlaceUtil.retrieveImage(LocationActivity.this,
-                                    result.getPhotos().get(0).getPhotoReference());
-                        }
-                    }
-                });
+        String location = intent.getStringExtra(EXTRA_LOCATION);
+        String title = intent.getStringExtra(EXTRA_TITLE);
+        String address = intent.getStringExtra(EXTRA_ADDRESS);
+
+        mLocationFragment = LocationFragment.newInstance(location, title, address);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.locationFragment, mLocationFragment)
+                .commit();
     }
 
     @Override
