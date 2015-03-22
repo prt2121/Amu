@@ -29,6 +29,7 @@ import com.prt2121.amu.AmuApp;
 import com.prt2121.amu.R;
 import com.prt2121.amu.loctype.LocTypeAdapter;
 import com.prt2121.amu.loctype.LocTypeService;
+import com.prt2121.amu.view.DividerItemDecoration;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -67,6 +68,7 @@ public class LocTypeFragment extends Fragment {
             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_filter, container, false);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
         mLayoutManager = new MyLinearLayoutManager(getActivity());
         mAdapter = new LocTypeAdapter(mLocTypeService.getLocTypes());
         mRecyclerView.setAdapter(mAdapter);
