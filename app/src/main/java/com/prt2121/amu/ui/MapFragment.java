@@ -35,13 +35,13 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.prt2121.amu.AmuApp;
-import com.prt2121.amu.MapUtils;
 import com.prt2121.amu.R;
 import com.prt2121.amu.location.FindLoc;
 import com.prt2121.amu.loctype.LocType;
 import com.prt2121.amu.loctype.LocTypeService;
 import com.prt2121.amu.model.Loc;
 import com.prt2121.amu.userlocation.IUserLocation;
+import com.prt2121.amu.util.MapUtils;
 
 import android.app.Activity;
 import android.content.Context;

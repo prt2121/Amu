@@ -28,14 +28,13 @@ package com.prt2121.amu.ui;
 import com.prt2121.amu.AmuApp;
 import com.prt2121.amu.R;
 import com.prt2121.amu.place.GooglePlaceService;
-import com.prt2121.amu.place.PlaceUtil;
 import com.prt2121.amu.place.model.Photo;
 import com.prt2121.amu.place.model.Place;
 import com.prt2121.amu.place.model.Result;
 import com.prt2121.amu.userlocation.IUserLocation;
+import com.prt2121.amu.util.FileUtils;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
@@ -48,7 +47,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.io.File;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -157,7 +155,7 @@ public class LocationFragment extends Fragment {
                 .subscribe(locationViewModel -> {
                     mAddressTextView.setText(locationViewModel.address);
                     mDistanceTextView.setText(locationViewModel.distance);
-                    String path = getCacheFilePath(getActivity(), locationViewModel.imageName);
+                    String path = FileUtils.getCacheFilePath(getActivity(), locationViewModel.imageName);
                     if (!TextUtils.isEmpty(path)) {
                         mLocationImageView.setImageDrawable(Drawable.createFromPath(path));
                     }
@@ -176,7 +174,7 @@ public class LocationFragment extends Fragment {
             Activity activity) {
         List<Photo> photos = result.getPhotos();
         String imageName = (photos != null && !photos.isEmpty()) ?
-                PlaceUtil.retrieveImage(activity,
+                FileUtils.retrieveImage(activity,
                         result.getPhotos().get(0).getPhotoReference()) :
                 "";
         String[] latLngStr = mLocation.split(",");
@@ -218,15 +216,6 @@ public class LocationFragment extends Fragment {
             this.distance = distance;
             this.imageName = imageName;
         }
-    }
-
-    // TODO: Move to Util
-    public static String getCacheFilePath(Context context, String fileName) {
-        if (fileName == null) {
-            return null;
-        }
-        File f = new File(context.getCacheDir(), fileName);
-        return f.exists() ? f.getPath() : null;
     }
 
 }

@@ -39,15 +39,21 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:layout_above="@+id/middle"
         android:contentDescription="@string/photo_location" />
+
+    <View
+        android:id="@+id/middle"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerVertical="true" />
 
     <TextView
         android:id="@+id/addressTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/locationImageView"
-        android:layout_marginTop="20dp"
+        android:layout_below="@+id/middle"
+        android:layout_centerVertical="true"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView

@@ -23,7 +23,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.prt2121.amu.place;
+package com.prt2121.amu.util;
 
 import com.prt2121.amu.R;
 
@@ -40,11 +40,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * Created by pt2121 on 3/20/15.
+ * Created by pt2121 on 3/21/15.
  */
-public class PlaceUtil {
+public class FileUtils {
 
-    private static final String TAG = PlaceUtil.class.getSimpleName();
+    private static final String TAG = FileUtils.class.getSimpleName();
 
     public static String retrieveImage(Context context, String ref) {
         if (!TextUtils.isEmpty(ref)) {
@@ -105,5 +105,4 @@ public class PlaceUtil {
         File f = new File(context.getCacheDir(), fileName);
         return f.exists() ? f.getPath() : null;
     }
-
 }
