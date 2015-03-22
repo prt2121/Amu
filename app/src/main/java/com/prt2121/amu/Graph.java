@@ -27,11 +27,11 @@ package com.prt2121.amu;
 
 import com.google.gson.Gson;
 
+import com.prt2121.amu.gapi.MapApiModule;
 import com.prt2121.amu.location.FindLoc;
 import com.prt2121.amu.loctype.LocTypeAdapter;
 import com.prt2121.amu.loctype.LocTypeService;
 import com.prt2121.amu.loctype.LocTypeServiceModule;
-import com.prt2121.amu.place.PlaceApiModule;
 import com.prt2121.amu.ui.LocTypeFragment;
 import com.prt2121.amu.ui.LocationFragment;
 import com.prt2121.amu.ui.MapFragment;
@@ -53,7 +53,7 @@ import retrofit.RestAdapter;
         UserLocationModule.class,
         LocTypeServiceModule.class,
         TinyDbModule.class,
-        PlaceApiModule.class
+        MapApiModule.class
 })
 public interface Graph {
 

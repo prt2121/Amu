@@ -83,4 +83,8 @@ public class LocationActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public void setActionBarTitle(String title){
+        setTitle(title);
+    }
 }

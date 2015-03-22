@@ -53,7 +53,7 @@ public class FileUtils {
             try {
                 URL url = new URL(
                         "https://maps.googleapis.com/maps/api/place/photo?maxwidth=1600&key="
-                                + context.getResources().getString(R.string.google_place_key)
+                                + context.getResources().getString(R.string.google_maps_key)
                                 + "&photoreference="
                                 + ref);
                 HttpURLConnection urlConnection = (HttpURLConnection) url

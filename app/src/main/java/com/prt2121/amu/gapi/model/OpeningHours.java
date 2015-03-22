@@ -23,32 +23,23 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.prt2121.amu.place.model;
+package com.prt2121.amu.gapi.model;
 
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-public class Location {
+public class OpeningHours {
 
+    @SerializedName("open_now")
     @Expose
-    private Double lat;
+    private Boolean openNow;
 
-    @Expose
-    private Double lng;
-
-    public Double getLat() {
-        return lat;
+    public Boolean getOpenNow() {
+        return openNow;
     }
 
-    public void setLat(Double lat) {
-        this.lat = lat;
-    }
-
-    public Double getLng() {
-        return lng;
-    }
-
-    public void setLng(Double lng) {
-        this.lng = lng;
+    public void setOpenNow(Boolean openNow) {
+        this.openNow = openNow;
     }
 
 }

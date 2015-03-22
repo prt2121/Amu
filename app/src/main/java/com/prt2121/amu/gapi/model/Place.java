@@ -23,7 +23,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.prt2121.amu.place.model;
+package com.prt2121.amu.gapi.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

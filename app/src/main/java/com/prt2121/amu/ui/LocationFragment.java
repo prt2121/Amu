@@ -27,27 +27,22 @@ package com.prt2121.amu.ui;
 
 import com.prt2121.amu.AmuApp;
 import com.prt2121.amu.R;
-import com.prt2121.amu.place.GooglePlaceService;
-import com.prt2121.amu.place.model.Photo;
-import com.prt2121.amu.place.model.Place;
-import com.prt2121.amu.place.model.Result;
+import com.prt2121.amu.gapi.GoogleMapService;
+import com.prt2121.amu.gapi.model.Place;
+import com.prt2121.amu.gapi.model.Result;
 import com.prt2121.amu.userlocation.IUserLocation;
-import com.prt2121.amu.util.FileUtils;
+import com.squareup.picasso.Picasso;
 
 import android.app.Activity;
-import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -130,17 +125,26 @@ public class LocationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
+        ((LocationActivity) getActivity()).setActionBarTitle(mTitle);
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_location, container, false);
         mAddressTextView = (TextView) view.findViewById(R.id.addressTextView);
         mLocationImageView = (ImageView) view.findViewById(R.id.locationImageView);
         mDistanceTextView = (TextView) view.findViewById(R.id.distanceTextView);
         AmuApp.getInstance().getGraph().inject(this);
-        String apiKey = getResources().getString(R.string.google_place_key);
+        String apiKey = getResources().getString(R.string.google_maps_key);
+
+        String imageViewUrl = "https://maps.googleapis.com/maps/api/streetview?size=640x480&location="
+                + mLocation + "&key=" + apiKey;
+
+        Picasso.with(getActivity())
+                .load(imageViewUrl)
+                //.placeholder(R.drawable.user_placeholder)
+                .into(mLocationImageView);
 
         mUser = findUserLocation();
 
-        mSubscription = mRestAdapter.create(GooglePlaceService.class)
+        mSubscription = mRestAdapter.create(GoogleMapService.class)
                 .getPlaces(mLocation, mTitle, apiKey)
                 .map(Place::getResults)
                 .flatMap(Observable::from)
@@ -148,17 +152,13 @@ public class LocationFragment extends Fragment {
                 .zipWith(mUser, new Func2<Result, Location, LocationViewModel>() {
                     @Override
                     public LocationViewModel call(Result result, Location location) {
-                        return createLocationViewModel(result, location, getActivity());
+                        return createLocationViewModel(result, location);
                     }
                 }).subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(locationViewModel -> {
                     mAddressTextView.setText(locationViewModel.address);
                     mDistanceTextView.setText(locationViewModel.distance);
-                    String path = FileUtils.getCacheFilePath(getActivity(), locationViewModel.imageName);
-                    if (!TextUtils.isEmpty(path)) {
-                        mLocationImageView.setImageDrawable(Drawable.createFromPath(path));
-                    }
                 }, e -> {
                     Log.e(TAG, e.toString());
                 });
@@ -170,13 +170,7 @@ public class LocationFragment extends Fragment {
         super.onAttach(activity);
     }
 
-    private LocationViewModel createLocationViewModel(Result result, Location location,
-            Activity activity) {
-        List<Photo> photos = result.getPhotos();
-        String imageName = (photos != null && !photos.isEmpty()) ?
-                FileUtils.retrieveImage(activity,
-                        result.getPhotos().get(0).getPhotoReference()) :
-                "";
+    private LocationViewModel createLocationViewModel(Result result, Location location) {
         String[] latLngStr = mLocation.split(",");
         Location l = new Location("");
         l.setLatitude(Double.parseDouble(latLngStr[0]));
@@ -184,7 +178,7 @@ public class LocationFragment extends Fragment {
         location.distanceTo(l);
         return new LocationViewModel(mTitle,
                 mAddress,
-                String.valueOf(location.distanceTo(l)), imageName);
+                String.valueOf(location.distanceTo(l)));
     }
 
     @Override
@@ -208,13 +202,10 @@ public class LocationFragment extends Fragment {
 
         final String distance;
 
-        final String imageName;
-
-        LocationViewModel(String name, String address, String distance, String imageName) {
+        LocationViewModel(String name, String address, String distance) {
             this.name = name;
             this.address = address;
             this.distance = distance;
-            this.imageName = imageName;
         }
     }
 

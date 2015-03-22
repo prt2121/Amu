@@ -23,26 +23,21 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.prt2121.amu.place;
+package com.prt2121.amu.gapi.model;
 
-import javax.inject.Singleton;
+import com.google.gson.annotations.Expose;
 
-import dagger.Module;
-import dagger.Provides;
-import retrofit.RestAdapter;
+public class Geometry {
 
-/**
- * Created by prt2121 on 10/5/14.
- */
-@Module
-public final class PlaceApiModule {
+    @Expose
+    private Location location;
 
-    @Provides
-    @Singleton
-    RestAdapter provideRestAdapter() {
-        return new RestAdapter.Builder()
-                .setLogLevel(RestAdapter.LogLevel.FULL)
-                .setEndpoint("https://maps.googleapis.com")
-                .build();
+    public Location getLocation() {
+        return location;
     }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
 }

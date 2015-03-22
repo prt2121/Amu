@@ -26,7 +26,7 @@
 package com.prt2121.amu;
 
 import com.prt2121.amu.loctype.LocTypeServiceModule;
-import com.prt2121.amu.place.PlaceApiModule;
+import com.prt2121.amu.gapi.MapApiModule;
 import com.prt2121.amu.userlocation.UserLocationModule;
 
 import android.app.Application;
@@ -50,7 +50,7 @@ public class AmuApp extends Application {
                 .userLocationModule(new UserLocationModule(getApplicationContext()))
                 .tinyDbModule(new TinyDbModule(getApplicationContext()))
                 .locTypeServiceModule(new LocTypeServiceModule())
-                .placeApiModule(new PlaceApiModule())
+                .mapApiModule(new MapApiModule())
                 .build();
 
         // custom font

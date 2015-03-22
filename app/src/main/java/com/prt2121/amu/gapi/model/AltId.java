@@ -23,60 +23,34 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.prt2121.amu.place.model;
+package com.prt2121.amu.gapi.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
-import java.util.List;
+public class AltId {
 
-public class Photo {
+    @SerializedName("place_id")
+    @Expose
+    private String placeId;
 
     @Expose
-    private Integer height;
+    private String scope;
 
-    @SerializedName("html_attributions")
-    @Expose
-    private List<Object> htmlAttributions = new ArrayList<Object>();
-
-    @SerializedName("photo_reference")
-    @Expose
-    private String photoReference;
-
-    @Expose
-    private Integer width;
-
-    public Integer getHeight() {
-        return height;
+    public String getPlaceId() {
+        return placeId;
     }
 
-    public void setHeight(Integer height) {
-        this.height = height;
+    public void setPlaceId(String placeId) {
+        this.placeId = placeId;
     }
 
-    public List<Object> getHtmlAttributions() {
-        return htmlAttributions;
+    public String getScope() {
+        return scope;
     }
 
-    public void setHtmlAttributions(List<Object> htmlAttributions) {
-        this.htmlAttributions = htmlAttributions;
-    }
-
-    public String getPhotoReference() {
-        return photoReference;
-    }
-
-    public void setPhotoReference(String photoReference) {
-        this.photoReference = photoReference;
-    }
-
-    public Integer getWidth() {
-        return width;
-    }
-
-    public void setWidth(Integer width) {
-        this.width = width;
+    public void setScope(String scope) {
+        this.scope = scope;
     }
 
 }

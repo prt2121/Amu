@@ -23,21 +23,26 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.prt2121.amu.place;
+package com.prt2121.amu.gapi;
 
-import com.prt2121.amu.place.model.Place;
+import com.prt2121.amu.gapi.model.Place;
 
+import retrofit.client.Response;
 import retrofit.http.GET;
 import retrofit.http.Query;
+import retrofit.http.Streaming;
 import rx.Observable;
 
 /**
  * Created by prt2121 on 10/5/14.
  * https://developers.google.com/places/documentation/search
+ * https://developers.google.com/maps/documentation/streetview/
  * https://maps.googleapis.com/maps/api/place/nearbysearch/output?parameters
  * eg https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&types=food&name=cruise&key=AddYourOwnKeyHere
+ *
+ * https://maps.googleapis.com/maps/api/streetview?size=400x400&location=40.720032,-73.988354&key=AddYourOwnKeyHere
  */
-public interface GooglePlaceService {
+public interface GoogleMapService {
 
     @GET("/maps/api/place/nearbysearch/json?rankby=distance")
     Observable<Place> getPlaces(@Query("location") String location,

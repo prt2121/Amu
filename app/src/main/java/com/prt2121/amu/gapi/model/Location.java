@@ -23,34 +23,32 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.prt2121.amu.place.model;
+package com.prt2121.amu.gapi.model;
 
 import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 
-public class AltId {
-
-    @SerializedName("place_id")
-    @Expose
-    private String placeId;
+public class Location {
 
     @Expose
-    private String scope;
+    private Double lat;
 
-    public String getPlaceId() {
-        return placeId;
+    @Expose
+    private Double lng;
+
+    public Double getLat() {
+        return lat;
     }
 
-    public void setPlaceId(String placeId) {
-        this.placeId = placeId;
+    public void setLat(Double lat) {
+        this.lat = lat;
     }
 
-    public String getScope() {
-        return scope;
+    public Double getLng() {
+        return lng;
     }
 
-    public void setScope(String scope) {
-        this.scope = scope;
+    public void setLng(Double lng) {
+        this.lng = lng;
     }
 
 }
