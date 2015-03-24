@@ -39,6 +39,7 @@ import com.prt2121.amu.R;
 import com.prt2121.amu.location.FindLoc;
 import com.prt2121.amu.loctype.LocType;
 import com.prt2121.amu.loctype.LocTypeService;
+import com.prt2121.amu.marker.MarkerCache;
 import com.prt2121.amu.model.Loc;
 import com.prt2121.amu.userlocation.IUserLocation;
 import com.prt2121.amu.util.MapUtils;
@@ -98,6 +99,9 @@ public class MapFragment extends Fragment {
     private Observable<Loc> mLocations;
 
     private FloatingActionButton mRefreshButton;
+
+    @Inject
+    MarkerCache mMarkerCache;
 
     //Test Location : New York City Department of Health and Mental Hygiene
     private final Loc mUserLoc = new Loc.Build("Your location", 40.715522, -74.002452)
@@ -248,7 +252,7 @@ public class MapFragment extends Fragment {
         Observable<Location> mockObservable = mockUserLocation(center);
         return MapUtils.showPins(getActivity(),
                 mockObservable, //mUser,
-                mLocations, mMap, MAX_LOCATION, latLngBounds
+                mLocations, mMap, MAX_LOCATION, latLngBounds, mMarkerCache
         );
     }
 

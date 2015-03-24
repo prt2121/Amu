@@ -23,49 +23,22 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.prt2121.amu.ui;
+package com.prt2121.amu.marker;
 
-import com.prt2121.amu.R;
+import javax.inject.Singleton;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.view.MenuItem;
+import dagger.Module;
+import dagger.Provides;
 
-public class LocationActivity extends ActionBarActivity {
+/**
+ * Created by pt2121 on 3/22/15.
+ */
+@Module
+public class MarkerModule {
 
-    public static final String EXTRA_ID = "id";
-
-    public static final String EXTRA_LOCATION = "location";
-
-    public static final String EXTRA_TITLE = "title";
-
-    public static final String EXTRA_ADDRESS = "address";
-
-    private static final String TAG = LocationActivity.class.getSimpleName();
-
-    private LocationFragment mLocationFragment;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_location);
-        Intent intent = getIntent();
-        String id = intent.getStringExtra(EXTRA_ID);
-        String location = intent.getStringExtra(EXTRA_LOCATION);
-        String title = intent.getStringExtra(EXTRA_TITLE);
-        String address = intent.getStringExtra(EXTRA_ADDRESS);
-
-        mLocationFragment = LocationFragment.newInstance(id, location, title, address);
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.locationFragment, mLocationFragment)
-                .commit();
-    }
-
-    public void setActionBarTitle(String title){
-        setTitle(title);
+    @Provides
+    @Singleton
+    public MarkerCache provideMarkerCache() {
+        return new MarkerCache();
     }
 }

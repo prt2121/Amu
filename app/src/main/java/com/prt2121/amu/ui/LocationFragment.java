@@ -30,6 +30,8 @@ import com.prt2121.amu.R;
 import com.prt2121.amu.gapi.GoogleMapService;
 import com.prt2121.amu.gapi.model.Place;
 import com.prt2121.amu.gapi.model.Result;
+import com.prt2121.amu.marker.MarkerCache;
+import com.prt2121.amu.model.Loc;
 import com.prt2121.amu.userlocation.IUserLocation;
 import com.squareup.picasso.Picasso;
 
@@ -60,11 +62,19 @@ public class LocationFragment extends Fragment {
 
     private static final String TAG = LocationFragment.class.getSimpleName();
 
+    private static final String ARG_ID = "id";
+
     private static final String ARG_LOCATION = "location";
 
     private static final String ARG_TITLE = "title";
 
     private static final String ARG_ADDRESS = "address";
+
+//    @Inject
+//    MarkerCache mMarkerCache;
+
+    @Inject
+    MarkerCache mMarkerCache;
 
     @Inject
     RestAdapter mRestAdapter;
@@ -73,6 +83,8 @@ public class LocationFragment extends Fragment {
     IUserLocation mUserLocation;
 
     private Observable<Location> mUser;
+
+    private String mMarkerId;
 
     private String mLocation;
 
@@ -93,14 +105,16 @@ public class LocationFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
+     * @param id marker's id.
      * @param location lat,long string.
      * @param title    Location title.
      * @param address  Address from our database.
      * @return A new instance of fragment LocationActivityFragment.
      */
-    public static LocationFragment newInstance(String location, String title, String address) {
+    public static LocationFragment newInstance(String id, String location, String title, String address) {
         LocationFragment fragment = new LocationFragment();
         Bundle args = new Bundle();
+        args.putString(ARG_ID, id);
         args.putString(ARG_LOCATION, location);
         args.putString(ARG_TITLE, title);
         args.putString(ARG_ADDRESS, address);
@@ -116,6 +130,7 @@ public class LocationFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+            mMarkerId = getArguments().getString(ARG_ID);
             mLocation = getArguments().getString(ARG_LOCATION);
             mTitle = getArguments().getString(ARG_TITLE);
             mAddress = getArguments().getString(ARG_ADDRESS);
@@ -133,6 +148,11 @@ public class LocationFragment extends Fragment {
         mDistanceTextView = (TextView) view.findViewById(R.id.distanceTextView);
         AmuApp.getInstance().getGraph().inject(this);
         String apiKey = getResources().getString(R.string.google_maps_key);
+
+        // TODO
+        Loc loc = mMarkerCache.get(mMarkerId);
+        Log.d(TAG, "loc : " + loc.getShortName());
+        Log.d(TAG, "loc : " + loc.getDistance());
 
         String imageViewUrl = "https://maps.googleapis.com/maps/api/streetview?size=640x480&location="
                 + mLocation + "&key=" + apiKey;

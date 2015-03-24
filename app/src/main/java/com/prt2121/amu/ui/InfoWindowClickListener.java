@@ -53,6 +53,7 @@ public class InfoWindowClickListener implements GoogleMap.OnInfoWindowClickListe
         intent.putExtra(LocationActivity.EXTRA_LOCATION, latLng.latitude + "," + latLng.longitude);
         intent.putExtra(LocationActivity.EXTRA_TITLE, marker.getTitle());
         intent.putExtra(LocationActivity.EXTRA_ADDRESS, marker.getSnippet());
+        intent.putExtra(LocationActivity.EXTRA_ID, marker.getId());
         mActivity.startActivity(intent);
     }
 }

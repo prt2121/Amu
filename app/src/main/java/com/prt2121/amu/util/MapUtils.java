@@ -29,9 +29,11 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import com.prt2121.amu.R;
+import com.prt2121.amu.marker.MarkerCache;
 import com.prt2121.amu.model.Loc;
 
 import android.content.Context;
@@ -44,7 +46,6 @@ import android.util.Log;
 import android.util.Pair;
 
 import rx.Observable;
-import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -72,7 +73,9 @@ public class MapUtils {
             Context context,
             Observable<Location> pivot,
             Observable<Loc> things,
-            GoogleMap map, int maxLocation, LatLngBounds bounds) {
+            GoogleMap map, int maxLocation,
+            LatLngBounds bounds,
+            MarkerCache markerCache) {
         if (map == null) {
             Log.e(TAG, "map is NULL");
             return Subscriptions.empty();
@@ -86,7 +89,7 @@ public class MapUtils {
         if (markerDrawable != null) {
             markerDrawable.setBounds(0, 0, markerBitmap.getWidth(), markerBitmap.getHeight());
         }
-
+        markerCache.clear();
         return Observable.zip(pivot.first().repeat(),
                 things.filter(loc -> loc.getLatitude() != null && loc.getLongitude() != null)
                         .filter(l -> bounds.contains(new LatLng(l.getLatitude(), l.getLongitude()))),
@@ -97,12 +100,26 @@ public class MapUtils {
                     return new Pair<>(location.distanceTo(l), loc);
                 }).toSortedList((p1, p2) -> p1.first.compareTo(p2.first))
                 .flatMap(Observable::from)
-                .map(p -> p.second)
                 .take(maxLocation)
                 .onBackpressureBuffer()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Loc>() {
+                .subscribe(p -> {
+                    Loc loc = p.second;
+                    loc.setDistance(p.first);
+                    if (markerDrawable != null) {
+                        markerDrawable.setColorFilter(getColor(loc.getType()), PorterDuff.Mode.MULTIPLY);
+                        markerDrawable.draw(canvas);
+                    }
+                    String address = beautifyAddress(loc);
+                    Marker marker = map.addMarker(new MarkerOptions()
+                            .position(new LatLng(loc.getLatitude(), loc.getLongitude()))
+                            .title(loc.getShortName())
+                            .snippet(address)
+                            .icon(BitmapDescriptorFactory.fromBitmap(markerBitmap)));
+                    markerCache.put(marker.getId(), loc);
+                });
+                /*.subscribe(new Subscriber<Loc>() {
 
                     @Override
                     public void onCompleted() {
@@ -129,20 +146,8 @@ public class MapUtils {
                                 .snippet(address)
                                 .icon(BitmapDescriptorFactory.fromBitmap(markerBitmap)));
                     }
-                });
-
-                /*.subscribe(p -> {
-                    float distance = p.first;
-                    Loc loc = p.second;
-                    if (markerDrawable != null) {
-                        markerDrawable.setColorFilter(getColor(loc.getType()), PorterDuff.Mode.MULTIPLY);
-                        markerDrawable.draw(canvas);
-                    }
-                    map.addMarker(new MarkerOptions()
-                            .position(new LatLng(loc.getLatitude(), loc.getLongitude()))
-                            .title(loc.getShortName() + " (" + distance + " m)")
-                            .icon(BitmapDescriptorFactory.fromBitmap(markerBitmap)));
                 });*/
+
     }
 
     private static String beautifyAddress(Loc loc) {

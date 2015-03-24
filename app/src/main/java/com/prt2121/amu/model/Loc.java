@@ -42,6 +42,16 @@ public class Loc {
         MaterialType = materialType;
     }
 
+    private float distance;
+
+    public float getDistance() {
+        return distance;
+    }
+
+    public void setDistance(float distance) {
+        this.distance = distance;
+    }
+
     @SerializedName("Short Name")
     @Expose
     private String ShortName;
