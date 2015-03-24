@@ -40,6 +40,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 import javax.inject.Inject;
 
 import retrofit.RestAdapter;
@@ -117,7 +120,8 @@ public class LocationFragment extends Fragment {
 
         ((LocationActivity) getActivity()).setActionBarTitle(loc.getShortName());
         mAddressTextView.setText(loc.getAddress());
-        mDistanceTextView.setText(String.valueOf(loc.getDistance()));
+        NumberFormat formatter = new DecimalFormat("#0.00 mi");
+        mDistanceTextView.setText(formatter.format(loc.getDistance()));
 
         String imageViewUrl = "https://maps.googleapis.com/maps/api/streetview?size=640x480&location="
                 + mLocation + "&key=" + apiKey;
