@@ -27,19 +27,13 @@ package com.prt2121.amu.ui;
 
 import com.prt2121.amu.AmuApp;
 import com.prt2121.amu.R;
-import com.prt2121.amu.gapi.GoogleMapService;
-import com.prt2121.amu.gapi.model.Place;
-import com.prt2121.amu.gapi.model.Result;
 import com.prt2121.amu.marker.MarkerCache;
 import com.prt2121.amu.model.Loc;
-import com.prt2121.amu.userlocation.IUserLocation;
 import com.squareup.picasso.Picasso;
 
 import android.app.Activity;
-import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,11 +43,6 @@ import android.widget.TextView;
 import javax.inject.Inject;
 
 import retrofit.RestAdapter;
-import rx.Observable;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func2;
-import rx.schedulers.Schedulers;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -66,33 +55,15 @@ public class LocationFragment extends Fragment {
 
     private static final String ARG_LOCATION = "location";
 
-    private static final String ARG_TITLE = "title";
-
-    private static final String ARG_ADDRESS = "address";
-
-//    @Inject
-//    MarkerCache mMarkerCache;
-
     @Inject
     MarkerCache mMarkerCache;
 
     @Inject
     RestAdapter mRestAdapter;
 
-    @Inject
-    IUserLocation mUserLocation;
-
-    private Observable<Location> mUser;
-
     private String mMarkerId;
 
     private String mLocation;
-
-    private String mTitle;
-
-    private String mAddress;
-
-    private Subscription mSubscription;
 
     private TextView mAddressTextView;
 
@@ -105,19 +76,15 @@ public class LocationFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param id marker's id.
+     * @param id       marker's id.
      * @param location lat,long string.
-     * @param title    Location title.
-     * @param address  Address from our database.
      * @return A new instance of fragment LocationActivityFragment.
      */
-    public static LocationFragment newInstance(String id, String location, String title, String address) {
+    public static LocationFragment newInstance(String id, String location) {
         LocationFragment fragment = new LocationFragment();
         Bundle args = new Bundle();
         args.putString(ARG_ID, id);
         args.putString(ARG_LOCATION, location);
-        args.putString(ARG_TITLE, title);
-        args.putString(ARG_ADDRESS, address);
         fragment.setArguments(args);
         return fragment;
     }
@@ -132,15 +99,12 @@ public class LocationFragment extends Fragment {
         if (getArguments() != null) {
             mMarkerId = getArguments().getString(ARG_ID);
             mLocation = getArguments().getString(ARG_LOCATION);
-            mTitle = getArguments().getString(ARG_TITLE);
-            mAddress = getArguments().getString(ARG_ADDRESS);
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        ((LocationActivity) getActivity()).setActionBarTitle(mTitle);
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_location, container, false);
         mAddressTextView = (TextView) view.findViewById(R.id.addressTextView);
@@ -149,39 +113,20 @@ public class LocationFragment extends Fragment {
         AmuApp.getInstance().getGraph().inject(this);
         String apiKey = getResources().getString(R.string.google_maps_key);
 
-        // TODO
         Loc loc = mMarkerCache.get(mMarkerId);
-        Log.d(TAG, "loc : " + loc.getShortName());
-        Log.d(TAG, "loc : " + loc.getDistance());
+
+        ((LocationActivity) getActivity()).setActionBarTitle(loc.getShortName());
+        mAddressTextView.setText(loc.getAddress());
+        mDistanceTextView.setText(String.valueOf(loc.getDistance()));
 
         String imageViewUrl = "https://maps.googleapis.com/maps/api/streetview?size=640x480&location="
                 + mLocation + "&key=" + apiKey;
 
         Picasso.with(getActivity())
                 .load(imageViewUrl)
-                //.placeholder(R.drawable.user_placeholder)
+                        //.placeholder(R.drawable.user_placeholder)
                 .into(mLocationImageView);
 
-        mUser = findUserLocation();
-
-        mSubscription = mRestAdapter.create(GoogleMapService.class)
-                .getPlaces(mLocation, mTitle, apiKey)
-                .map(Place::getResults)
-                .flatMap(Observable::from)
-                .first()
-                .zipWith(mUser, new Func2<Result, Location, LocationViewModel>() {
-                    @Override
-                    public LocationViewModel call(Result result, Location location) {
-                        return createLocationViewModel(result, location);
-                    }
-                }).subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(locationViewModel -> {
-                    mAddressTextView.setText(locationViewModel.address);
-                    mDistanceTextView.setText(locationViewModel.distance);
-                }, e -> {
-                    Log.e(TAG, e.toString());
-                });
         return view;
     }
 
@@ -190,43 +135,9 @@ public class LocationFragment extends Fragment {
         super.onAttach(activity);
     }
 
-    private LocationViewModel createLocationViewModel(Result result, Location location) {
-        String[] latLngStr = mLocation.split(",");
-        Location l = new Location("");
-        l.setLatitude(Double.parseDouble(latLngStr[0]));
-        l.setLongitude(Double.parseDouble(latLngStr[1]));
-        location.distanceTo(l);
-        return new LocationViewModel(mTitle,
-                mAddress,
-                String.valueOf(location.distanceTo(l)));
-    }
-
     @Override
     public void onDetach() {
         super.onDetach();
-        if (mSubscription != null &&
-                !mSubscription.isUnsubscribed()) {
-            mSubscription.unsubscribe();
-        }
-    }
-
-    private Observable<Location> findUserLocation() {
-        return mUserLocation.locate().filter(location -> location != null);
-    }
-
-    class LocationViewModel {
-
-        final String name;
-
-        final String address;
-
-        final String distance;
-
-        LocationViewModel(String name, String address, String distance) {
-            this.name = name;
-            this.address = address;
-            this.distance = distance;
-        }
     }
 
 }

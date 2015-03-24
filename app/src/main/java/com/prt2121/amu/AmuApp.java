@@ -25,8 +25,8 @@
 
 package com.prt2121.amu;
 
-import com.prt2121.amu.loctype.LocTypeServiceModule;
 import com.prt2121.amu.gapi.MapApiModule;
+import com.prt2121.amu.loctype.LocTypeServiceModule;
 import com.prt2121.amu.userlocation.UserLocationModule;
 
 import android.app.Application;

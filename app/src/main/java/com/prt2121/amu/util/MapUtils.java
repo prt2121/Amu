@@ -97,7 +97,7 @@ public class MapUtils {
                     Location l = new Location(loc.getShortName());
                     l.setLatitude(loc.getLatitude());
                     l.setLongitude(loc.getLongitude());
-                    return new Pair<>(location.distanceTo(l), loc);
+                    return new Pair<>(location.distanceTo(l) * 0.000621371192, loc);
                 }).toSortedList((p1, p2) -> p1.first.compareTo(p2.first))
                 .flatMap(Observable::from)
                 .take(maxLocation)

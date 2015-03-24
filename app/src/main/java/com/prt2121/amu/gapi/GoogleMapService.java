@@ -27,10 +27,8 @@ package com.prt2121.amu.gapi;
 
 import com.prt2121.amu.gapi.model.Place;
 
-import retrofit.client.Response;
 import retrofit.http.GET;
 import retrofit.http.Query;
-import retrofit.http.Streaming;
 import rx.Observable;
 
 /**
