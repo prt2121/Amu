@@ -51,7 +51,7 @@ public class CustomImageView extends ImageView {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
         int width = getMeasuredWidth();
-        setMeasuredDimension(width, width * 3 / 4);
+        setMeasuredDimension(width, width * 3 / 5);
     }
 
 }

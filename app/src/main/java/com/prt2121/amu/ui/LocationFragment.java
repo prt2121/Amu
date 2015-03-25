@@ -32,6 +32,8 @@ import com.prt2121.amu.model.Loc;
 import com.squareup.picasso.Picasso;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -74,6 +76,7 @@ public class LocationFragment extends Fragment {
 
     private TextView mDistanceTextView;
 
+    private TextView mAcceptTextView;
 
     /**
      * Use this factory method to create a new instance of
@@ -108,22 +111,30 @@ public class LocationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
+        AmuApp.getInstance().getGraph().inject(this);
+        Loc loc = mMarkerCache.get(mMarkerId);
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_location, container, false);
         mAddressTextView = (TextView) view.findViewById(R.id.addressTextView);
         mLocationImageView = (ImageView) view.findViewById(R.id.locationImageView);
         mDistanceTextView = (TextView) view.findViewById(R.id.distanceTextView);
-        AmuApp.getInstance().getGraph().inject(this);
-        String apiKey = getResources().getString(R.string.google_maps_key);
+        mAcceptTextView = (TextView) view.findViewById(R.id.acceptTextView);
+        view.findViewById(R.id.openMapButton).setOnClickListener(v -> {
+            Uri uri = Uri.parse("http://maps.google.com/maps?saddr=40.715522,-74.002452&daddr=" +
+                    loc.getLatitude() + "," + loc.getLongitude());
+            Intent mapIntent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(mapIntent);
+        });
 
-        Loc loc = mMarkerCache.get(mMarkerId);
+        String apiKey = getResources().getString(R.string.google_maps_key);
 
         ((LocationActivity) getActivity()).setActionBarTitle(loc.getShortName());
         mAddressTextView.setText(loc.getAddress());
         NumberFormat formatter = new DecimalFormat("#0.00 mi");
         mDistanceTextView.setText(formatter.format(loc.getDistance()));
+        mAcceptTextView.setText(loc.getMaterialType());
 
-        String imageViewUrl = "https://maps.googleapis.com/maps/api/streetview?size=640x480&location="
+        String imageViewUrl = "https://maps.googleapis.com/maps/api/streetview?size=640x384&location="
                 + mLocation + "&key=" + apiKey;
 
         Picasso.with(getActivity())

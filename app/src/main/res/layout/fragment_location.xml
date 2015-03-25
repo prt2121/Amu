@@ -44,9 +44,9 @@
         android:layout_below="@+id/locationImageView"
         android:layout_centerVertical="true"
         android:layout_marginTop="20dp"
-        android:text="@string/loading_address"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
+        android:text="@string/loading_address"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
@@ -56,9 +56,60 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/addressTextView"
         android:layout_marginTop="10dp"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
         android:text="@string/loading_distance"
-        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <View
+        android:id="@+id/line1"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/distanceTextView"
+        android:layout_marginTop="20dp"
+        android:background="#ff888888" />
+
+    <TextView
+        android:id="@+id/accept"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/line1"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="20dp"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:text="@string/accepts" />
+
+    <TextView
+        android:id="@+id/acceptTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/accept"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="10dp"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin" />
+
+    <View
+        android:id="@+id/line2"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/acceptTextView"
+        android:layout_marginTop="20dp"
+        android:background="#ff888888" />
+
+    <Button
+        android:id="@+id/openMapButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:background="@drawable/apply_background"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:text="@string/open_in_google_maps"
+        android:textColor="@drawable/apply_text_color" />
 
 </RelativeLayout>

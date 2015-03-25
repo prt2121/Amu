@@ -39,8 +39,10 @@
     <string name="action_filter">Filter</string>
     <string name="photo_location">Photo</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="title_activity_location">LocationActivity</string>
     <string name="loading_address">Loading address…</string>
     <string name="loading_distance">Loading distance…</string>
+    <string name="accepts">Accepts</string>
+    <string name="open_in_google_maps">Open in Google Maps</string>
+
 </resources>
