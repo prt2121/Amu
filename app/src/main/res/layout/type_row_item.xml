@@ -2,27 +2,21 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/list_item_height"
-    android:layout_marginLeft="@dimen/margin_medium"
-    android:layout_marginRight="@dimen/margin_medium"
     android:gravity="center_vertical">
 
     <TextView
+        android:id="@+id/typeTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Bin"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
-        android:id="@+id/typeTextView"
-        android:layout_gravity="left|center_vertical" />
+        android:layout_gravity="left|center_vertical"
+        android:text="Bin" />
 
     <android.support.v7.widget.SwitchCompat
         android:id="@+id/locSwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_gravity="right|center_vertical"
         android:textOff="OFF"
-        android:textOn="ON"
-        android:layout_gravity="right|center_vertical" />
+        android:textOn="ON" />
 
 </FrameLayout>

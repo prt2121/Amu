@@ -36,18 +36,20 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"
+        android:layout_above="@+id/applyButton"
+        android:scrollbars="vertical" />
 
     <Button
         android:id="@+id/applyButton"
-        android:background="@drawable/apply_background"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/recyclerView"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:textColor="@drawable/apply_text_color"
-        android:text="@string/apply" />
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/apply_background"
+        android:text="@string/apply"
+        android:textColor="@drawable/apply_text_color" />
 
 </RelativeLayout>
