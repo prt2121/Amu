@@ -45,4 +45,8 @@
     <string name="accepts">Accepts</string>
     <string name="open_in_google_maps">Open in Google Maps</string>
 
+    <string name="text_tutorial_01">Select the items you’d like to know where to recycle.</string>
+    <string name="text_tutorial_02">Tap "Apply" to view where they can be disposed of on the map.</string>
+    <string name="text_tutorial_03">Tap "List" to view locations in list from sorted by proximity.</string>
+
 </resources>
