@@ -23,40 +23,48 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.prt2121.amu.ui;
+package com.prt2121.tutorialview;
 
-import com.prt2121.amu.R;
-import com.prt2121.amu.util.FirstRunChecker;
-import com.prt2121.tutorialview.TutorialView;
+/**
+ * Created by pt2121 on 4/5/15.
+ */
+public interface TutorialViewEventListener {
 
-import android.content.Intent;
-import android.graphics.Color;
-import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+    /**
+     * Empty implementation of OnTutorialViewEventListener such that null
+     * checks aren't needed
+     */
+    TutorialViewEventListener NONE = new TutorialViewEventListener() {
+        @Override
+        public void onTutorialViewHide(TutorialView tutorialView) {
 
-public class FilterActivity extends ActionBarActivity {
-
-    private static final int WHITE = Color.parseColor("#FFFFFF");
-
-    private static final int BLACK = Color.parseColor("#99000000"); // 99 ~ 60%
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_filter);
-        findViewById(R.id.applyButton).setOnClickListener(v -> {
-            Intent intent = new Intent(FilterActivity.this, MapActivity.class);
-            FilterActivity.this.startActivity(intent);
-        });
-
-        boolean firstTime = FirstRunChecker.isFirstRun(this, FilterActivity.class.getSimpleName());
-        if (firstTime) {
-            new TutorialView.Builder(this)
-                    .setText("Select the items you'd like to know where to recycle.")
-                    .setTextColor(WHITE)
-                    .setBackgroundColor(BLACK)
-                    .build();
         }
-    }
+
+        @Override
+        public void onTutorialViewDidHide(TutorialView tutorialView) {
+
+        }
+
+        @Override
+        public void onTutorialViewShow(TutorialView tutorialView) {
+
+        }
+    };
+
+    /**
+     * Called when the TutorialView has been told to hide. Use {@link #onTutorialViewDidHide(TutorialView)}
+     * if you want to know when the TutorialView has been fully hidden.
+     */
+    void onTutorialViewHide(TutorialView tutorialView);
+
+    /**
+     * Called when the animation hiding the TutorialView has finished, and it is no longer visible on the screen.
+     */
+    void onTutorialViewDidHide(TutorialView tutorialView);
+
+    /**
+     * Called when the TutorialView is shown.
+     */
+    void onTutorialViewShow(TutorialView tutorialView);
 
 }

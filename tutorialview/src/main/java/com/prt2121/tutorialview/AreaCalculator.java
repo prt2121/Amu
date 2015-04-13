@@ -23,40 +23,42 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.prt2121.amu.ui;
+package com.prt2121.tutorialview;
 
-import com.prt2121.amu.R;
-import com.prt2121.amu.util.FirstRunChecker;
-import com.prt2121.tutorialview.TutorialView;
+import android.graphics.Rect;
+import android.util.Log;
 
-import android.content.Intent;
-import android.graphics.Color;
-import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+final class AreaCalculator {
 
-public class FilterActivity extends ActionBarActivity {
+    private final Rect mRect = new Rect();
 
-    private static final int WHITE = Color.parseColor("#FFFFFF");
+    /**
+     * Creates a {@link Rect}.
+     * Used to calculate where best to place the text
+     *
+     * @return true if voidedArea has changed, false otherwise.
+     */
+    public boolean calculateShowcaseRect(float x, float y) {
 
-    private static final int BLACK = Color.parseColor("#99000000"); // 99 ~ 60%
+        int cx = (int) x, cy = (int) y;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_filter);
-        findViewById(R.id.applyButton).setOnClickListener(v -> {
-            Intent intent = new Intent(FilterActivity.this, MapActivity.class);
-            FilterActivity.this.startActivity(intent);
-        });
-
-        boolean firstTime = FirstRunChecker.isFirstRun(this, FilterActivity.class.getSimpleName());
-        if (firstTime) {
-            new TutorialView.Builder(this)
-                    .setText("Select the items you'd like to know where to recycle.")
-                    .setTextColor(WHITE)
-                    .setBackgroundColor(BLACK)
-                    .build();
+        if (mRect.left == cx / 2 && mRect.top == cy / 2) {
+            return false;
         }
+
+        Log.d("ShowcaseView", "Recalculated");
+
+        mRect.left = cx / 2;
+        mRect.top = cy / 2;
+        mRect.right = cx / 2;
+        mRect.bottom = cy / 2;
+
+        return true;
+
+    }
+
+    public Rect getRect() {
+        return mRect;
     }
 
 }
