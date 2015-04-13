@@ -46,7 +46,7 @@ public class AmuApp extends Application {
     public void onCreate() {
         super.onCreate();
         mInstance = this;
-        mGraph = Dagger_Graph.builder()
+        mGraph = DaggerGraph.builder()
                 .userLocationModule(new UserLocationModule(getApplicationContext()))
                 .tinyDbModule(new TinyDbModule(getApplicationContext()))
                 .locTypeServiceModule(new LocTypeServiceModule())
