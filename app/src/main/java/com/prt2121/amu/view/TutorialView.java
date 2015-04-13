@@ -23,4 +23,24 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-include ':app', ':tutorialview'
+package com.prt2121.amu.view;
+
+import com.prt2121.amu.R;
+
+import android.content.Context;
+import android.util.AttributeSet;
+import android.widget.RelativeLayout;
+
+/**
+ * Created by pt2121 on 4/4/15.
+ */
+public class TutorialView extends RelativeLayout {
+
+    protected TutorialView(Context context, boolean newStyle) {
+        this(context, null, R.styleable.TutorialTheme_tutorialViewStyle, newStyle);
+    }
+
+    protected TutorialView(Context context, AttributeSet attrs, int defStyle, boolean newStyle) {
+        super(context, attrs, defStyle);
+    }
+}
