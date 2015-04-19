@@ -61,13 +61,14 @@ public class LocTypeService {
         }.getType();
         Collection<LocType> ts = gson.fromJson(s, type);
         if (ts == null) {
-            types = new LocType[6];
+            types = new LocType[7];
             types[0] = new LocType(0, "Bin", true);
             types[1] = new LocType(1, "Front-of-Store", true);
             types[2] = new LocType(2, "Drop Off Counter", true);
             types[3] = new LocType(3, "Container Deposit Return, Plastic Bag Return", true);
             types[4] = new LocType(4, "Supermarket/Convenience Store", true);
             types[5] = new LocType(5, "Container Deposit Return", true);
+            types[6] = new LocType(6, "Clothes Drop-Off", true);
             SharedPreferences.Editor e = preferences.edit();
             e.putString("locType", gson.toJson(types));
             e.apply();

@@ -176,6 +176,8 @@ public class MapUtils {
             return 0xFF00FF00;
         } else if (type.equalsIgnoreCase("Container Deposit Return")) {
             return 0xFF00AD9F;
+        } else if (type.equalsIgnoreCase("Clothes Drop-Off")) {
+            return 0xFF0064AD;
         } else {
             return 0xFFFFFFFF;
         }
