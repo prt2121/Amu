@@ -34,10 +34,13 @@ import com.prt2121.amu.model.Loc;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.util.Log;
 
 import java.io.InputStream;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -69,7 +72,25 @@ public class FindLoc implements IFindLoc {
         Type type = new TypeToken<Collection<Loc>>() {
         }.getType();
         Collection<Loc> ls = mGson.fromJson(jsonText, type);
+        //getMaterialTypes(ls);
         return Observable.from(ls);
+    }
+
+    private List<String> mTypes = new ArrayList<>();
+
+    private void getMaterialTypes(Collection<Loc> ls) {
+        for (Loc l : ls) {
+            String materialType = l.getMaterialType();
+            String[] types = materialType.split(",");
+            for (String t : types) {
+                if (!mTypes.contains(t.trim())) {
+                    mTypes.add(t.trim());
+                }
+            }
+        }
+        for (String t : mTypes) {
+            Log.d(FindLoc.class.getSimpleName(), t);
+        }
     }
 
     private Observable<String> getJsonText(Context context) {
