@@ -61,6 +61,7 @@ import javax.inject.Inject;
 
 import rx.Observable;
 import rx.Subscription;
+import rx.functions.Func1;
 
 
 /**
@@ -141,7 +142,13 @@ public class MapFragment extends Fragment {
     private Observable<Loc> findLocation(Context context) {
         return new FindLoc(context)
                 .getLocs()
-                .filter(loc -> mTypeSet.contains(loc.getType()));
+                .filter(loc -> {
+                    for(String t : mTypeSet) {
+                        if(loc.getMaterialType().contains(t))
+                            return true;
+                    }
+                    return false;
+                });
     }
 
     private Observable<Location> findUserLocation() {

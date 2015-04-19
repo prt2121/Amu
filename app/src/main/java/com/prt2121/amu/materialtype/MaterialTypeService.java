@@ -61,16 +61,32 @@ public class MaterialTypeService {
         }.getType();
         Collection<MaterialType> ts = gson.fromJson(s, type);
         if (ts == null) {
-            types = new MaterialType[7];
-            types[0] = new MaterialType(0, "Bin", true);
-            types[1] = new MaterialType(1, "Front-of-Store", true);
-            types[2] = new MaterialType(2, "Drop Off Counter", true);
-            types[3] = new MaterialType(3, "Container Deposit Return, Plastic Bag Return", true);
-            types[4] = new MaterialType(4, "Supermarket/Convenience Store", true);
-            types[5] = new MaterialType(5, "Container Deposit Return", true);
-            types[6] = new MaterialType(6, "Clothes Drop-Off", true);
+            types = new MaterialType[23];
+            types[0] = new MaterialType(0, "Plastic Cup", true);
+            types[1] = new MaterialType(1, "Plastic Bottle", true);
+            types[2] = new MaterialType(2, "Plastic Lid", true);
+            types[3] = new MaterialType(3, "Newspaper", true);
+            types[4] = new MaterialType(4, "Paper Magazine", true);
+            types[5] = new MaterialType(5, "Paper Container", true);
+            types[6] = new MaterialType(6, "Paper Drink Carton", true);
+            types[7] = new MaterialType(7, "Paper Lid", true);
+            types[8] = new MaterialType(8, "Paper Sheet", true);
+            types[9] = new MaterialType(9, "Glass Bottle", true);
+            types[10] = new MaterialType(10, "Aluminum Can", true);
+            types[11] = new MaterialType(11, "Aluminum Wrap", true);
+            types[12] = new MaterialType(12, "Aluminum Bottle", true);
+            types[13] = new MaterialType(13, "Plastic Utensil", true);
+            types[14] = new MaterialType(14, "Plastic Wrap", true);
+            types[15] = new MaterialType(15, "Plastic Bag", true);
+            types[16] = new MaterialType(16, "Metal Container", true);
+            types[17] = new MaterialType(17, "Bubble Wrap", true);
+            types[18] = new MaterialType(18, "Paper Cardboard", true);
+            types[19] = new MaterialType(19, "Paper Cup", true);
+            types[20] = new MaterialType(20, "Plastic Container", true);
+            types[21] = new MaterialType(21, "Glass Container", true);
+            types[22] = new MaterialType(22, "Clothes", true);
             SharedPreferences.Editor e = preferences.edit();
-            e.putString("locType", gson.toJson(types));
+            e.putString(MATERIAL_TYPE, gson.toJson(types));
             e.apply();
         } else {
             types = new MaterialType[ts.size()];
@@ -90,3 +106,5 @@ public class MaterialTypeService {
     }
 
 }
+
+
