@@ -108,7 +108,7 @@ public class MapUtils {
                     Loc loc = p.second;
                     loc.setDistance(p.first);
                     if (markerDrawable != null) {
-                        markerDrawable.setColorFilter(getColor(loc.getType()), PorterDuff.Mode.MULTIPLY);
+                        markerDrawable.setColorFilter(0xFF00AD9F, PorterDuff.Mode.MULTIPLY);
                         markerDrawable.draw(canvas);
                     }
                     String address = beautifyAddress(loc);
