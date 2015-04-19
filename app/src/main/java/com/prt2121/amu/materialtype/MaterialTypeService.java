@@ -23,7 +23,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.prt2121.amu.loctype;
+package com.prt2121.amu.materialtype;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -40,11 +40,11 @@ import javax.inject.Inject;
 /**
  * Created by pt2121 on 3/20/15.
  *
- * LocTypeService provides user's selected location types.
+ * MaterialTypeService provides user's selected location types.
  */
-public class LocTypeService {
+public class MaterialTypeService {
 
-    public static final String LOC_TYPE = "locType";
+    public static final String MATERIAL_TYPE = "materialType";
 
     @Inject
     SharedPreferences preferences;
@@ -52,40 +52,40 @@ public class LocTypeService {
     @Inject
     Gson gson;
 
-    private LocType[] types;
+    private MaterialType[] types;
 
-    public LocTypeService() {
+    public MaterialTypeService() {
         AmuApp.getInstance().getGraph().inject(this);
-        String s = preferences.getString(LOC_TYPE, null);
-        Type type = new TypeToken<Collection<LocType>>() {
+        String s = preferences.getString(MATERIAL_TYPE, null);
+        Type type = new TypeToken<Collection<MaterialType>>() {
         }.getType();
-        Collection<LocType> ts = gson.fromJson(s, type);
+        Collection<MaterialType> ts = gson.fromJson(s, type);
         if (ts == null) {
-            types = new LocType[7];
-            types[0] = new LocType(0, "Bin", true);
-            types[1] = new LocType(1, "Front-of-Store", true);
-            types[2] = new LocType(2, "Drop Off Counter", true);
-            types[3] = new LocType(3, "Container Deposit Return, Plastic Bag Return", true);
-            types[4] = new LocType(4, "Supermarket/Convenience Store", true);
-            types[5] = new LocType(5, "Container Deposit Return", true);
-            types[6] = new LocType(6, "Clothes Drop-Off", true);
+            types = new MaterialType[7];
+            types[0] = new MaterialType(0, "Bin", true);
+            types[1] = new MaterialType(1, "Front-of-Store", true);
+            types[2] = new MaterialType(2, "Drop Off Counter", true);
+            types[3] = new MaterialType(3, "Container Deposit Return, Plastic Bag Return", true);
+            types[4] = new MaterialType(4, "Supermarket/Convenience Store", true);
+            types[5] = new MaterialType(5, "Container Deposit Return", true);
+            types[6] = new MaterialType(6, "Clothes Drop-Off", true);
             SharedPreferences.Editor e = preferences.edit();
             e.putString("locType", gson.toJson(types));
             e.apply();
         } else {
-            types = new LocType[ts.size()];
+            types = new MaterialType[ts.size()];
             types = ts.toArray(types);
         }
     }
 
-    public LocType[] getLocTypes() {
+    public MaterialType[] getMaterialTypes() {
         return types;
     }
 
-    public void updateLocType(int position, boolean checked) {
+    public void updateMaterialType(int position, boolean checked) {
         types[position].setChecked(checked);
         SharedPreferences.Editor e = preferences.edit();
-        e.putString(LOC_TYPE, gson.toJson(types));
+        e.putString(MATERIAL_TYPE, gson.toJson(types));
         e.apply();
     }
 

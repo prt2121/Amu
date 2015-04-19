@@ -23,7 +23,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.prt2121.amu.loctype;
+package com.prt2121.amu.materialtype;
 
 import javax.inject.Singleton;
 
@@ -34,12 +34,12 @@ import dagger.Provides;
  * Created by pt2121 on 3/13/15.
  */
 @Module
-public class LocTypeServiceModule {
+public class MaterialTypeServiceModule {
 
     @Provides
     @Singleton
-    public LocTypeService provideLocTypes() {
-        return new LocTypeService();
+    public MaterialTypeService provideMaterialTypes() {
+        return new MaterialTypeService();
     }
 
 }

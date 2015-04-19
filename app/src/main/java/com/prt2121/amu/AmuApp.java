@@ -26,7 +26,7 @@
 package com.prt2121.amu;
 
 import com.prt2121.amu.gapi.MapApiModule;
-import com.prt2121.amu.loctype.LocTypeServiceModule;
+import com.prt2121.amu.materialtype.MaterialTypeServiceModule;
 import com.prt2121.amu.userlocation.UserLocationModule;
 
 import android.app.Application;
@@ -49,7 +49,7 @@ public class AmuApp extends Application {
         mGraph = DaggerGraph.builder()
                 .userLocationModule(new UserLocationModule(getApplicationContext()))
                 .tinyDbModule(new TinyDbModule(getApplicationContext()))
-                .locTypeServiceModule(new LocTypeServiceModule())
+                .materialTypeServiceModule(new MaterialTypeServiceModule())
                 .mapApiModule(new MapApiModule())
                 .build();
 

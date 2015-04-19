@@ -27,8 +27,8 @@ package com.prt2121.amu.ui;
 
 import com.prt2121.amu.AmuApp;
 import com.prt2121.amu.R;
-import com.prt2121.amu.loctype.LocTypeAdapter;
-import com.prt2121.amu.loctype.LocTypeService;
+import com.prt2121.amu.materialtype.MaterialTypeAdapter;
+import com.prt2121.amu.materialtype.MaterialTypeService;
 import com.prt2121.amu.view.DividerItemDecoration;
 
 import android.os.Bundle;
@@ -40,21 +40,18 @@ import android.view.ViewGroup;
 
 import javax.inject.Inject;
 
-/**
- * A placeholder fragment containing a simple view.
- */
-public class LocTypeFragment extends Fragment {
+public class MaterialTypeFilterFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
 
-    private LocTypeAdapter mAdapter;
+    private MaterialTypeAdapter mAdapter;
 
     private RecyclerView.LayoutManager mLayoutManager;
 
     @Inject
-    LocTypeService mLocTypeService;
+    MaterialTypeService mMaterialTypeService;
 
-    public LocTypeFragment() {
+    public MaterialTypeFilterFragment() {
     }
 
     @Override
@@ -70,7 +67,7 @@ public class LocTypeFragment extends Fragment {
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
         mLayoutManager = new MyLinearLayoutManager(getActivity());
-        mAdapter = new LocTypeAdapter(mLocTypeService.getLocTypes());
+        mAdapter = new MaterialTypeAdapter(mMaterialTypeService.getMaterialTypes());
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(mLayoutManager);
         return rootView;

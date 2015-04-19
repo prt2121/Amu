@@ -23,40 +23,30 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.prt2121.amu.ui;
+package com.prt2121.amu.materialtype;
 
-import com.prt2121.amu.R;
-import com.prt2121.amu.util.FirstRunChecker;
-import com.prt2121.tutorialview.TutorialView;
+/**
+ * Created by pt2121 on 3/13/15.
+ */
+public final class MaterialType {
 
-import android.content.Intent;
-import android.graphics.Color;
-import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+    public final int id;
 
-public class FilterActivity extends ActionBarActivity {
+    public final String name;
 
-    private static final int WHITE = Color.parseColor("#FFFFFF");
+    private boolean checked;
 
-    private static final int BLACK = Color.parseColor("#99000000"); // 99 ~ 60%
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_filter);
-        findViewById(R.id.applyButton).setOnClickListener(v -> {
-            Intent intent = new Intent(FilterActivity.this, MapActivity.class);
-            FilterActivity.this.startActivity(intent);
-        });
-
-        boolean firstTime = FirstRunChecker.isFirstRun(this, FilterActivity.class.getSimpleName());
-        if (firstTime) {
-            new TutorialView.Builder(this)
-                    .setText("Select the items you'd like to know where to recycle.")
-                    .setTextColor(WHITE)
-                    .setBackgroundColor(BLACK)
-                    .build();
-        }
+    public MaterialType(int id, String name, boolean checked) {
+        this.id = id;
+        this.name = name;
+        this.checked = checked;
     }
 
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+    }
+
+    public boolean isChecked() {
+        return checked;
+    }
 }

@@ -29,12 +29,12 @@ import com.google.gson.Gson;
 
 import com.prt2121.amu.gapi.MapApiModule;
 import com.prt2121.amu.location.FindLoc;
-import com.prt2121.amu.loctype.LocTypeAdapter;
-import com.prt2121.amu.loctype.LocTypeService;
-import com.prt2121.amu.loctype.LocTypeServiceModule;
+import com.prt2121.amu.materialtype.MaterialTypeAdapter;
+import com.prt2121.amu.materialtype.MaterialTypeService;
+import com.prt2121.amu.materialtype.MaterialTypeServiceModule;
 import com.prt2121.amu.marker.MarkerCache;
 import com.prt2121.amu.marker.MarkerModule;
-import com.prt2121.amu.ui.LocTypeFragment;
+import com.prt2121.amu.ui.MaterialTypeFilterFragment;
 import com.prt2121.amu.ui.LocationFragment;
 import com.prt2121.amu.ui.MapFragment;
 import com.prt2121.amu.userlocation.IUserLocation;
@@ -53,7 +53,7 @@ import retrofit.RestAdapter;
 @Singleton
 @Component(modules = {
         UserLocationModule.class,
-        LocTypeServiceModule.class,
+        MaterialTypeServiceModule.class,
         TinyDbModule.class,
         MapApiModule.class,
         MarkerModule.class
@@ -62,7 +62,7 @@ public interface Graph {
 
     IUserLocation locateUser();
 
-    LocTypeService locTypeService();
+    MaterialTypeService materialTypeService();
 
     Gson gson();
 
@@ -74,13 +74,13 @@ public interface Graph {
 
     void inject(MapFragment fragment);
 
-    void inject(LocTypeFragment fragment);
+    void inject(MaterialTypeFilterFragment fragment);
 
-    void inject(LocTypeAdapter adapter);
+    void inject(MaterialTypeAdapter adapter);
 
     void inject(FindLoc findLoc);
 
-    void inject(LocTypeService locTypeService);
+    void inject(MaterialTypeService materialTypeService);
 
     void inject(LocationFragment fragment);
 }

@@ -37,8 +37,8 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.prt2121.amu.AmuApp;
 import com.prt2121.amu.R;
 import com.prt2121.amu.location.FindLoc;
-import com.prt2121.amu.loctype.LocType;
-import com.prt2121.amu.loctype.LocTypeService;
+import com.prt2121.amu.materialtype.MaterialType;
+import com.prt2121.amu.materialtype.MaterialTypeService;
 import com.prt2121.amu.marker.MarkerCache;
 import com.prt2121.amu.model.Loc;
 import com.prt2121.amu.userlocation.IUserLocation;
@@ -78,7 +78,7 @@ public class MapFragment extends Fragment {
     IUserLocation mUserLocation;
 
     @Inject
-    LocTypeService mLocTypeService;
+    MaterialTypeService mMaterialTypeService;
 
     Set<String> mTypeSet = new HashSet<>();
 
@@ -127,7 +127,7 @@ public class MapFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AmuApp.getInstance().getGraph().inject(this);
-        for (LocType type : mLocTypeService.getLocTypes()) {
+        for (MaterialType type : mMaterialTypeService.getMaterialTypes()) {
             if (type.isChecked()) {
                 mTypeSet.add(type.name);
             }

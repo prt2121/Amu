@@ -23,38 +23,40 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.prt2121.amu.loctype;
+package com.prt2121.amu.ui;
 
-/**
- * Created by pt2121 on 3/13/15.
- */
-public final class LocType {
+import com.prt2121.amu.R;
+import com.prt2121.amu.util.FirstRunChecker;
+import com.prt2121.tutorialview.TutorialView;
 
-    public static final int USER = -1;
+import android.content.Intent;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 
-    public static final int BIN = 0;
+public class MaterialTypeFilterActivity extends ActionBarActivity {
 
-    public static final int DROP_OFF = 1;
+    private static final int WHITE = Color.parseColor("#FFFFFF");
 
-    public static final int GROCERY = 2;
+    private static final int BLACK = Color.parseColor("#99000000"); // 99 ~ 60%
 
-    public final int id;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_filter);
+        findViewById(R.id.applyButton).setOnClickListener(v -> {
+            Intent intent = new Intent(MaterialTypeFilterActivity.this, MapActivity.class);
+            MaterialTypeFilterActivity.this.startActivity(intent);
+        });
 
-    public final String name;
-
-    private boolean checked;
-
-    public LocType(int id, String name, boolean checked) {
-        this.id = id;
-        this.name = name;
-        this.checked = checked;
+        boolean firstTime = FirstRunChecker.isFirstRun(this, MaterialTypeFilterActivity.class.getSimpleName());
+        if (firstTime) {
+            new TutorialView.Builder(this)
+                    .setText("Select the items you'd like to know where to recycle.")
+                    .setTextColor(WHITE)
+                    .setBackgroundColor(BLACK)
+                    .build();
+        }
     }
 
-    public void setChecked(boolean checked) {
-        this.checked = checked;
-    }
-
-    public boolean isChecked() {
-        return checked;
-    }
 }

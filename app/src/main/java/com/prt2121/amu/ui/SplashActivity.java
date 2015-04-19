@@ -67,7 +67,7 @@ public class SplashActivity extends ActionBarActivity {
             Activity activity = getActivity();
             boolean firstTime = FirstRunChecker.isFirstRun(activity, TAG);
             int splashScreenTimeout = firstTime ? 2500 : 1500;
-            Class<?> clazz = firstTime ? OnboardingActivity.class : FilterActivity.class;
+            Class<?> clazz = firstTime ? OnboardingActivity.class : MaterialTypeFilterActivity.class;
             if (firstTime) {
                 FirstRunChecker.setFirstRun(activity, TAG);
             }

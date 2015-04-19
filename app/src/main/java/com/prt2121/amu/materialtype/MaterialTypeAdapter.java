@@ -23,7 +23,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.prt2121.amu.loctype;
+package com.prt2121.amu.materialtype;
 
 import com.prt2121.amu.AmuApp;
 import com.prt2121.amu.R;
@@ -40,16 +40,16 @@ import javax.inject.Inject;
 /**
  * Created by pt2121 on 3/13/15.
  */
-public class LocTypeAdapter extends RecyclerView.Adapter<LocTypeAdapter.ViewHolder> {
+public class MaterialTypeAdapter extends RecyclerView.Adapter<MaterialTypeAdapter.ViewHolder> {
 
     @Inject
-    LocTypeService mLocTypeService;
+    MaterialTypeService mMaterialTypeService;
 
-    private static final String TAG = LocTypeAdapter.class.getSimpleName();
+    private static final String TAG = MaterialTypeAdapter.class.getSimpleName();
 
-    private LocType[] mTypes;
+    private MaterialType[] mTypes;
 
-    public LocTypeAdapter(LocType[] types) {
+    public MaterialTypeAdapter(MaterialType[] types) {
         mTypes = types;
         AmuApp.getInstance().getGraph().inject(this);
     }
@@ -67,7 +67,7 @@ public class LocTypeAdapter extends RecyclerView.Adapter<LocTypeAdapter.ViewHold
         holder.mSwitchCompat.setChecked(mTypes[position].isChecked());
         holder.mSwitchCompat.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (buttonView.isShown()) {
-                mLocTypeService.updateLocType(position, isChecked);
+                mMaterialTypeService.updateMaterialType(position, isChecked);
             }
         });
     }

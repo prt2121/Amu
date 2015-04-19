@@ -79,7 +79,7 @@ public class MapActivity extends ActionBarActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_filter) {
-            Intent intent = new Intent(this, FilterActivity.class);
+            Intent intent = new Intent(this, MaterialTypeFilterActivity.class);
             startActivity(intent);
             return true;
         }

@@ -72,7 +72,7 @@
             android:label="@string/title_activity_maps"
             android:launchMode="singleTask" />
         <activity
-            android:name=".ui.FilterActivity"
+            android:name=".ui.MaterialTypeFilterActivity"
             android:label="@string/title_activity_filter"
             android:launchMode="singleTask" />
         <activity

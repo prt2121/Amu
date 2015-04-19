@@ -70,7 +70,7 @@ public class OnboardingActivity extends ActionBarActivity
     }
 
     View.OnClickListener skipButtonOnClickListener = v -> {
-        Intent intent = new Intent(OnboardingActivity.this, FilterActivity.class);
+        Intent intent = new Intent(OnboardingActivity.this, MaterialTypeFilterActivity.class);
         OnboardingActivity.this.startActivity(intent);
         OnboardingActivity.this.finish();
     };
