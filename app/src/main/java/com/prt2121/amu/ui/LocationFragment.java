@@ -132,7 +132,7 @@ public class LocationFragment extends Fragment {
         mAddressTextView.setText(loc.getAddress());
         NumberFormat formatter = new DecimalFormat("#0.00 mi");
         mDistanceTextView.setText(formatter.format(loc.getDistance()));
-        mAcceptTextView.setText(loc.getMaterialType());
+        mAcceptTextView.setText(makeString(loc.getMaterialType()));
 
         String imageViewUrl = "https://maps.googleapis.com/maps/api/streetview?size=640x384&location="
                 + mLocation + "&key=" + apiKey;
@@ -143,6 +143,18 @@ public class LocationFragment extends Fragment {
                 .into(mLocationImageView);
 
         return view;
+    }
+
+    public String makeString(String[] strings) {
+        if (strings == null || strings.length == 0) {
+            return "";
+        }
+        StringBuilder result = new StringBuilder();
+        for (String string : strings) {
+            result.append(string);
+            result.append(",");
+        }
+        return result.length() > 0 ? result.substring(0, result.length() - 1) : "";
     }
 
     @Override

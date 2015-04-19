@@ -31,7 +31,7 @@ import com.google.gson.annotations.SerializedName;
 public class Loc {
 
     public Loc(String shortName, String borough, String parkSiteName, String address, Double latitude,
-            Double longitude, String type, String materialType) {
+            Double longitude, String type, String[] materialType) {
         ShortName = shortName;
         Borough = borough;
         ParkSiteName = parkSiteName;
@@ -77,7 +77,7 @@ public class Loc {
 
     @SerializedName("Material Type")
     @Expose
-    private String MaterialType;
+    private String[] MaterialType;
 
     /**
      * @return The ShortName
@@ -180,14 +180,14 @@ public class Loc {
     /**
      * @return The MaterialType
      */
-    public String getMaterialType() {
+    public String[] getMaterialType() {
         return MaterialType;
     }
 
     /**
      * @param MaterialType The Material Type
      */
-    public void setMaterialType(String MaterialType) {
+    public void setMaterialType(String[] MaterialType) {
         this.MaterialType = MaterialType;
     }
 
@@ -207,7 +207,7 @@ public class Loc {
 
         private String type;
 
-        private String materialType;
+        private String[] materialType;
 
         public Build(String shortName, Double latitude, Double longitude) {
             this.shortName = shortName;
@@ -250,7 +250,7 @@ public class Loc {
             return this;
         }
 
-        public Build materialType(String materialType) {
+        public Build materialType(String[] materialType) {
             this.materialType = materialType;
             return this;
         }

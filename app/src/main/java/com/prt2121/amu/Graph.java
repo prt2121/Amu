@@ -29,14 +29,14 @@ import com.google.gson.Gson;
 
 import com.prt2121.amu.gapi.MapApiModule;
 import com.prt2121.amu.location.FindLoc;
+import com.prt2121.amu.marker.MarkerCache;
+import com.prt2121.amu.marker.MarkerModule;
 import com.prt2121.amu.materialtype.MaterialTypeAdapter;
 import com.prt2121.amu.materialtype.MaterialTypeService;
 import com.prt2121.amu.materialtype.MaterialTypeServiceModule;
-import com.prt2121.amu.marker.MarkerCache;
-import com.prt2121.amu.marker.MarkerModule;
-import com.prt2121.amu.ui.MaterialTypeFilterFragment;
 import com.prt2121.amu.ui.LocationFragment;
 import com.prt2121.amu.ui.MapFragment;
+import com.prt2121.amu.ui.MaterialTypeFilterFragment;
 import com.prt2121.amu.userlocation.IUserLocation;
 import com.prt2121.amu.userlocation.UserLocationModule;
 

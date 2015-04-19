@@ -27,6 +27,7 @@ package com.prt2121.amu;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializer;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -54,9 +55,21 @@ public class TinyDbModule {
     @Singleton
     public Gson provideGson() {
         return new GsonBuilder()
+                .registerTypeAdapter(String[].class, deserializer)
                 .setPrettyPrinting()
                 .create();
     }
+
+    JsonDeserializer<String[]> deserializer = (json, typeOfT, context) -> {
+        if (json == null) {
+            return null;
+        }
+        if (json.getAsString().contains(",")) {
+            return json.getAsString().split(",");
+        } else {
+            return new String[]{json.getAsString()};
+        }
+    };
 
     @Provides
     @Singleton

@@ -37,9 +37,9 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.prt2121.amu.AmuApp;
 import com.prt2121.amu.R;
 import com.prt2121.amu.location.FindLoc;
+import com.prt2121.amu.marker.MarkerCache;
 import com.prt2121.amu.materialtype.MaterialType;
 import com.prt2121.amu.materialtype.MaterialTypeService;
-import com.prt2121.amu.marker.MarkerCache;
 import com.prt2121.amu.model.Loc;
 import com.prt2121.amu.userlocation.IUserLocation;
 import com.prt2121.amu.util.MapUtils;
@@ -61,7 +61,6 @@ import javax.inject.Inject;
 
 import rx.Observable;
 import rx.Subscription;
-import rx.functions.Func1;
 
 
 /**
@@ -143,9 +142,13 @@ public class MapFragment extends Fragment {
         return new FindLoc(context)
                 .getLocs()
                 .filter(loc -> {
-                    for(String t : mTypeSet) {
-                        if(loc.getMaterialType().contains(t))
-                            return true;
+                    for (String t : mTypeSet) {
+                        String[] ms = loc.getMaterialType();
+                        for (String m : ms) {
+                            if (m.equalsIgnoreCase(t)) {
+                                return true;
+                            }
+                        }
                     }
                     return false;
                 });
