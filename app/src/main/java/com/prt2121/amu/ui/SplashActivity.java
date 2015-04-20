@@ -34,9 +34,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.SuperscriptSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 public class SplashActivity extends ActionBarActivity {
 
@@ -81,7 +87,12 @@ public class SplashActivity extends ActionBarActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
-            return inflater.inflate(R.layout.fragment_splash, container, false);
+            View v = inflater.inflate(R.layout.fragment_splash, container, false);
+            SpannableStringBuilder cs = new SpannableStringBuilder("IntellibinsTM");
+            cs.setSpan(new SuperscriptSpan(), 11, 13, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            cs.setSpan(new RelativeSizeSpan(0.40f), 11, 13, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            ((TextView) v.findViewById(R.id.brandTextView)).setText(cs);
+            return v;
         }
     }
 
