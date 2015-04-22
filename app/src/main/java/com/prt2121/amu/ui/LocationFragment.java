@@ -49,9 +49,6 @@ import javax.inject.Inject;
 
 import retrofit.RestAdapter;
 
-/**
- * A placeholder fragment containing a simple view.
- */
 public class LocationFragment extends Fragment {
 
     private static final String TAG = LocationFragment.class.getSimpleName();
@@ -120,7 +117,9 @@ public class LocationFragment extends Fragment {
         mDistanceTextView = (TextView) view.findViewById(R.id.distanceTextView);
         mAcceptTextView = (TextView) view.findViewById(R.id.acceptTextView);
         view.findViewById(R.id.openMapButton).setOnClickListener(v -> {
-            Uri uri = Uri.parse("http://maps.google.com/maps?saddr=40.715522,-74.002452&daddr=" +
+//            Uri uri = Uri.parse("http://maps.google.com/maps?saddr=40.715522,-74.002452&daddr=" +
+//                    loc.getLatitude() + "," + loc.getLongitude());
+            Uri uri = Uri.parse("http://maps.google.com/maps?daddr=" +
                     loc.getLatitude() + "," + loc.getLongitude());
             Intent mapIntent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(mapIntent);

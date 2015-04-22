@@ -81,7 +81,10 @@ public class UserLocation implements IUserLocation {
      */
     public Location getLastBestLocation(long maxTime) {
         long minTime = System.currentTimeMillis() - maxTime;
-        Location bestResult = null;
+        // TODO: change this default?
+        Location bestResult = new Location("Current Location");
+        bestResult.setLatitude(40.715522);
+        bestResult.setLongitude(-74.002452);
         float bestAccuracy = Float.MAX_VALUE;
         long bestTime = Long.MIN_VALUE;
         List<String> matchingProviders = mLocationManager.getAllProviders();

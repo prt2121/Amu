@@ -50,6 +50,7 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,6 +62,8 @@ import javax.inject.Inject;
 
 import rx.Observable;
 import rx.Subscription;
+import rx.functions.Action1;
+import rx.functions.Func1;
 
 
 /**
@@ -179,9 +182,9 @@ public class MapFragment extends Fragment {
         mRefreshButton.setOnClickListener(v -> {
             if (mMap != null) {
                 mMap.clear();
-                LatLng latLng = new LatLng(40.715522, -74.002452);
-                mMap.addMarker(new MarkerOptions().position(latLng).title(mUserLoc.getShortName()));
-                updateMarkers(latLng, mMap.getProjection().getVisibleRegion().latLngBounds);
+                updateMarkers(mUser, mMap.getProjection().getVisibleRegion().latLngBounds);
+                onUserLocationAvailable(
+                        latLng -> mMap.addMarker(new MarkerOptions().position(latLng).title(mUserLoc.getShortName())));
             }
         });
         return view;
@@ -224,7 +227,7 @@ public class MapFragment extends Fragment {
     public interface OnFragmentInteractionListener {
 
         // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
+        void onFragmentInteraction(Uri uri);
     }
 
     private void setUpMapIfNeeded() {
@@ -240,18 +243,23 @@ public class MapFragment extends Fragment {
         }
     }
 
+    private void onUserLocationAvailable(Action1<LatLng> onNext) {
+        mUser.map(location -> new LatLng(location.getLatitude(), location.getLongitude()))
+                .first()
+                .subscribe(onNext, throwable -> Log.e(TAG, throwable.getLocalizedMessage()));
+    }
+
     /**
      * Init map
      */
     private void setUpMap() {
-        // TODO user real location
-        LatLng latLng = new LatLng(40.715522, -74.002452);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, ZOOM));
-        mMap.addMarker(new MarkerOptions().position(latLng).title(mUserLoc.getShortName()));
-
+        onUserLocationAvailable(latLng -> {
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, ZOOM));
+            mMap.addMarker(new MarkerOptions().position(latLng).title(mUserLoc.getShortName()));
+        });
         mMap.setOnMapLoadedCallback(() -> {
             LatLngBounds latLngBounds = mMap.getProjection().getVisibleRegion().latLngBounds;
-            mMarkerSubscription = updateMarkers(latLng, latLngBounds);
+            mMarkerSubscription = updateMarkers(mUser, latLngBounds);
             mRefreshButton.setEnabled(true);
         });
 
@@ -262,6 +270,13 @@ public class MapFragment extends Fragment {
         Observable<Location> mockObservable = mockUserLocation(center);
         return MapUtils.showPins(getActivity(),
                 mockObservable, //mUser,
+                mLocations, mMap, MAX_LOCATION, latLngBounds, mMarkerCache
+        );
+    }
+
+    private Subscription updateMarkers(Observable<Location> center, LatLngBounds latLngBounds) {
+        return MapUtils.showPins(getActivity(),
+                center, //mUser,
                 mLocations, mMap, MAX_LOCATION, latLngBounds, mMarkerCache
         );
     }
