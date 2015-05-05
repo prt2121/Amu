@@ -36,6 +36,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -116,6 +117,7 @@ public class LocationFragment extends Fragment {
         mLocationImageView = (ImageView) view.findViewById(R.id.locationImageView);
         mDistanceTextView = (TextView) view.findViewById(R.id.distanceTextView);
         mAcceptTextView = (TextView) view.findViewById(R.id.acceptTextView);
+        mAcceptTextView.setMovementMethod(ScrollingMovementMethod.getInstance());
         view.findViewById(R.id.openMapButton).setOnClickListener(v -> {
 //            Uri uri = Uri.parse("http://maps.google.com/maps?saddr=40.715522,-74.002452&daddr=" +
 //                    loc.getLatitude() + "," + loc.getLongitude());

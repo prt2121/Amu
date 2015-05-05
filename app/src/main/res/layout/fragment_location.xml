@@ -87,8 +87,10 @@
         android:layout_below="@+id/accept"
         android:layout_centerVertical="true"
         android:layout_marginTop="10dp"
+        android:maxLines="3"
         android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin" />
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:scrollbars="vertical" />
 
     <View
         android:id="@+id/line2"
@@ -102,9 +104,9 @@
         android:id="@+id/openMapButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/line2"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="12dp"
         android:layout_marginTop="@dimen/activity_horizontal_margin"
         android:background="@drawable/apply_background"
         android:paddingLeft="@dimen/activity_horizontal_margin"
