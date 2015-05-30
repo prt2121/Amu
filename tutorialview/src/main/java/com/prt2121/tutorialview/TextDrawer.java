@@ -31,6 +31,7 @@ import android.graphics.Canvas;
 import android.text.DynamicLayout;
 import android.text.Layout;
 import android.text.SpannableString;
+import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.style.TextAppearanceSpan;
@@ -50,6 +51,8 @@ final class TextDrawer {
     private CharSequence mText;
 
     private DynamicLayout mDynamicLayout;
+
+    private StaticLayout mStaticLayout;
 
     private TextAppearanceSpan mDetailSpan;
 
@@ -71,24 +74,41 @@ final class TextDrawer {
 
     public void draw(Canvas canvas, int width, int height) {
         if (shouldDrawText()) {
-            if (!TextUtils.isEmpty(mText)) {
-                canvas.save();
-                float textWidth = textPaint.measureText(mText + " ");
-                if (hasRecalculated) {
-                    mDynamicLayout = new DynamicLayout(mText, textPaint,
-                            (int) textWidth,
-                            Layout.Alignment.ALIGN_NORMAL,
-                            1.0f, 1.0f, true);
-                }
-                if (mDynamicLayout != null) {
-                    canvas.translate((width - textWidth) / 2, height / 2);
-                    mDynamicLayout.draw(canvas);
-                    canvas.restore();
-                }
-
+            canvas.save();
+            float textWidth = textPaint.measureText(mText + " ");
+            if (hasRecalculated) {
+                mDynamicLayout = new DynamicLayout(mText, textPaint,
+                        (int) textWidth,
+                        Layout.Alignment.ALIGN_NORMAL,
+                        1.0f, 1.0f, true);
+            }
+            if (mDynamicLayout != null) {
+                canvas.translate((width - textWidth) / 2, height / 2);
+                mDynamicLayout.draw(canvas);
+                canvas.restore();
             }
         }
+        drawX(canvas, width);
         hasRecalculated = false;
+    }
+
+    /**
+     * Draw the close button. (x)
+     */
+    public void drawX(Canvas canvas, int width) {
+        canvas.save();
+        float textWidth = textPaint.measureText("x");
+        if (hasRecalculated) {
+            mStaticLayout = new StaticLayout("x", textPaint,
+                    (int) textWidth,
+                    Layout.Alignment.ALIGN_NORMAL,
+                    1.0f, 1.0f, true);
+        }
+        if (mStaticLayout != null) {
+            canvas.translate(width - (3 * textWidth), 2 * textWidth);
+            mStaticLayout.draw(canvas);
+            canvas.restore();
+        }
     }
 
     public void setText(CharSequence details) {
