@@ -40,6 +40,8 @@ public class MaterialTypeFilterActivity extends ActionBarActivity {
 
     private static final int BLACK = Color.parseColor("#99000000"); // 99 ~ 60%
 
+    private static final String TAG = MaterialTypeFilterActivity.class.getSimpleName();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +58,7 @@ public class MaterialTypeFilterActivity extends ActionBarActivity {
                     .setTextColor(WHITE)
                     .setBackgroundColor(BLACK)
                     .build();
+            FirstRunChecker.setFirstRun(this, TAG);
         }
     }
 
