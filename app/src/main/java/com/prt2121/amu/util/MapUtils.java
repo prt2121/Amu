@@ -45,6 +45,9 @@ import android.location.Location;
 import android.util.Log;
 import android.util.Pair;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -57,6 +60,8 @@ import rx.subscriptions.Subscriptions;
 public class MapUtils {
 
     private static final String TAG = MapUtils.class.getSimpleName();
+
+    public static Set<Pair<Integer, Integer>> mIconSet = new HashSet<>();
 
     /**
      * Show the pins on the map.
@@ -108,7 +113,8 @@ public class MapUtils {
                     Loc loc = p.second;
                     loc.setDistance(p.first);
                     if (markerDrawable != null) {
-                        markerDrawable.setColorFilter(0xFF00AD9F, PorterDuff.Mode.MULTIPLY);
+                        //markerDrawable.setColorFilter(0xFF00AD9F, PorterDuff.Mode.MULTIPLY);
+                        markerDrawable.setColorFilter(getColor(context, loc.getType()), PorterDuff.Mode.MULTIPLY);
                         markerDrawable.draw(canvas);
                     }
                     String address = beautifyAddress(loc);
@@ -119,35 +125,6 @@ public class MapUtils {
                             .icon(BitmapDescriptorFactory.fromBitmap(markerBitmap)));
                     markerCache.put(marker.getId(), loc);
                 });
-                /*.subscribe(new Subscriber<Loc>() {
-
-                    @Override
-                    public void onCompleted() {
-                        Log.d(TAG, "onCompleted");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, e.toString());
-                    }
-
-                    @Override
-                    public void onNext(Loc loc) {
-                        if (markerDrawable != null) {
-                            markerDrawable.setColorFilter(getColor(loc.getType()), PorterDuff.Mode.MULTIPLY);
-                            markerDrawable.draw(canvas);
-                        }
-                        // TODO: customize infoWindow
-
-                        String address = beautifyAddress(loc);
-                        map.addMarker(new MarkerOptions()
-                                .position(new LatLng(loc.getLatitude(), loc.getLongitude()))
-                                .title(loc.getShortName())
-                                .snippet(address)
-                                .icon(BitmapDescriptorFactory.fromBitmap(markerBitmap)));
-                    }
-                });*/
-
     }
 
     private static String beautifyAddress(Loc loc) {
@@ -163,24 +140,43 @@ public class MapUtils {
         return address;
     }
 
-    private static int getColor(String type) {
-        if (type.equalsIgnoreCase("Bin")) {
-            return 0xFF00AD9F;
-        } else if (type.equalsIgnoreCase("Front-of-Store")) {
-            return 0xFF00AD9F;
-        } else if (type.equalsIgnoreCase("Drop Off Counter")) {
-            return 0xFFFFFF00;
-        } else if (type.equalsIgnoreCase("Container Deposit Return, Plastic Bag Return")) {
-            return 0xFF00AD9F;
-        } else if (type.equalsIgnoreCase("Supermarket/Convenience Store")) {
-            return 0xFF00FF00;
-        } else if (type.equalsIgnoreCase("Container Deposit Return")) {
-            return 0xFF00AD9F;
-        } else if (type.equalsIgnoreCase("Clothes Drop-Off")) {
-            return 0xFF0064AD;
+    public static void addIcon(String type) {
+        String t = type.toLowerCase();
+        if (t.contains("plastic")) {
+            mIconSet.add(new Pair<>(R.drawable.ic_plastic, android.R.color.holo_red_dark));
+        } else if (t.contains("electric")) {
+            mIconSet.add(new Pair<>(R.drawable.ic_electric, android.R.color.white));
+        } else if (t.contains("glass")) {
+            mIconSet.add(new Pair<>(R.drawable.ic_glass, android.R.color.holo_orange_dark));
+        } else if (t.contains("hazard")) {
+            mIconSet.add(new Pair<>(R.drawable.ic_hazard, android.R.color.holo_green_dark));
+        } else if (t.contains("metal")) {
+            mIconSet.add(new Pair<>(R.drawable.ic_metal, android.R.color.darker_gray));
+        } else if (t.contains("paper")) {
+            mIconSet.add(new Pair<>(R.drawable.ic_paper, android.R.color.holo_purple)); // light gray
         } else {
-            return 0xFFFFFFFF;
+            mIconSet.add(new Pair<>(R.drawable.ic_other, android.R.color.white));
         }
     }
+
+    public static int getColor(Context context, String type) {
+        String t = type.toLowerCase();
+        if (t.contains("plastic")) {
+            return context.getResources().getColor(android.R.color.holo_red_dark);
+        } else if (t.contains("electric")) {
+            return context.getResources().getColor(android.R.color.white);
+        } else if (t.contains("glass")) {
+            return context.getResources().getColor(android.R.color.holo_orange_dark);
+        } else if (t.contains("hazard")) {
+            return context.getResources().getColor(android.R.color.holo_green_dark);
+        } else if (t.contains("metal")) {
+            return context.getResources().getColor(android.R.color.darker_gray);
+        } else if (t.contains("paper")) {
+            return context.getResources().getColor(android.R.color.holo_purple);
+        } else {
+            return 0xFF00AD9F;
+        }
+    }
+
 
 }

@@ -51,6 +51,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,7 +64,6 @@ import javax.inject.Inject;
 import rx.Observable;
 import rx.Subscription;
 import rx.functions.Action1;
-import rx.functions.Func1;
 
 
 /**
@@ -133,6 +133,7 @@ public class MapFragment extends Fragment {
         for (MaterialType type : mMaterialTypeService.getMaterialTypes()) {
             if (type.isChecked()) {
                 mTypeSet.add(type.name);
+                MapUtils.addIcon(type.name);
             }
         }
         // TODO remove this hardcoded user loc
@@ -187,6 +188,16 @@ public class MapFragment extends Fragment {
                         latLng -> mMap.addMarker(new MarkerOptions().position(latLng).title(mUserLoc.getShortName())));
             }
         });
+
+        ViewGroup layout = (ViewGroup) view.findViewById(R.id.layout_icon);
+        for (Pair<Integer, Integer> i : MapUtils.mIconSet) {
+            FloatingActionButton button = new FloatingActionButton(getActivity());
+            button.setSize(FloatingActionButton.SIZE_MINI);
+            button.setIcon(i.first);
+            button.setColorNormalResId(i.second);
+            layout.addView(button);
+        }
+
         return view;
     }
 
