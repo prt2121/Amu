@@ -30,9 +30,9 @@ import com.prt2121.amu.R;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 
-public class LocationActivity extends ActionBarActivity {
+public class LocationActivity extends AppCompatActivity {
 
     public static final String EXTRA_ID = "id";
 

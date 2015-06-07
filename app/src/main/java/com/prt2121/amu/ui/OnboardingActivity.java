@@ -36,13 +36,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class OnboardingActivity extends ActionBarActivity
+public class OnboardingActivity extends AppCompatActivity
         implements ViewPager.OnPageChangeListener {
 
     private static final int NUM_PAGES = 3;

@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/locationImageView"
         android:layout_centerVertical="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:text="@string/loading_address"
@@ -66,7 +66,7 @@
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:layout_below="@+id/distanceTextView"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:background="#ff888888" />
 
     <TextView
@@ -75,7 +75,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/line1"
         android:layout_centerVertical="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:text="@string/accepts" />
@@ -97,7 +97,7 @@
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:layout_below="@+id/acceptTextView"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:background="#ff888888" />
 
     <Button

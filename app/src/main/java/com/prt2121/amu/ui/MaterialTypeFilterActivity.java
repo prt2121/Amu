@@ -32,9 +32,9 @@ import com.prt2121.tutorialview.TutorialView;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 
-public class MaterialTypeFilterActivity extends ActionBarActivity {
+public class MaterialTypeFilterActivity extends AppCompatActivity {
 
     private static final int WHITE = Color.parseColor("#FFFFFF");
 
