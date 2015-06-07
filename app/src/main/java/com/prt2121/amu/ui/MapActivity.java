@@ -25,7 +25,6 @@
 
 package com.prt2121.amu.ui;
 
-import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.prt2121.amu.R;
 
 import android.content.Context;
@@ -36,7 +35,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewGroup;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
