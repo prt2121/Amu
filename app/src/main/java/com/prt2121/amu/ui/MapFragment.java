@@ -130,6 +130,7 @@ public class MapFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AmuApp.getInstance().getGraph().inject(this);
+        MapUtils.clearIcon();
         for (MaterialType type : mMaterialTypeService.getMaterialTypes()) {
             if (type.isChecked()) {
                 mTypeSet.add(type.name);

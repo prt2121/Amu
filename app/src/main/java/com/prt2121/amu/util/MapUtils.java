@@ -42,6 +42,7 @@ import android.graphics.Canvas;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
 
@@ -114,7 +115,7 @@ public class MapUtils {
                     loc.setDistance(p.first);
                     if (markerDrawable != null) {
                         //markerDrawable.setColorFilter(0xFF00AD9F, PorterDuff.Mode.MULTIPLY);
-                        markerDrawable.setColorFilter(getColor(context, loc.getType()), PorterDuff.Mode.MULTIPLY);
+                        markerDrawable.setColorFilter(getColor(context, TextUtils.join(", ", loc.getMaterialType())), PorterDuff.Mode.MULTIPLY);
                         markerDrawable.draw(canvas);
                     }
                     String address = beautifyAddress(loc);
@@ -138,6 +139,10 @@ public class MapUtils {
             }
         }
         return address;
+    }
+
+    public static void clearIcon() {
+        mIconSet = new HashSet<>();
     }
 
     public static void addIcon(String type) {
