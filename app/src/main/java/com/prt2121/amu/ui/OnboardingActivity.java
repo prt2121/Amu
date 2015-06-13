@@ -26,6 +26,7 @@
 package com.prt2121.amu.ui;
 
 import com.prt2121.amu.R;
+import com.prt2121.amu.util.FlowUtil;
 import com.prt2121.amu.view.CirclePageIndicator;
 
 import android.content.Context;
@@ -44,6 +45,8 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class OnboardingActivity extends AppCompatActivity
         implements ViewPager.OnPageChangeListener {
+
+    private static final String TAG = OnboardingActivity.class.getSimpleName();
 
     private static final int NUM_PAGES = 3;
 
@@ -70,7 +73,9 @@ public class OnboardingActivity extends AppCompatActivity
     }
 
     View.OnClickListener skipButtonOnClickListener = v -> {
-        Intent intent = new Intent(OnboardingActivity.this, MaterialTypeFilterActivity.class);
+        boolean accepted = FlowUtil.isPrivacyPolicyAccepted(this, PrivacyPolicyActivity.TAG);
+        Class<?> clazz = accepted ? MaterialTypeFilterActivity.class : PrivacyPolicyActivity.class;
+        Intent intent = new Intent(OnboardingActivity.this, clazz);
         OnboardingActivity.this.startActivity(intent);
         OnboardingActivity.this.finish();
     };

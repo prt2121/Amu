@@ -33,7 +33,7 @@ import android.content.SharedPreferences;
 /**
  * Created by pt2121 on 3/8/15.
  */
-public class FirstRunChecker {
+public class FlowUtil {
 
     public static boolean isFirstRun(Context context, String activityName) {
         String name = context.getString(R.string.preference_name);
@@ -46,6 +46,20 @@ public class FirstRunChecker {
         SharedPreferences preferences = context.getSharedPreferences(name, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean(activityName, false);
+        editor.apply();
+    }
+
+    public static boolean isPrivacyPolicyAccepted(Context context, String activityName) {
+        String name = context.getString(R.string.preference_name);
+        SharedPreferences preferences = context.getSharedPreferences(name, Context.MODE_PRIVATE);
+        return preferences.contains(activityName) && preferences.getBoolean(activityName, false);
+    }
+
+    public static void accecptPrivacyPolicy(Context context, String activityName) {
+        String name = context.getString(R.string.preference_name);
+        SharedPreferences preferences = context.getSharedPreferences(name, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean(activityName, true);
         editor.apply();
     }
 

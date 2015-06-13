@@ -26,7 +26,7 @@
 package com.prt2121.amu.ui;
 
 import com.prt2121.amu.R;
-import com.prt2121.amu.util.FirstRunChecker;
+import com.prt2121.amu.util.FlowUtil;
 import com.prt2121.tutorialview.TutorialView;
 
 import android.content.Intent;
@@ -51,14 +51,14 @@ public class MaterialTypeFilterActivity extends AppCompatActivity {
             MaterialTypeFilterActivity.this.startActivity(intent);
         });
 
-        boolean firstTime = FirstRunChecker.isFirstRun(this, MaterialTypeFilterActivity.class.getSimpleName());
+        boolean firstTime = FlowUtil.isFirstRun(this, MaterialTypeFilterActivity.class.getSimpleName());
         if (firstTime) {
             new TutorialView.Builder(this)
                     .setText("Select the items you'd like to know where to recycle.")
                     .setTextColor(WHITE)
                     .setBackgroundColor(BLACK)
                     .build();
-            FirstRunChecker.setFirstRun(this, TAG);
+            FlowUtil.setFirstRun(this, TAG);
         }
     }
 

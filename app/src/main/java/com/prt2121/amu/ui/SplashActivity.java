@@ -26,7 +26,7 @@
 package com.prt2121.amu.ui;
 
 import com.prt2121.amu.R;
-import com.prt2121.amu.util.FirstRunChecker;
+import com.prt2121.amu.util.FlowUtil;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -62,6 +62,8 @@ public class SplashActivity extends AppCompatActivity {
 
     public static class SplashFragment extends Fragment {
 
+        private Class<?> clazz;
+
         public SplashFragment() {
         }
 
@@ -70,11 +72,14 @@ public class SplashActivity extends AppCompatActivity {
             super.onCreate(savedInstanceState);
             setRetainInstance(true);
             Activity activity = getActivity();
-            boolean firstTime = FirstRunChecker.isFirstRun(activity, TAG);
+            boolean firstTime = FlowUtil.isFirstRun(activity, TAG);
             int splashScreenTimeout = firstTime ? 2500 : 1500;
-            Class<?> clazz = firstTime ? OnboardingActivity.class : MaterialTypeFilterActivity.class;
+            clazz = firstTime ? OnboardingActivity.class : MaterialTypeFilterActivity.class;
             if (firstTime) {
-                FirstRunChecker.setFirstRun(activity, TAG);
+                FlowUtil.setFirstRun(activity, TAG);
+            } else {
+                boolean accepted = FlowUtil.isPrivacyPolicyAccepted(activity, PrivacyPolicyActivity.TAG);
+                clazz = accepted ? MaterialTypeFilterActivity.class : PrivacyPolicyActivity.class;
             }
             new Handler().postDelayed(() -> {
                 Intent intent = new Intent(activity, clazz);

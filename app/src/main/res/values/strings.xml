@@ -48,5 +48,10 @@
     <string name="text_tutorial_01">Select the items you’d like to know where to recycle.</string>
     <string name="text_tutorial_02">Tap "Apply" to view where they can be disposed of on the map.</string>
     <string name="text_tutorial_03">Tap "List" to view locations in list from sorted by proximity.</string>
+    <string name="title_activity_privacy_policy">PrivacyPolicyActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="accept">Accept</string>
 
 </resources>
