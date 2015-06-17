@@ -168,7 +168,7 @@ public class MapUtils {
         } else if (t.contains("plastic bag")) {
             mIconSet.add(new Pair<>(R.drawable.ic_plastic_bag, android.R.color.holo_green_light));
         } else {
-            mIconSet.add(new Pair<>(R.drawable.ic_hazard, android.R.color.white));
+            mIconSet.add(new Pair<>(android.R.drawable.star_big_on, R.color.primary));
         }
     }
 
@@ -186,7 +186,7 @@ public class MapUtils {
         if(count == 1)
             return color(context, result.trim());
         else
-            return context.getResources().getColor(android.R.color.white);
+            return context.getResources().getColor(R.color.primary);
     }
 
     // TODO: simplify this
@@ -208,7 +208,7 @@ public class MapUtils {
         } else if (t.contains("plastic bag")) {
             return context.getResources().getColor(android.R.color.holo_green_light);
         } else {
-            return context.getResources().getColor(android.R.color.white);
+            return context.getResources().getColor(R.color.primary);
         }
     }
 
