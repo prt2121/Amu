@@ -33,6 +33,7 @@ import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import javax.inject.Inject;
@@ -65,6 +66,7 @@ public class MaterialTypeAdapter extends RecyclerView.Adapter<MaterialTypeAdapte
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.mTextView.setText(mTypes[position].name);
         holder.mSwitchCompat.setChecked(mTypes[position].isChecked());
+        // TODO:
         holder.mSwitchCompat.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (buttonView.isShown()) {
                 mMaterialTypeService.updateMaterialType(position, isChecked);
