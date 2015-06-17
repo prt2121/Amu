@@ -284,14 +284,14 @@ public class MapFragment extends Fragment {
         Observable<Location> mockObservable = mockUserLocation(center);
         return MapUtils.showPins(getActivity(),
                 mockObservable, //mUser,
-                mLocations, mMap, MAX_LOCATION, latLngBounds, mMarkerCache
+                mLocations, mMap, MAX_LOCATION, latLngBounds, mMarkerCache, mTypeSet
         );
     }
 
     private Subscription updateMarkers(Observable<Location> center, LatLngBounds latLngBounds) {
         return MapUtils.showPins(getActivity(),
                 center, //mUser,
-                mLocations, mMap, MAX_LOCATION, latLngBounds, mMarkerCache
+                mLocations, mMap, MAX_LOCATION, latLngBounds, mMarkerCache, mTypeSet
         );
     }
 

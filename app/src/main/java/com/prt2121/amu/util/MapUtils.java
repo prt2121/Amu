@@ -81,7 +81,7 @@ public class MapUtils {
             Observable<Loc> things,
             GoogleMap map, int maxLocation,
             LatLngBounds bounds,
-            MarkerCache markerCache) {
+            MarkerCache markerCache, Set<String> typeSet) {
         if (map == null) {
             Log.e(TAG, "map is NULL");
             return Subscriptions.empty();
@@ -115,7 +115,8 @@ public class MapUtils {
                     loc.setDistance(p.first);
                     if (markerDrawable != null) {
                         //markerDrawable.setColorFilter(0xFF00AD9F, PorterDuff.Mode.MULTIPLY);
-                        markerDrawable.setColorFilter(getColor(context, TextUtils.join(", ", loc.getMaterialType())),
+                        markerDrawable.setColorFilter(getColor(
+                                        context, TextUtils.join(", ", loc.getMaterialType()), typeSet),
                                 PorterDuff.Mode.MULTIPLY);
                         markerDrawable.draw(canvas);
                     }
@@ -171,9 +172,25 @@ public class MapUtils {
         }
     }
 
-
-    public static int getColor(Context context, String type) {
+    // TODO: simplify this
+    public static int getColor(Context context, String type, Set<String> typeSet) {
         String t = type.toLowerCase();
+        String result = "";
+        int count = 0;
+        for(String x : typeSet) {
+            if(t.contains(x)) {
+                result += (x + " ");
+                count++;
+            }
+        }
+        if(count == 1)
+            return color(context, result.trim());
+        else
+            return context.getResources().getColor(android.R.color.white);
+    }
+
+    // TODO: simplify this
+    private static int color(Context context, String t) {
         if (t.contains("plastic bottle")) {
             return context.getResources().getColor(android.R.color.holo_red_dark);
         } else if (t.contains("electronics")) {
