@@ -35,8 +35,8 @@ android {
         applicationId "com.prt2121.amu"
         minSdkVersion 17
         targetSdkVersion 22
-        versionCode 4
-        versionName "0.0.4"
+        versionCode 5
+        versionName "0.0.5"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
