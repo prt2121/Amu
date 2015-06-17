@@ -8,5 +8,6 @@
 
 app/src/main/res/values/google_api.xml
 app/src/main/res/values/google_maps_api.xml
+app/src/main/res/values/analytics_strings.xml
 app/src/main/res/xml/analytics_global_config.xml
 app/src/main/res/raw/location.json
