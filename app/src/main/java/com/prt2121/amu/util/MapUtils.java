@@ -149,44 +149,50 @@ public class MapUtils {
     //Plastic Bottle, Plastic Bag, Newspaper, Glass Bottle, Clothes, Aluminum Can, Bubble Wrap, Electronics
     public static void addIcon(String type) {
         String t = type.toLowerCase();
-        if (t.contains("plastic")) {
-            mIconSet.add(new Pair<>(R.drawable.ic_plastic, android.R.color.holo_red_dark));
+        if (t.contains("plastic bottle")) {
+            mIconSet.add(new Pair<>(R.drawable.ic_plastic_bottle, android.R.color.holo_red_dark));
         } else if (t.contains("electronics")) {
-            mIconSet.add(new Pair<>(R.drawable.ic_electronics, android.R.color.white));
-        } else if (t.contains("glass")) {
-            mIconSet.add(new Pair<>(R.drawable.ic_glass, android.R.color.holo_orange_dark));
-        } else if (t.contains("hazard")) {
-            mIconSet.add(new Pair<>(R.drawable.ic_hazard, android.R.color.holo_green_dark));
-        } else if (t.contains("aluminum")) {
-            mIconSet.add(new Pair<>(R.drawable.ic_metal, android.R.color.darker_gray));
+            mIconSet.add(new Pair<>(R.drawable.ic_electronics, android.R.color.darker_gray));
+        } else if (t.contains("glass bottle")) {
+            mIconSet.add(new Pair<>(R.drawable.ic_glass_bottle, android.R.color.holo_blue_light));
+//        } else if (t.contains("hazard")) {
+//            mIconSet.add(new Pair<>(R.drawable.ic_hazard, android.R.color.holo_green_dark));
+        } else if (t.contains("aluminum can")) {
+            mIconSet.add(new Pair<>(R.drawable.ic_aluminum_can, android.R.color.holo_orange_light));
         } else if (t.contains("paper")) {
-            mIconSet.add(new Pair<>(R.drawable.ic_paper, android.R.color.holo_purple)); // light gray
+            mIconSet.add(new Pair<>(R.drawable.ic_paper, android.R.color.holo_orange_dark)); // light gray
         } else if (t.contains("clothes")) {
-            mIconSet.add(new Pair<>(R.drawable.ic_clothes, android.R.color.holo_orange_light));
+            mIconSet.add(new Pair<>(R.drawable.ic_clothes, android.R.color.holo_red_light));
         } else if (t.contains("bubble wrap")) {
-            mIconSet.add(new Pair<>(R.drawable.ic_bubble_wrap, android.R.color.holo_blue_light));
+            mIconSet.add(new Pair<>(R.drawable.ic_bubble_wrap, android.R.color.holo_purple));
+        } else if (t.contains("plastic bag")) {
+            mIconSet.add(new Pair<>(R.drawable.ic_plastic_bag, android.R.color.holo_green_light));
         } else {
-            mIconSet.add(new Pair<>(R.drawable.ic_other, android.R.color.white));
+            mIconSet.add(new Pair<>(R.drawable.ic_hazard, android.R.color.white));
         }
     }
 
 
     public static int getColor(Context context, String type) {
         String t = type.toLowerCase();
-        if (t.contains("plastic")) {
+        if (t.contains("plastic bottle")) {
             return context.getResources().getColor(android.R.color.holo_red_dark);
-        } else if (t.contains("electric")) {
-            return context.getResources().getColor(android.R.color.white);
-        } else if (t.contains("glass")) {
-            return context.getResources().getColor(android.R.color.holo_orange_dark);
-        } else if (t.contains("hazard")) {
-            return context.getResources().getColor(android.R.color.holo_green_dark);
-        } else if (t.contains("metal")) {
+        } else if (t.contains("electronics")) {
             return context.getResources().getColor(android.R.color.darker_gray);
+        } else if (t.contains("glass bottle")) {
+            return context.getResources().getColor(android.R.color.holo_blue_light);
+        } else if (t.contains("aluminum can")) {
+            return context.getResources().getColor(android.R.color.holo_orange_light);
         } else if (t.contains("paper")) {
+            return context.getResources().getColor(android.R.color.holo_orange_dark);
+        } else if (t.contains("clothes")) {
+            return context.getResources().getColor(android.R.color.holo_red_light);
+        } else if (t.contains("bubble wrap")) {
             return context.getResources().getColor(android.R.color.holo_purple);
+        } else if (t.contains("plastic bag")) {
+            return context.getResources().getColor(android.R.color.holo_green_light);
         } else {
-            return 0xFF00AD9F;
+            return context.getResources().getColor(android.R.color.white);
         }
     }
 
