@@ -25,6 +25,9 @@
 
 package com.prt2121.amu;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Tracker;
+
 import com.prt2121.amu.gapi.MapApiModule;
 import com.prt2121.amu.materialtype.MaterialTypeServiceModule;
 import com.prt2121.amu.userlocation.UserLocationModule;
@@ -41,6 +44,9 @@ public class AmuApp extends Application {
     private static AmuApp mInstance;
 
     private Graph mGraph;
+
+    public static GoogleAnalytics analytics;
+    public static Tracker tracker;
 
     @Override
     public void onCreate() {
@@ -59,6 +65,14 @@ public class AmuApp extends Application {
                         .setFontAttrId(R.attr.fontPath)
                         .build()
         );
+
+        // google analytics
+        analytics = GoogleAnalytics.getInstance(this);
+        analytics.setLocalDispatchPeriod(1800);
+        tracker = analytics.newTracker("UA-XXXXX-Y"); // Replace with actual tracker/property Id
+        tracker.enableExceptionReporting(true);
+        tracker.enableAdvertisingIdCollection(true);
+        tracker.enableAutoActivityTracking(true);
     }
 
     public static AmuApp getInstance() {

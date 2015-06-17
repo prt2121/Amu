@@ -37,6 +37,9 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
+    <!-- Optional permission for reliable local dispatching on non-Google Play devices -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
     <application
         android:name=".AmuApp"
         android:allowBackup="true"
@@ -66,6 +69,9 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/google_maps_key" />
+        <meta-data
+            android:name="com.google.android.gms.analytics.globalConfigResource"
+            android:resource="@xml/analytics_global_config" />
 
         <activity
             android:name=".ui.MapActivity"
@@ -89,6 +95,19 @@
             android:name=".ui.PrivacyPolicyActivity"
             android:label="@string/title_activity_privacy_policy" >
         </activity>
+
+
+        <!-- Optionally, register AnalyticsReceiver and AnalyticsService to support background
+         dispatching on non-Google Play devices -->
+        <receiver android:name="com.google.android.gms.analytics.AnalyticsReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="com.google.android.gms.analytics.ANALYTICS_DISPATCH" />
+            </intent-filter>
+        </receiver>
+        <service android:name="com.google.android.gms.analytics.AnalyticsService"
+            android:enabled="true"
+            android:exported="false"/>
     </application>
 
 </manifest>
