@@ -50,6 +50,7 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -133,11 +134,10 @@ public class MapFragment extends Fragment {
         MapUtils.clearIcon();
         for (MaterialType type : mMaterialTypeService.getMaterialTypes()) {
             if (type.isChecked()) {
-                mTypeSet.add(type.name);
-                MapUtils.addIcon(type.name);
+                mTypeSet.add(type.name.toLowerCase());
+                MapUtils.addIcon(type.name.toLowerCase());
             }
         }
-        // TODO remove this hardcoded user loc
 //        mLoc = mUserLoc;
         mUser = findUserLocation();
         mLocations = findLocation(getActivity());
@@ -148,12 +148,14 @@ public class MapFragment extends Fragment {
                 .getLocs()
                 .filter(loc -> {
                     for (String t : mTypeSet) {
-                        String[] ms = loc.getMaterialType();
-                        for (String m : ms) {
-                            if (m.equalsIgnoreCase(t)) {
-                                return true;
-                            }
-                        }
+                        if(TextUtils.join(", ", loc.getMaterialType()).toLowerCase().contains(t))
+                            return true;
+//                        String[] ms = loc.getMaterialType();
+//                        for (String m : ms) {
+//                            if (m.equalsIgnoreCase(t)) {
+//                                return true;
+//                            }
+//                        }
                     }
                     return false;
                 });

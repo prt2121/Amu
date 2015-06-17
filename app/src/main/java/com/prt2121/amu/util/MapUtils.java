@@ -146,7 +146,6 @@ public class MapUtils {
         mIconSet = new HashSet<>();
     }
 
-    //Plastic Bottle, Plastic Bag, Newspaper, Glass Bottle, Clothes, Aluminum Can, Bubble Wrap, Electronics
     public static void addIcon(String type) {
         String t = type.toLowerCase();
         if (t.contains("plastic bottle")) {
