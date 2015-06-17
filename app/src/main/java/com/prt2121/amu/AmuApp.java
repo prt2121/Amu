@@ -26,6 +26,7 @@
 package com.prt2121.amu;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
 import com.prt2121.amu.gapi.MapApiModule;
@@ -46,6 +47,7 @@ public class AmuApp extends Application {
     private Graph mGraph;
 
     public static GoogleAnalytics analytics;
+
     public static Tracker tracker;
 
     @Override
@@ -69,10 +71,15 @@ public class AmuApp extends Application {
         // google analytics
         analytics = GoogleAnalytics.getInstance(this);
         analytics.setLocalDispatchPeriod(1800);
-        tracker = analytics.newTracker("UA-XXXXX-Y"); // Replace with actual tracker/property Id
+        tracker = analytics.newTracker("UA-52295104-5");
         tracker.enableExceptionReporting(true);
         tracker.enableAdvertisingIdCollection(true);
         tracker.enableAutoActivityTracking(true);
+        tracker.send(new HitBuilders.EventBuilder()
+                .setCategory(getString(R.string.category_splash_screen))
+                .setAction(getString(R.string.action_open))
+                .setLabel(getString(R.string.label_start_app))
+                .build());
     }
 
     public static AmuApp getInstance() {
