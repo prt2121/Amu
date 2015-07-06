@@ -58,7 +58,6 @@ public class AmuApp extends Application {
                 .userLocationModule(new UserLocationModule(getApplicationContext()))
                 .tinyDbModule(new TinyDbModule(getApplicationContext()))
                 .materialTypeServiceModule(new MaterialTypeServiceModule())
-                .mapApiModule(new MapApiModule())
                 .build();
 
         // custom font

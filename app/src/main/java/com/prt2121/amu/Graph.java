@@ -25,11 +25,8 @@
 
 package com.prt2121.amu;
 
-import com.google.gson.Gson;
-
 import com.prt2121.amu.gapi.MapApiModule;
 import com.prt2121.amu.location.FindLoc;
-import com.prt2121.amu.marker.MarkerCache;
 import com.prt2121.amu.marker.MarkerModule;
 import com.prt2121.amu.materialtype.MaterialTypeAdapter;
 import com.prt2121.amu.materialtype.MaterialTypeService;
@@ -37,15 +34,11 @@ import com.prt2121.amu.materialtype.MaterialTypeServiceModule;
 import com.prt2121.amu.ui.LocationFragment;
 import com.prt2121.amu.ui.MapFragment;
 import com.prt2121.amu.ui.MaterialTypeFilterFragment;
-import com.prt2121.amu.userlocation.IUserLocation;
 import com.prt2121.amu.userlocation.UserLocationModule;
-
-import android.content.SharedPreferences;
 
 import javax.inject.Singleton;
 
 import dagger.Component;
-import retrofit.RestAdapter;
 
 /**
  * Created by pt2121 on 3/8/15.
@@ -59,18 +52,6 @@ import retrofit.RestAdapter;
         MarkerModule.class
 })
 public interface Graph {
-
-    IUserLocation locateUser();
-
-    MaterialTypeService materialTypeService();
-
-    Gson gson();
-
-    SharedPreferences sharedPreferences();
-
-    RestAdapter placeApi();
-
-    MarkerCache markerCache();
 
     void inject(MapFragment fragment);
 
