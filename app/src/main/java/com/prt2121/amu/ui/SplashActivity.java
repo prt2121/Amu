@@ -25,6 +25,9 @@
 
 package com.prt2121.amu.ui;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import com.prt2121.amu.R;
 import com.prt2121.amu.util.FlowUtil;
 
@@ -96,6 +99,11 @@ public class SplashActivity extends AppCompatActivity {
             cs.setSpan(new SuperscriptSpan(), 11, 13, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             cs.setSpan(new RelativeSizeSpan(0.40f), 11, 13, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             ((TextView) v.findViewById(R.id.brandTextView)).setText(cs);
+
+            // AdMob
+            AdView mAdView = (AdView) v.findViewById(R.id.adView);
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mAdView.loadAd(adRequest);
             return v;
         }
     }

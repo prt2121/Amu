@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2015 Prat Tanapaisankit and Intellibins authors
   ~
   ~ Redistribution and use in source and binary forms, with or without
@@ -23,8 +22,9 @@
   ~ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
   ~ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.prt2121.amu" >
+<manifest
+    package="com.prt2121.amu"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -45,12 +45,12 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
             android:name=".ui.SplashActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThemeNoActionBar" >
+            android:theme="@style/AppThemeNoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -76,8 +76,8 @@
         <activity
             android:name=".ui.MapActivity"
             android:label="@string/title_activity_maps"
-            android:screenOrientation="portrait"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionBar" />
         <activity
             android:name=".ui.MaterialTypeFilterActivity"
@@ -87,28 +87,33 @@
             android:name=".ui.LocationActivity"
             android:label="@string/title_activity_location"
             android:parentActivityName=".ui.MapActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.prt2121.amu.ui.MapActivity" />
         </activity>
         <activity
             android:name=".ui.PrivacyPolicyActivity"
-            android:label="@string/title_activity_privacy_policy" >
-        </activity>
+            android:label="@string/title_activity_privacy_policy" />
+        <activity
+            android:name="com.google.android.gms.ads.AdActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            android:theme="@android:style/Theme.Translucent" />
 
 
         <!-- Optionally, register AnalyticsReceiver and AnalyticsService to support background
          dispatching on non-Google Play devices -->
-        <receiver android:name="com.google.android.gms.analytics.AnalyticsReceiver"
+        <receiver
+            android:name="com.google.android.gms.analytics.AnalyticsReceiver"
             android:enabled="true">
             <intent-filter>
                 <action android:name="com.google.android.gms.analytics.ANALYTICS_DISPATCH" />
             </intent-filter>
         </receiver>
-        <service android:name="com.google.android.gms.analytics.AnalyticsService"
+        <service
+            android:name="com.google.android.gms.analytics.AnalyticsService"
             android:enabled="true"
-            android:exported="false"/>
+            android:exported="false" />
     </application>
 
 </manifest>
