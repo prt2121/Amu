@@ -29,7 +29,6 @@ import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
-import com.prt2121.amu.gapi.MapApiModule;
 import com.prt2121.amu.materialtype.MaterialTypeServiceModule;
 import com.prt2121.amu.userlocation.UserLocationModule;
 
@@ -54,19 +53,12 @@ public class AmuApp extends Application {
     public void onCreate() {
         super.onCreate();
         mInstance = this;
-        mGraph = DaggerGraph.builder()
-                .userLocationModule(new UserLocationModule(getApplicationContext()))
-                .tinyDbModule(new TinyDbModule(getApplicationContext()))
-                .materialTypeServiceModule(new MaterialTypeServiceModule())
-                .build();
+        initDaggerGraph();
+        initCustomFont();
+        initAnalyitcs();
+    }
 
-        // custom font
-        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                        .setDefaultFontPath("fonts/Lato-Regular.ttf")
-                        .setFontAttrId(R.attr.fontPath)
-                        .build()
-        );
-
+    private void initAnalyitcs() {
         // google analytics
         analytics = GoogleAnalytics.getInstance(this);
         analytics.setLocalDispatchPeriod(1800);
@@ -79,6 +71,23 @@ public class AmuApp extends Application {
                 .setAction(getString(R.string.action_open))
                 .setLabel(getString(R.string.label_start_app))
                 .build());
+    }
+
+    private void initCustomFont() {
+        // custom font
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                        .setDefaultFontPath("fonts/Lato-Regular.ttf")
+                        .setFontAttrId(R.attr.fontPath)
+                        .build()
+        );
+    }
+
+    private void initDaggerGraph() {
+        mGraph = DaggerGraph.builder()
+                .userLocationModule(new UserLocationModule(getApplicationContext()))
+                .tinyDbModule(new TinyDbModule(getApplicationContext()))
+                .materialTypeServiceModule(new MaterialTypeServiceModule())
+                .build();
     }
 
     public static AmuApp getInstance() {
