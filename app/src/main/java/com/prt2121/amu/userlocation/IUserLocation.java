@@ -34,8 +34,8 @@ import rx.Observable;
  */
 public interface IUserLocation {
 
-    public void stop();
+    void stop();
 
-    public Observable<Location> locate();
+    Observable<Location> locate();
 
 }
