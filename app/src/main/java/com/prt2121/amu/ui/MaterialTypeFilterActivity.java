@@ -25,16 +25,35 @@
 
 package com.prt2121.amu.ui;
 
+import com.prt2121.amu.AmuApp;
 import com.prt2121.amu.R;
+import com.prt2121.amu.userlocation.IUserLocation;
 import com.prt2121.amu.util.FlowUtil;
 import com.prt2121.tutorialview.TutorialView;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
+
+import javax.inject.Inject;
+
+import rx.Observable;
 
 public class MaterialTypeFilterActivity extends AppCompatActivity {
+
+    private static final double NYC_LAT = 40.7033127;
+
+    private static final double NYC_LONG = -73.979681;
+
+    private static final Location NYC = new Location("NYC");
+
+    static {
+        NYC.setLatitude(NYC_LAT);
+        NYC.setLongitude(NYC_LONG);
+    }
 
     private static final int WHITE = Color.parseColor("#FFFFFF");
 
@@ -42,13 +61,32 @@ public class MaterialTypeFilterActivity extends AppCompatActivity {
 
     private static final String TAG = MaterialTypeFilterActivity.class.getSimpleName();
 
+    @Inject
+    IUserLocation mUserLocation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AmuApp.getInstance().getGraph().inject(this);
         setContentView(R.layout.activity_filter);
+
+        Observable<Location> locationObservable = mUserLocation.locate();
+
         findViewById(R.id.applyButton).setOnClickListener(v -> {
-            Intent intent = new Intent(MaterialTypeFilterActivity.this, MapActivity.class);
-            MaterialTypeFilterActivity.this.startActivity(intent);
+            locationObservable
+                    .first()
+                    .subscribe(location -> {
+                        int d = metersToMiles(location.distanceTo(NYC));
+                        // we only support 100 miles from NYC
+                        if (d < 100) { // TODO: improve this
+                            Intent intent = new Intent(MaterialTypeFilterActivity.this, MapActivity.class);
+                            MaterialTypeFilterActivity.this.startActivity(intent);
+                        } else {
+                            Toast.makeText(MaterialTypeFilterActivity.this,
+                                    R.string.not_support, Toast.LENGTH_LONG)
+                                    .show();
+                        }
+                    });
         });
 
         boolean firstTime = FlowUtil.isFirstRun(this, TAG);
@@ -62,4 +100,15 @@ public class MaterialTypeFilterActivity extends AppCompatActivity {
         }
     }
 
+    private int metersToMiles(float meters) {
+        return (int) (meters * 0.621371 / 1000);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mUserLocation != null) {
+            mUserLocation.stop();
+        }
+    }
 }

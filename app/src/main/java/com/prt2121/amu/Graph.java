@@ -33,6 +33,7 @@ import com.prt2121.amu.materialtype.MaterialTypeService;
 import com.prt2121.amu.materialtype.MaterialTypeServiceModule;
 import com.prt2121.amu.ui.LocationFragment;
 import com.prt2121.amu.ui.MapFragment;
+import com.prt2121.amu.ui.MaterialTypeFilterActivity;
 import com.prt2121.amu.ui.MaterialTypeFilterFragment;
 import com.prt2121.amu.userlocation.UserLocationModule;
 
@@ -56,6 +57,8 @@ public interface Graph {
     void inject(MapFragment fragment);
 
     void inject(MaterialTypeFilterFragment fragment);
+
+    void inject(MaterialTypeFilterActivity activity);
 
     void inject(MaterialTypeAdapter adapter);
 

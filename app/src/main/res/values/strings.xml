@@ -50,6 +50,8 @@
     <string name="text_tutorial_03">Tap "List" to view locations in list from sorted by proximity.</string>
     <string name="title_activity_privacy_policy">PrivacyPolicyActivity</string>
 
+    <string name="not_support">Sorry, Intellibins is not available in your area yet.</string>
+
     <!-- TODO: admob -->
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
 
