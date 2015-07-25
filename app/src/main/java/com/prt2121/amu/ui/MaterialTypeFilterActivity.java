@@ -51,7 +51,7 @@ public class MaterialTypeFilterActivity extends AppCompatActivity {
             MaterialTypeFilterActivity.this.startActivity(intent);
         });
 
-        boolean firstTime = FlowUtil.isFirstRun(this, MaterialTypeFilterActivity.class.getSimpleName());
+        boolean firstTime = FlowUtil.isFirstRun(this, TAG);
         if (firstTime) {
             new TutorialView.Builder(this)
                     .setText("Select the items you'd like to know where to recycle.")

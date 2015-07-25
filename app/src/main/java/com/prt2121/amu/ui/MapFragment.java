@@ -138,7 +138,6 @@ public class MapFragment extends Fragment {
                 MapUtils.addIcon(type.name.toLowerCase());
             }
         }
-//        mLoc = mUserLoc;
         mUser = findUserLocation();
         mLocations = findLocation(getActivity());
     }
@@ -150,12 +149,6 @@ public class MapFragment extends Fragment {
                     for (String t : mTypeSet) {
                         if(TextUtils.join(", ", loc.getMaterialType()).toLowerCase().contains(t))
                             return true;
-//                        String[] ms = loc.getMaterialType();
-//                        for (String m : ms) {
-//                            if (m.equalsIgnoreCase(t)) {
-//                                return true;
-//                            }
-//                        }
                     }
                     return false;
                 });

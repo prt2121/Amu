@@ -75,23 +75,6 @@ public class FindLoc implements IFindLoc {
         return Observable.from(ls);
     }
 
-    private List<String> mTypes = new ArrayList<>();
-
-    /*private void getMaterialTypes(Collection<Loc> ls) {
-        for (Loc l : ls) {
-            String materialType = l.getMaterialType();
-            String[] types = materialType.split(",");
-            for (String t : types) {
-                if (!mTypes.contains(t.trim())) {
-                    mTypes.add(t.trim());
-                }
-            }
-        }
-        for (String t : mTypes) {
-            Log.d(FindLoc.class.getSimpleName(), t);
-        }
-    }*/
-
     private Observable<String> getJsonText(Context context) {
         try {
             Resources res = context.getResources();
