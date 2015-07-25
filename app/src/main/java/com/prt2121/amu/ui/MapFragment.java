@@ -147,8 +147,9 @@ public class MapFragment extends Fragment {
                 .getLocs()
                 .filter(loc -> {
                     for (String t : mTypeSet) {
-                        if(TextUtils.join(", ", loc.getMaterialType()).toLowerCase().contains(t))
+                        if (TextUtils.join(", ", loc.getMaterialType()).toLowerCase().contains(t)) {
                             return true;
+                        }
                     }
                     return false;
                 });
@@ -164,6 +165,9 @@ public class MapFragment extends Fragment {
         if (mMarkerSubscription != null &&
                 !mMarkerSubscription.isUnsubscribed()) {
             mMarkerSubscription.unsubscribe();
+        }
+        if (mUserLocation != null) {
+            mUserLocation.stop();
         }
     }
 
